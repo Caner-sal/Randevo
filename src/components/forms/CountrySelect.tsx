@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import { COUNTRY_OPTIONS } from "@/data/country-options";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface CountrySelectProps {
   value: string;
@@ -23,6 +24,8 @@ export default function CountrySelect({
   className,
   placeholder = "Select country",
 }: CountrySelectProps) {
+  const t = useTranslations("countries");
+
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger className={cn("w-full", className)}>
@@ -31,7 +34,7 @@ export default function CountrySelect({
       <SelectContent>
         {COUNTRY_OPTIONS.map((c) => (
           <SelectItem key={c.code} value={c.code}>
-            {c.name}
+            {t(c.code as any)}
           </SelectItem>
         ))}
       </SelectContent>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -58,10 +58,14 @@ function BillingContent() {
       const plan = TURKEY_PLANS[id];
       return {
         id,
-        label: plan.nameTR,
-        price: id === "FREE" ? "₺0/ay" : formatPlanPriceTR(plan),
+        label: t(`planName_${id}` as any),
+        price: id === "FREE" ? `₺0/${t("perMonth")}` : plan.priceCentsMonthly ? `₺${plan.priceCentsMonthly / 100}/${t("perMonth")}` : tCommon("default"),
         highlight: id === "STARTER",
-        features: plan.features,
+        features: [0, 1, 2, 3, 4, 5].map((i) => {
+          const k = `planFeatures_${id}_${i}`;
+          const v = t(k as any);
+          return v !== k ? v : null;
+        }).filter(Boolean) as string[],
       };
     });
   }, []);
@@ -104,7 +108,7 @@ function BillingContent() {
           <div>
             <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">{t("currentPlan")}</p>
             <div className="flex items-center gap-3">
-              <h2 className="text-2xl font-bold text-foreground">{currentPlanInfo.nameTR}</h2>
+              <h2 className="text-2xl font-bold text-foreground">{t(`planName_${currentPlan}` as any)}</h2>
               <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${PLAN_BADGE_COLORS[currentPlan]}`}>
                 {currentPlan}
               </span>

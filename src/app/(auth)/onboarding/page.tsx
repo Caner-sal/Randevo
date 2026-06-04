@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,8 @@ const TIMEZONES = [
   "Europe/London",
   "Europe/Paris",
   "Europe/Berlin",
+  "Europe/Madrid",
+  "Europe/Moscow",
   "America/New_York",
   "America/Chicago",
   "America/Los_Angeles",

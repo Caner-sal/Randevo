@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -95,19 +95,19 @@ export default function RegisterPage() {
         {/* Headline */}
         <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
           <h2 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 16 }}>
-            5 dakikada<br />
+            {t("leftTitle").split('\n')[0]}<br />
             <span style={{ background: "linear-gradient(128deg,#b3aaff 0%,#d49cf5 50%,#f9a8d4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              hazır hale gelin
+              {t("leftTitle").split('\n')[1] || ""}
             </span>
           </h2>
           <p style={{ fontSize: 15, color: "#8a8aaa", lineHeight: 1.7, marginBottom: 32 }}>
-            Kredi kartı gerekmez. Ücretsiz planla başlayın, büyüdükçe yükseltin.
+            {t("leftDesc")}
           </p>
 
           {/* Plan info */}
           <div style={{ background: "rgba(119,104,212,0.08)", border: "1px solid rgba(119,104,212,0.2)", borderRadius: 14, padding: "18px 20px", marginBottom: 24 }}>
-            <p style={{ fontSize: 12, color: "#a59cf0", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "var(--font-heading, Outfit, sans-serif)", marginBottom: 12 }}>Ücretsiz Plan</p>
-            {["1 Çalışan", "Ayda 20 Randevu", "Herkese açık rezervasyon sayfası", "Sınırsız hizmet tanımı"].map((f) => (
+            <p style={{ fontSize: 12, color: "#a59cf0", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "var(--font-heading, Outfit, sans-serif)", marginBottom: 12 }}>{t("planFree")}</p>
+            {[t("planF1"), t("planF2"), t("planF3"), t("planF4")].map((f) => (
               <div key={f} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                 <div style={{ width: 20, height: 20, background: "rgba(119,104,212,0.12)", border: "1px solid rgba(119,104,212,0.25)", borderRadius: 5, display: "grid", placeItems: "center", flexShrink: 0 }}>
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a59cf0" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
@@ -119,7 +119,7 @@ export default function RegisterPage() {
 
           {/* Plans comparison */}
           <div style={{ display: "flex", gap: 10 }}>
-            {[["Başlangıç", "₺40/ay", "#7768d4"], ["Pro", "₺249/ay", "#a59cf0"]].map(([planName, price, color]) => (
+            {[[t("planStarter"), "₺40/" + t("planPriceMo"), "#7768d4"], [t("planPro"), "₺249/" + t("planPriceMo"), "#a59cf0"]].map(([planName, price, color]) => (
               <div key={planName} style={{ flex: 1, background: "#0b0b16", border: "1px solid rgba(119,104,212,0.1)", borderRadius: 10, padding: "12px 14px" }}>
                 <div style={{ fontSize: 12, color: "#8a8aaa", fontFamily: "var(--font-heading, Outfit, sans-serif)", fontWeight: 600 }}>{planName}</div>
                 <div style={{ fontSize: 18, fontWeight: 800, fontFamily: "var(--font-heading, Outfit, sans-serif)", color, marginTop: 4 }}>{price}</div>
@@ -160,17 +160,17 @@ export default function RegisterPage() {
 
             <div>
               <label style={labelStyle}>{t("fullName")}</label>
-              <input style={inputStyle} type="text" placeholder="Ayşe Yılmaz" value={name} onChange={(e) => setName(e.target.value)} required autoComplete="name" />
+              <input style={inputStyle} type="text" placeholder={t("namePlaceholder")} value={name} onChange={(e) => setName(e.target.value)} required autoComplete="name" />
             </div>
 
             <div>
               <label style={labelStyle}>{t("emailLabel")}</label>
-              <input style={inputStyle} type="email" placeholder="siz@ornek.com" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
+              <input style={inputStyle} type="email" placeholder={t("emailPlaceholder")} value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
             </div>
 
             <div>
               <label style={labelStyle}>{t("passwordLabel")}</label>
-              <input style={inputStyle} type="password" placeholder="En az 8 karakter" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="new-password" minLength={8} />
+              <input style={inputStyle} type="password" placeholder={t("passwordPlaceholder")} value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="new-password" minLength={8} />
               <p style={{ fontSize: 12, color: "#3a3a58", marginTop: 5 }}>{t("passwordHint")}</p>
             </div>
 
@@ -190,11 +190,11 @@ export default function RegisterPage() {
           </form>
 
           <p style={{ fontSize: 12, color: "#3a3a58", textAlign: "center", marginTop: 16, lineHeight: 1.5 }}>
-            Kayıt olarak{" "}
-            <a href="#" style={{ color: "#a59cf0" }}>Kullanım Koşulları</a>
-            {" "}ve{" "}
-            <a href="#" style={{ color: "#a59cf0" }}>KVKK Aydınlatma Metni</a>
-            &apos;ni kabul etmiş olursunuz.
+            {t("termsText1")}
+            <a href="#" style={{ color: "#a59cf0" }}>{t("termsText2")}</a>
+            {t("termsText3")}
+            <a href="#" style={{ color: "#a59cf0" }}>{t("termsText4")}</a>
+            {t("termsText5")}
           </p>
 
           <p style={{ fontSize: 13, color: "#3a3a58", textAlign: "center", marginTop: 18 }}>

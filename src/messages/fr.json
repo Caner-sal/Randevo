@@ -53,7 +53,8 @@
     "skipped": "Ignore",
     "default": "Par defaut",
     "deactivate": "Desactiver",
-    "activate": "Activer"
+    "activate": "Activer",
+    "logout": "Se déconnecter"
   },
   "nav": {
     "dashboard": "Tableau de bord",
@@ -138,7 +139,10 @@
     "settings": "Parametres",
     "locations": "Lieux",
     "whatsapp": "WhatsApp",
-    "bookingPage": "Page de reservation"
+    "bookingPage": "Page de reservation",
+    "general": "Général",
+    "management": "Gestion",
+    "system": "Système"
   },
   "landing": {
     "navSignIn": "Se connecter",
@@ -243,7 +247,25 @@
     "stepOf": "Étape {step} / {total}",
     "slugTaken": "Ce slug URL est déjà utilisé. Veuillez en choisir un autre.",
     "genericError": "Une erreur est survenue. Veuillez réessayer.",
-    "continue": "Suivant"
+    "continue": "Suivant",
+    "leftTitle": "Prêt en\n5 minutes",
+    "leftDesc": "Aucune carte de crédit requise. Commencez avec le plan gratuit et passez à la vitesse supérieure.",
+    "planFree": "Plan Gratuit",
+    "planF1": "1 Employé",
+    "planF2": "20 Rendez-vous par mois",
+    "planF3": "Page de réservation publique",
+    "planF4": "Services illimités",
+    "planStarter": "Starter",
+    "planPro": "Pro",
+    "planPriceMo": "mois",
+    "termsText1": "En vous inscrivant, vous acceptez les ",
+    "termsText2": "Conditions de service",
+    "termsText3": " et la ",
+    "termsText4": "Politique de confidentialité",
+    "termsText5": ".",
+    "namePlaceholder": "Jean Dupont",
+    "emailPlaceholder": "vous@exemple.fr",
+    "passwordPlaceholder": "Au moins 8 caractères"
   },
   "dashboard": {
     "overview": "Vue d'ensemble",
@@ -265,7 +287,31 @@
     "businessSettings": "Entreprise Parametres",
     "openBookingPage": "Open Reservation Page",
     "recentTransactions": "Transactions récentes",
-    "noTransactions": "Aucune transaction pour le moment."
+    "noTransactions": "Aucune transaction pour le moment.",
+    "onboarding": {
+      "title": "Onboarding Checklist",
+      "completed": "Completed",
+      "pending": "Pending",
+      "loading": "Loading...",
+      "error": "Error",
+      "organization_created": "Organization created",
+      "service_created": "Service added",
+      "first_booking_created": "First booking received",
+      "plan_upgrade_clicked": "Plan upgrade viewed"
+    },
+    "audit": {
+      "ORGANIZATION_CREATED": "Organization Created",
+      "APPOINTMENT_CREATED": "Appointment Created",
+      "APPOINTMENT_COMPLETED": "Appointment Completed",
+      "APPOINTMENT_CANCELLED": "Appointment Cancelled",
+      "STAFF_UPDATED": "Staff Updated"
+    },
+    "entity": {
+      "Organization": "Organization",
+      "Appointment": "Appointment",
+      "Staff": "Staff",
+      "Service": "Service"
+    }
   },
   "appointments": {
     "title": "Rendez-vous",
@@ -393,7 +439,26 @@
     "historyStatus": "Status",
     "historyProvider": "Provider",
     "historyDate": "Date",
-    "noHistory": "No payment records yet."
+    "noHistory": "No payment records yet.",
+    "planName_FREE": "Gratuit",
+    "planName_STARTER": "Starter",
+    "planName_PRO": "Pro",
+    "planFeatures_FREE_0": "1 employé",
+    "planFeatures_FREE_1": "20 rendez-vous par mois",
+    "planFeatures_FREE_2": "Page de réservation en ligne",
+    "planFeatures_FREE_3": "Tableau de bord basique",
+    "planFeatures_STARTER_0": "3 employés",
+    "planFeatures_STARTER_1": "300 rendez-vous par mois",
+    "planFeatures_STARTER_2": "Rappels par e-mail",
+    "planFeatures_STARTER_3": "Rappels par SMS",
+    "planFeatures_STARTER_4": "Visibilité sur le marché",
+    "planFeatures_STARTER_5": "Panneau d'analyse",
+    "planFeatures_PRO_0": "Employés illimités",
+    "planFeatures_PRO_1": "2 000 rendez-vous par mois",
+    "planFeatures_PRO_2": "Rappels WhatsApp",
+    "planFeatures_PRO_3": "Assistant chat IA",
+    "planFeatures_PRO_4": "Support multi-succursales",
+    "planFeatures_PRO_5": "Support prioritaire"
   },
   "settings": {
     "loading": "Chargement des paramètres...",
@@ -530,5 +595,21 @@
     "serviceCol": "Service",
     "dateTimeCol": "Date / Heure",
     "noAppointments": "Aucun rendez-vous pour le moment."
+  },
+  "countries": {
+    "TR": "Turkey",
+    "US": "United States",
+    "GB": "United Kingdom",
+    "DE": "Germany",
+    "FR": "France",
+    "IT": "Italy",
+    "ES": "Spain",
+    "NL": "Netherlands",
+    "CA": "Canada",
+    "AU": "Australia",
+    "RU": "Russia",
+    "AE": "United Arab Emirates",
+    "SA": "Saudi Arabia",
+    "IR": "Iran"
   }
 }

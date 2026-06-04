@@ -53,7 +53,8 @@
     "skipped": "Saltato",
     "default": "Predefinito",
     "deactivate": "Disattiva",
-    "activate": "Attiva"
+    "activate": "Attiva",
+    "logout": "Esci"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -138,7 +139,10 @@
     "settings": "Impostazioni",
     "locations": "Sedi",
     "whatsapp": "WhatsApp",
-    "bookingPage": "Prenotazione Page"
+    "bookingPage": "Prenotazione Page",
+    "general": "Generale",
+    "management": "Gestione",
+    "system": "Sistema"
   },
   "landing": {
     "navSignIn": "Accedi",
@@ -243,7 +247,25 @@
     "stepOf": "Passo {step} / {total}",
     "slugTaken": "Questo slug URL è già in uso. Scegline un altro.",
     "genericError": "Si è verificato un errore. Riprova.",
-    "continue": "Avanti"
+    "continue": "Avanti",
+    "leftTitle": "Pronto in\n5 minuti",
+    "leftDesc": "Nessuna carta di credito richiesta. Inizia con il piano gratuito, fai l'upgrade man mano.",
+    "planFree": "Piano Gratuito",
+    "planF1": "1 Dipendente",
+    "planF2": "20 Appuntamenti al mese",
+    "planF3": "Pagina di prenotazione pubblica",
+    "planF4": "Servizi illimitati",
+    "planStarter": "Starter",
+    "planPro": "Pro",
+    "planPriceMo": "mese",
+    "termsText1": "Registrandoti accetti i ",
+    "termsText2": "Termini di servizio",
+    "termsText3": " e la ",
+    "termsText4": "Informativa sulla privacy",
+    "termsText5": ".",
+    "namePlaceholder": "Mario Rossi",
+    "emailPlaceholder": "tu@esempio.it",
+    "passwordPlaceholder": "Almeno 8 caratteri"
   },
   "dashboard": {
     "overview": "Panoramica",
@@ -265,7 +287,31 @@
     "businessSettings": "Attivita Impostazioni",
     "openBookingPage": "Open Prenotazione Page",
     "recentTransactions": "Transazioni recenti",
-    "noTransactions": "Nessuna transazione ancora."
+    "noTransactions": "Nessuna transazione ancora.",
+    "onboarding": {
+      "title": "Onboarding Checklist",
+      "completed": "Completed",
+      "pending": "Pending",
+      "loading": "Loading...",
+      "error": "Error",
+      "organization_created": "Organization created",
+      "service_created": "Service added",
+      "first_booking_created": "First booking received",
+      "plan_upgrade_clicked": "Plan upgrade viewed"
+    },
+    "audit": {
+      "ORGANIZATION_CREATED": "Organization Created",
+      "APPOINTMENT_CREATED": "Appointment Created",
+      "APPOINTMENT_COMPLETED": "Appointment Completed",
+      "APPOINTMENT_CANCELLED": "Appointment Cancelled",
+      "STAFF_UPDATED": "Staff Updated"
+    },
+    "entity": {
+      "Organization": "Organization",
+      "Appointment": "Appointment",
+      "Staff": "Staff",
+      "Service": "Service"
+    }
   },
   "appointments": {
     "title": "Appuntamenti",
@@ -393,7 +439,26 @@
     "historyStatus": "Status",
     "historyProvider": "Provider",
     "historyDate": "Date",
-    "noHistory": "No payment records yet."
+    "noHistory": "No payment records yet.",
+    "planName_FREE": "Gratuito",
+    "planName_STARTER": "Starter",
+    "planName_PRO": "Pro",
+    "planFeatures_FREE_0": "1 dipendente",
+    "planFeatures_FREE_1": "20 appuntamenti al mese",
+    "planFeatures_FREE_2": "Pagina di prenotazione online",
+    "planFeatures_FREE_3": "Dashboard base",
+    "planFeatures_STARTER_0": "3 dipendenti",
+    "planFeatures_STARTER_1": "300 appuntamenti al mese",
+    "planFeatures_STARTER_2": "Promemoria email",
+    "planFeatures_STARTER_3": "Promemoria SMS",
+    "planFeatures_STARTER_4": "Visibilità sul mercato",
+    "planFeatures_STARTER_5": "Pannello di analisi",
+    "planFeatures_PRO_0": "Dipendenti illimitati",
+    "planFeatures_PRO_1": "2.000 appuntamenti al mese",
+    "planFeatures_PRO_2": "Promemoria WhatsApp",
+    "planFeatures_PRO_3": "Assistente chat AI",
+    "planFeatures_PRO_4": "Supporto multi-filiale",
+    "planFeatures_PRO_5": "Supporto prioritario"
   },
   "settings": {
     "loading": "Caricamento impostazioni...",
@@ -530,5 +595,21 @@
     "serviceCol": "Servizio",
     "dateTimeCol": "Data / Ora",
     "noAppointments": "Nessun appuntamento ancora."
+  },
+  "countries": {
+    "TR": "Turkey",
+    "US": "United States",
+    "GB": "United Kingdom",
+    "DE": "Germany",
+    "FR": "France",
+    "IT": "Italy",
+    "ES": "Spain",
+    "NL": "Netherlands",
+    "CA": "Canada",
+    "AU": "Australia",
+    "RU": "Russia",
+    "AE": "United Arab Emirates",
+    "SA": "Saudi Arabia",
+    "IR": "Iran"
   }
 }

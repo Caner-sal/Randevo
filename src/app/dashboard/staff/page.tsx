@@ -169,8 +169,8 @@ export default function StaffPage() {
         <div
           className={`rounded-lg px-4 py-3 text-sm border ${
             atLimit
-              ? "bg-amber-50 border-amber-200 text-amber-700"
-              : "bg-blue-50 border-blue-200 text-blue-700"
+              ? "bg-amber-500/10 border-amber-500/20 text-amber-400"
+              : "bg-blue-500/10 border-blue-500/20 text-blue-400"
           }`}
         >
           {subscription.plan} {t("planPrefix")} {activeStaffCount}/{maxStaff === Infinity ? "∞" : maxStaff} {t("planLimit")}
@@ -211,7 +211,7 @@ export default function StaffPage() {
                         member.staffServices.map((ss) => (
                           <span
                             key={ss.service.id}
-                            className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs"
+                            className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded-full text-xs"
                           >
                             {ss.service.name}
                           </span>
@@ -221,8 +221,8 @@ export default function StaffPage() {
                   </td>
                   <td className="px-5 py-3.5">
                     <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        member.isActive ? "bg-green-100 text-green-700" : "bg-muted text-muted-foreground"
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
+                        member.isActive ? "bg-green-500/10 text-green-400 border-green-500/20" : "bg-muted text-muted-foreground border-transparent"
                       }`}
                     >
                       {member.isActive ? tCommon("active") : tCommon("passive")}
@@ -273,7 +273,7 @@ export default function StaffPage() {
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-2">
+                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-lg px-4 py-2">
                   {error}
                 </div>
               )}

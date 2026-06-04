@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
@@ -29,6 +29,8 @@ const TIMEZONES = [
   "Europe/London",
   "Europe/Berlin",
   "Europe/Paris",
+  "Europe/Madrid",
+  "Europe/Moscow",
   "America/New_York",
   "America/Chicago",
   "America/Denver",
@@ -141,8 +143,8 @@ export default function SettingsPage() {
       </div>
 
       {bookingUrl && (
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-          <p className="text-xs text-blue-600 font-semibold uppercase tracking-wider mb-1">{t("bookingUrl")}</p>
+        <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+          <p className="text-xs text-blue-400 font-semibold uppercase tracking-wider mb-1">{t("bookingUrl")}</p>
           <div className="flex items-center gap-3">
             <code className="text-sm text-blue-300 break-all flex-1">{bookingUrl}</code>
             <button
@@ -162,12 +164,12 @@ export default function SettingsPage() {
         </div>
         <div className="p-6 space-y-5">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-lg px-4 py-3">
               {error}
             </div>
           )}
           {saved && (
-            <div className="bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg px-4 py-3">
+            <div className="bg-green-500/10 border border-green-500/20 text-green-400 text-sm rounded-lg px-4 py-3">
               {t("saveSuccess")}
             </div>
           )}

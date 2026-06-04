@@ -14,5 +14,9 @@ export const COUNTRY_OPTIONS: CountryOption[] = [
   { code: "NL", name: "Netherlands" },
   { code: "CA", name: "Canada" },
   { code: "AU", name: "Australia" },
+  { code: "RU", name: "Russia" },
+  { code: "AE", name: "United Arab Emirates" },
+  { code: "SA", name: "Saudi Arabia" },
+  { code: "IR", name: "Iran" },
 ];
 

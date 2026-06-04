@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 type ChecklistItem = {
   key: string;
@@ -16,6 +17,7 @@ type ChecklistData = {
 };
 
 export default function OnboardingChecklistCard() {
+  const t = useTranslations("dashboard.onboarding");
   const [data, setData] = useState<ChecklistData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -53,7 +55,7 @@ export default function OnboardingChecklistCard() {
   if (loading) {
     return (
       <div className="bg-card border border-border rounded-2xl p-5">
-        <p className="text-sm text-muted-foreground">Onboarding checklist yükleniyor...</p>
+        <p className="text-sm text-muted-foreground">{t("loading")}</p>
       </div>
     );
   }
@@ -61,7 +63,7 @@ export default function OnboardingChecklistCard() {
   if (error || !data) {
     return (
       <div className="bg-card border border-destructive/25 rounded-2xl p-5">
-        <p className="text-sm text-destructive">{error ?? "Checklist verisi alınamadı."}</p>
+        <p className="text-sm text-destructive">{error ?? t("error")}</p>
       </div>
     );
   }
@@ -70,7 +72,7 @@ export default function OnboardingChecklistCard() {
     <div className="bg-card border border-border rounded-2xl p-5">
       <div className="flex justify-between items-baseline mb-3">
         <h3 className="text-sm font-semibold" style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)" }}>
-          Onboarding Checklist
+          {t("title")}
         </h3>
         <span className="text-xs text-accent-foreground">
           {data.completedCount}/{data.totalCount}
@@ -93,9 +95,9 @@ export default function OnboardingChecklistCard() {
             key={item.key}
             className="flex items-center justify-between border border-border rounded-lg px-3 py-2"
           >
-            <span className="text-sm text-foreground/80">{item.label}</span>
+            <span className="text-sm text-foreground/80">{t(item.key as any)}</span>
             <span className={`text-xs font-semibold ${item.completed ? "text-green-400" : "text-muted-foreground"}`}>
-              {item.completed ? "Tamamlandı" : "Bekliyor"}
+              {item.completed ? t("completed") : t("pending")}
             </span>
           </div>
         ))}

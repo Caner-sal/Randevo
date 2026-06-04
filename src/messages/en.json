@@ -53,7 +53,8 @@
     "skipped": "Skipped",
     "default": "Default",
     "deactivate": "Deactivate",
-    "activate": "Activate"
+    "activate": "Activate",
+    "logout": "Sign Out"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -138,7 +139,10 @@
     "settings": "Settings",
     "locations": "Locations",
     "whatsapp": "WhatsApp",
-    "bookingPage": "Booking Page"
+    "bookingPage": "Booking Page",
+    "general": "General",
+    "management": "Management",
+    "system": "System"
   },
   "landing": {
     "navSignIn": "Sign In",
@@ -243,7 +247,25 @@
     "stepOf": "Step {step} / {total}",
     "slugTaken": "This URL slug is already taken. Please choose a different one.",
     "genericError": "An error occurred. Please try again.",
-    "continue": "Next"
+    "continue": "Next",
+    "leftTitle": "Get ready in\n5 minutes",
+    "leftDesc": "No credit card required. Start with the free plan, upgrade as you grow.",
+    "planFree": "Free Plan",
+    "planF1": "1 Staff Member",
+    "planF2": "20 Appointments per month",
+    "planF3": "Public booking page",
+    "planF4": "Unlimited services",
+    "planStarter": "Starter",
+    "planPro": "Pro",
+    "planPriceMo": "mo",
+    "termsText1": "By registering you agree to the ",
+    "termsText2": "Terms of Service",
+    "termsText3": " and ",
+    "termsText4": "Privacy Policy",
+    "termsText5": ".",
+    "namePlaceholder": "Jane Smith",
+    "emailPlaceholder": "you@example.com",
+    "passwordPlaceholder": "At least 8 characters"
   },
   "dashboard": {
     "overview": "Overview",
@@ -265,7 +287,31 @@
     "businessSettings": "Business Settings",
     "openBookingPage": "Open Booking Page",
     "recentTransactions": "Recent Transactions",
-    "noTransactions": "No transactions yet."
+    "noTransactions": "No transactions yet.",
+    "onboarding": {
+      "title": "Onboarding Checklist",
+      "completed": "Completed",
+      "pending": "Pending",
+      "loading": "Loading...",
+      "error": "Error",
+      "organization_created": "Organization created",
+      "service_created": "Service added",
+      "first_booking_created": "First booking received",
+      "plan_upgrade_clicked": "Plan upgrade viewed"
+    },
+    "audit": {
+      "ORGANIZATION_CREATED": "Organization Created",
+      "APPOINTMENT_CREATED": "Appointment Created",
+      "APPOINTMENT_COMPLETED": "Appointment Completed",
+      "APPOINTMENT_CANCELLED": "Appointment Cancelled",
+      "STAFF_UPDATED": "Staff Updated"
+    },
+    "entity": {
+      "Organization": "Organization",
+      "Appointment": "Appointment",
+      "Staff": "Staff",
+      "Service": "Service"
+    }
   },
   "appointments": {
     "title": "Appointments",
@@ -393,7 +439,26 @@
     "historyStatus": "Status",
     "historyProvider": "Provider",
     "historyDate": "Date",
-    "noHistory": "No payment records yet."
+    "noHistory": "No payment records yet.",
+    "planName_FREE": "Free",
+    "planName_STARTER": "Starter",
+    "planName_PRO": "Pro",
+    "planFeatures_FREE_0": "1 staff member",
+    "planFeatures_FREE_1": "20 appointments per month",
+    "planFeatures_FREE_2": "Online booking page",
+    "planFeatures_FREE_3": "Basic dashboard",
+    "planFeatures_STARTER_0": "3 staff members",
+    "planFeatures_STARTER_1": "300 appointments per month",
+    "planFeatures_STARTER_2": "Email reminders",
+    "planFeatures_STARTER_3": "SMS reminders",
+    "planFeatures_STARTER_4": "Marketplace visibility",
+    "planFeatures_STARTER_5": "Analytics panel",
+    "planFeatures_PRO_0": "Unlimited staff",
+    "planFeatures_PRO_1": "2,000 appointments per month",
+    "planFeatures_PRO_2": "WhatsApp reminders",
+    "planFeatures_PRO_3": "AI chat assistant",
+    "planFeatures_PRO_4": "Multi-branch support",
+    "planFeatures_PRO_5": "Priority support"
   },
   "settings": {
     "loading": "Loading settings...",
@@ -530,5 +595,21 @@
     "serviceCol": "Service",
     "dateTimeCol": "Date / Time",
     "noAppointments": "No appointments yet."
+  },
+  "countries": {
+    "TR": "Turkey",
+    "US": "United States",
+    "GB": "United Kingdom",
+    "DE": "Germany",
+    "FR": "France",
+    "IT": "Italy",
+    "ES": "Spain",
+    "NL": "Netherlands",
+    "CA": "Canada",
+    "AU": "Australia",
+    "RU": "Russia",
+    "AE": "United Arab Emirates",
+    "SA": "Saudi Arabia",
+    "IR": "Iran"
   }
 }

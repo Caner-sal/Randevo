@@ -53,7 +53,8 @@
     "skipped": "رد شد",
     "default": "پیش‌فرض",
     "deactivate": "غیرفعال‌سازی",
-    "activate": "فعال‌سازی"
+    "activate": "فعال‌سازی",
+    "logout": "خروج"
   },
   "nav": {
     "dashboard": "داشبورد",
@@ -138,7 +139,10 @@
     "settings": "تنظیمات",
     "locations": "موقعیت‌ها",
     "whatsapp": "WhatsApp",
-    "bookingPage": "رزرو Page"
+    "bookingPage": "رزرو Page",
+    "general": "عمومی",
+    "management": "مدیریت",
+    "system": "سیستم"
   },
   "landing": {
     "navSignIn": "ورود",
@@ -243,7 +247,25 @@
     "stepOf": "مرحله {step} از {total}",
     "slugTaken": "این اسلاگ قبلاً استفاده شده است. لطفاً مورد دیگری انتخاب کنید.",
     "genericError": "خطایی رخ داد. دوباره تلاش کنید.",
-    "continue": "بعدی"
+    "continue": "بعدی",
+    "leftTitle": "آماده‌سازی در\n۵ دقیقه",
+    "leftDesc": "بدون نیاز به کارت اعتباری. با طرح رایگان شروع کنید و با رشد خود ارتقا دهید.",
+    "planFree": "طرح رایگان",
+    "planF1": "۱ کارمند",
+    "planF2": "۲۰ نوبت در ماه",
+    "planF3": "صفحه رزرو عمومی",
+    "planF4": "خدمات نامحدود",
+    "planStarter": "پایه",
+    "planPro": "حرفه‌ای",
+    "planPriceMo": "ماه",
+    "termsText1": "با ثبت نام، شما با ",
+    "termsText2": "شرایط خدمات",
+    "termsText3": " و ",
+    "termsText4": "سیاست حفظ حریم خصوصی",
+    "termsText5": " موافقت می‌کنید.",
+    "namePlaceholder": "علی محمدی",
+    "emailPlaceholder": "shoma@mesal.com",
+    "passwordPlaceholder": "حداقل ۸ نویسه"
   },
   "dashboard": {
     "overview": "نمای کلی",
@@ -265,7 +287,31 @@
     "businessSettings": "کسب‌وکار تنظیمات",
     "openBookingPage": "Open رزرو Page",
     "recentTransactions": "تراکنش‌های اخیر",
-    "noTransactions": "هنوز تراکنشی وجود ندارد."
+    "noTransactions": "هنوز تراکنشی وجود ندارد.",
+    "onboarding": {
+      "title": "Onboarding Checklist",
+      "completed": "Completed",
+      "pending": "Pending",
+      "loading": "Loading...",
+      "error": "Error",
+      "organization_created": "Organization created",
+      "service_created": "Service added",
+      "first_booking_created": "First booking received",
+      "plan_upgrade_clicked": "Plan upgrade viewed"
+    },
+    "audit": {
+      "ORGANIZATION_CREATED": "Organization Created",
+      "APPOINTMENT_CREATED": "Appointment Created",
+      "APPOINTMENT_COMPLETED": "Appointment Completed",
+      "APPOINTMENT_CANCELLED": "Appointment Cancelled",
+      "STAFF_UPDATED": "Staff Updated"
+    },
+    "entity": {
+      "Organization": "Organization",
+      "Appointment": "Appointment",
+      "Staff": "Staff",
+      "Service": "Service"
+    }
   },
   "appointments": {
     "title": "نوبت‌ها",
@@ -393,7 +439,26 @@
     "historyStatus": "Status",
     "historyProvider": "Provider",
     "historyDate": "Date",
-    "noHistory": "No payment records yet."
+    "noHistory": "No payment records yet.",
+    "planName_FREE": "رایگان",
+    "planName_STARTER": "پایه",
+    "planName_PRO": "حرفه‌ای",
+    "planFeatures_FREE_0": "۱ کارمند",
+    "planFeatures_FREE_1": "۲۰ نوبت در ماه",
+    "planFeatures_FREE_2": "صفحه رزرو آنلاین",
+    "planFeatures_FREE_3": "داشبورد پایه",
+    "planFeatures_STARTER_0": "۳ کارمند",
+    "planFeatures_STARTER_1": "۳۰۰ نوبت در ماه",
+    "planFeatures_STARTER_2": "یادآوری ایمیلی",
+    "planFeatures_STARTER_3": "یادآوری پیامکی",
+    "planFeatures_STARTER_4": "دیده شدن در بازار",
+    "planFeatures_STARTER_5": "پنل تحلیل",
+    "planFeatures_PRO_0": "کارمند نامحدود",
+    "planFeatures_PRO_1": "۲,۰۰۰ نوبت در ماه",
+    "planFeatures_PRO_2": "یادآوری واتس‌اپ",
+    "planFeatures_PRO_3": "دستیار چت هوش مصنوعی",
+    "planFeatures_PRO_4": "پشتیبانی چند شعبه‌ای",
+    "planFeatures_PRO_5": "پشتیبانی ویژه"
   },
   "settings": {
     "loading": "در حال بارگذاری تنظیمات...",
@@ -530,5 +595,21 @@
     "serviceCol": "خدمت",
     "dateTimeCol": "تاریخ / ساعت",
     "noAppointments": "هنوز نوبتی وجود ندارد."
+  },
+  "countries": {
+    "TR": "Turkey",
+    "US": "United States",
+    "GB": "United Kingdom",
+    "DE": "Germany",
+    "FR": "France",
+    "IT": "Italy",
+    "ES": "Spain",
+    "NL": "Netherlands",
+    "CA": "Canada",
+    "AU": "Australia",
+    "RU": "Russia",
+    "AE": "United Arab Emirates",
+    "SA": "Saudi Arabia",
+    "IR": "Iran"
   }
 }

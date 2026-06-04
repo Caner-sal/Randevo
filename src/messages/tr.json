@@ -53,7 +53,8 @@
     "skipped": "Atlandı",
     "default": "Varsayılan",
     "deactivate": "Pasifleştir",
-    "activate": "Aktifleştir"
+    "activate": "Aktifleştir",
+    "logout": "Çıkış Yap"
   },
   "nav": {
     "dashboard": "Kontrol Paneli",
@@ -138,7 +139,10 @@
     "settings": "Ayarlar",
     "locations": "Şubeler",
     "whatsapp": "WhatsApp",
-    "bookingPage": "Rezervasyon Sayfası"
+    "bookingPage": "Rezervasyon Sayfası",
+    "general": "Genel",
+    "management": "Yönetim",
+    "system": "Sistem"
   },
   "landing": {
     "navSignIn": "Giriş Yap",
@@ -243,7 +247,25 @@
     "createBusiness": "İşletmeyi Oluştur",
     "stepOf": "Adım {step} / {total}",
     "slugTaken": "Bu URL kısa adı kullanımda. Lütfen farklı bir kısa ad seçin.",
-    "genericError": "Bir hata oluştu. Lütfen tekrar deneyin."
+    "genericError": "Bir hata oluştu. Lütfen tekrar deneyin.",
+    "leftTitle": "5 dakikada\nhazır hale gelin",
+    "leftDesc": "Kredi kartı gerekmez. Ücretsiz planla başlayın, büyüdükçe yükseltin.",
+    "planFree": "Ücretsiz Plan",
+    "planF1": "1 Çalışan",
+    "planF2": "Ayda 20 Randevu",
+    "planF3": "Herkese açık rezervasyon sayfası",
+    "planF4": "Sınırsız hizmet tanımı",
+    "planStarter": "Başlangıç",
+    "planPro": "Pro",
+    "planPriceMo": "ay",
+    "termsText1": "Kayıt olarak ",
+    "termsText2": "Kullanım Koşulları",
+    "termsText3": " ve ",
+    "termsText4": "KVKK Aydınlatma Metni",
+    "termsText5": "'ni kabul etmiş olursunuz.",
+    "namePlaceholder": "Ayşe Yılmaz",
+    "emailPlaceholder": "siz@ornek.com",
+    "passwordPlaceholder": "En az 8 karakter"
   },
   "dashboard": {
     "overview": "Genel Bakış",
@@ -265,7 +287,31 @@
     "businessSettings": "İşletme Ayarları",
     "openBookingPage": "Rezervasyon Sayfasını Aç",
     "recentTransactions": "Son İşlemler",
-    "noTransactions": "Henüz işlem yok."
+    "noTransactions": "Henüz işlem yok.",
+    "onboarding": {
+      "title": "Başlangıç Listesi",
+      "completed": "Tamamlandı",
+      "pending": "Bekliyor",
+      "loading": "Yükleniyor...",
+      "error": "Hata",
+      "organization_created": "İşletme oluşturuldu",
+      "service_created": "Hizmet eklendi",
+      "first_booking_created": "İlk rezervasyon alındı",
+      "plan_upgrade_clicked": "Plan yükseltme incelendi"
+    },
+    "audit": {
+      "ORGANIZATION_CREATED": "İşletme Oluşturuldu",
+      "APPOINTMENT_CREATED": "Randevu Oluşturuldu",
+      "APPOINTMENT_COMPLETED": "Randevu Tamamlandı",
+      "APPOINTMENT_CANCELLED": "Randevu İptal",
+      "STAFF_UPDATED": "Personel Güncellendi"
+    },
+    "entity": {
+      "Organization": "İşletme",
+      "Appointment": "Randevu",
+      "Staff": "Personel",
+      "Service": "Hizmet"
+    }
   },
   "appointments": {
     "title": "Randevular",
@@ -393,7 +439,26 @@
     "historyStatus": "Durum",
     "historyProvider": "Sağlayıcı",
     "historyDate": "Tarih",
-    "noHistory": "Henüz ödeme kaydı bulunmuyor."
+    "noHistory": "Henüz ödeme kaydı bulunmuyor.",
+    "planName_FREE": "Ücretsiz",
+    "planName_STARTER": "Başlangıç",
+    "planName_PRO": "Pro",
+    "planFeatures_FREE_0": "1 çalışan",
+    "planFeatures_FREE_1": "Ayda 20 randevu",
+    "planFeatures_FREE_2": "Online rezervasyon sayfası",
+    "planFeatures_FREE_3": "Temel kontrol paneli",
+    "planFeatures_STARTER_0": "3 çalışan",
+    "planFeatures_STARTER_1": "Ayda 300 randevu",
+    "planFeatures_STARTER_2": "E-posta hatırlatmaları",
+    "planFeatures_STARTER_3": "SMS hatırlatmaları",
+    "planFeatures_STARTER_4": "Marketplace görünürlüğü",
+    "planFeatures_STARTER_5": "Analitik paneli",
+    "planFeatures_PRO_0": "Sınırsız çalışan",
+    "planFeatures_PRO_1": "Ayda 2.000 randevu",
+    "planFeatures_PRO_2": "WhatsApp hatırlatmaları",
+    "planFeatures_PRO_3": "AI sohbet asistanı",
+    "planFeatures_PRO_4": "Çoklu şube desteği",
+    "planFeatures_PRO_5": "Öncelikli destek"
   },
   "settings": {
     "loading": "Ayarlar yükleniyor...",
@@ -530,5 +595,21 @@
     "serviceCol": "Hizmet",
     "dateTimeCol": "Tarih / Saat",
     "noAppointments": "Henüz randevu yok."
+  },
+  "countries": {
+    "TR": "Türkiye",
+    "US": "Amerika Birleşik Devletleri",
+    "GB": "Birleşik Krallık",
+    "DE": "Almanya",
+    "FR": "Fransa",
+    "IT": "İtalya",
+    "ES": "İspanya",
+    "NL": "Hollanda",
+    "CA": "Kanada",
+    "AU": "Avustralya",
+    "RU": "Rusya",
+    "AE": "Birleşik Arap Emirlikleri",
+    "SA": "Suudi Arabistan",
+    "IR": "İran"
   }
 }
