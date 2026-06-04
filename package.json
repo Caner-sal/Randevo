@@ -16,7 +16,7 @@
     "lint": "node ./node_modules/eslint/bin/eslint.js . --max-warnings=0",
     "test": "node ./node_modules/vitest/vitest.mjs run",
     "test:watch": "node ./node_modules/vitest/vitest.mjs",
-    "test:e2e": "node .\\node_modules\\playwright\\cli.js test",
+    "test:e2e": "node ./node_modules/playwright/cli.js test",
     "prisma:validate": "node ./node_modules/prisma/build/index.js validate",
     "prisma:generate": "node ./node_modules/prisma/build/index.js generate",
     "prisma:dbpush": "node ./node_modules/prisma/build/index.js db push --skip-generate",
