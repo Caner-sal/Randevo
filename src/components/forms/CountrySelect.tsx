@@ -34,6 +34,7 @@ export default function CountrySelect({
       <SelectContent>
         {COUNTRY_OPTIONS.map((c) => (
           <SelectItem key={c.code} value={c.code}>
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {t(c.code as any)}
           </SelectItem>
         ))}

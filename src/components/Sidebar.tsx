@@ -142,11 +142,13 @@ export default function Sidebar() {
           <div key={section.labelKey}>
             <p className="px-2.5 pt-4 pb-1 text-[10px] font-bold uppercase tracking-widest"
               style={{ color: "#3a3a58", fontFamily: "var(--font-heading, Outfit, sans-serif)" }}>
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {t(section.labelKey as any)}
             </p>
             {section.items.map((item) => (
               <NavLink
                 key={item.href}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 item={{ href: item.href, label: t(item.labelKey as any), icon: item.icon }}
                 active={isActive(item.href)}
                 onClick={() => setMobileOpen(false)}

@@ -204,7 +204,9 @@ export default async function DashboardPage() {
                     <div style={{ width: 7, height: 7, borderRadius: "50%", background: dotColor, marginTop: 5, flexShrink: 0 }} />
                     <div>
                       <div>
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                         <span style={{ fontSize: 12.5, fontWeight: 600 }}>{t(`audit.${log.action}` as any)}</span>
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                         <span style={{ fontSize: 12.5, color: "#8a8aaa", marginLeft: 4 }}>· {t(`entity.${log.entityType}` as any)}</span>
                       </div>
                       <p style={{ fontSize: 11, color: "#3a3a58", marginTop: 2 }}>

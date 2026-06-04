@@ -265,7 +265,18 @@
     "termsText5": "'ni kabul etmiş olursunuz.",
     "namePlaceholder": "Ayşe Yılmaz",
     "emailPlaceholder": "siz@ornek.com",
-    "passwordPlaceholder": "En az 8 karakter"
+    "passwordPlaceholder": "En az 8 karakter",
+    "leftTitle1": "5 dakikada",
+    "leftTitle2": "hazır hale",
+    "leftTitle3": "gelin",
+    "f1": "Ücretsiz planla başla",
+    "f2": "Kart bilgisi gerekmez",
+    "f3": "Sınırsız hizmet tanımı",
+    "f4": "Herkese açık rezervasyon",
+    "testimonial": "Randevo sayesinde müşteri trafiğim %40 arttı. Kesinlikle tavsiye ederim!",
+    "testimonialInitials": "AY",
+    "testimonialName": "Ayşe Yılmaz",
+    "testimonialRole": "Kuaför İşletmecisi"
   },
   "dashboard": {
     "overview": "Genel Bakış",

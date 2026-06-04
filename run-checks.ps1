@@ -1,0 +1,1 @@
+npm run check:node; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; npm run check:secrets; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; npm run validate:skills; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; npm run prisma:validate; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; npm run prisma:generate; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; npm test;

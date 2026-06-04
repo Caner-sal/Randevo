@@ -265,7 +265,18 @@
     "termsText5": ".",
     "namePlaceholder": "Mario Rossi",
     "emailPlaceholder": "tu@esempio.it",
-    "passwordPlaceholder": "Almeno 8 caratteri"
+    "passwordPlaceholder": "Almeno 8 caratteri",
+    "leftTitle1": "5 dakikada",
+    "leftTitle2": "hazır hale",
+    "leftTitle3": "gelin",
+    "f1": "Ücretsiz planla başla",
+    "f2": "Kart bilgisi gerekmez",
+    "f3": "Sınırsız hizmet tanımı",
+    "f4": "Herkese açık rezervasyon",
+    "testimonial": "Randevo sayesinde müşteri trafiğim %40 arttı. Kesinlikle tavsiye ederim!",
+    "testimonialInitials": "AY",
+    "testimonialName": "Ayşe Yılmaz",
+    "testimonialRole": "Kuaför İşletmecisi"
   },
   "dashboard": {
     "overview": "Panoramica",

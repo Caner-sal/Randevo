@@ -95,6 +95,7 @@ export default function OnboardingChecklistCard() {
             key={item.key}
             className="flex items-center justify-between border border-border rounded-lg px-3 py-2"
           >
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             <span className="text-sm text-foreground/80">{t(item.key as any)}</span>
             <span className={`text-xs font-semibold ${item.completed ? "text-green-400" : "text-muted-foreground"}`}>
               {item.completed ? t("completed") : t("pending")}

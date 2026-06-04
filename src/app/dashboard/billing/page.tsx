@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { TURKEY_PLANS, formatPlanPriceTR, getPlanTR, type TurkeyPlanId } from "@/config/pricing.tr";
+import { TURKEY_PLANS, type TurkeyPlanId } from "@/config/pricing.tr";
 import { getCheckoutUrl, type UpgradablePlanId } from "@/config/billing-plans";
 
 interface PlanLimits {
@@ -58,24 +58,25 @@ function BillingContent() {
       const plan = TURKEY_PLANS[id];
       return {
         id,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         label: t(`planName_${id}` as any),
         price: id === "FREE" ? `₺0/${t("perMonth")}` : plan.priceCentsMonthly ? `₺${plan.priceCentsMonthly / 100}/${t("perMonth")}` : tCommon("default"),
         highlight: id === "STARTER",
         features: [0, 1, 2, 3, 4, 5].map((i) => {
           const k = `planFeatures_${id}_${i}`;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const v = t(k as any);
           return v !== k ? v : null;
         }).filter(Boolean) as string[],
       };
     });
-  }, []);
+  }, [t, tCommon]);
 
   if (loading) {
     return <div className="p-10 text-center text-muted-foreground/80">{t("loading")}</div>;
   }
 
   const currentPlan: TurkeyPlanId = data?.plan ?? "FREE";
-  const currentPlanInfo = getPlanTR(currentPlan);
   const limits = data?.limits;
 
   return (
@@ -108,6 +109,7 @@ function BillingContent() {
           <div>
             <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">{t("currentPlan")}</p>
             <div className="flex items-center gap-3">
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               <h2 className="text-2xl font-bold text-foreground">{t(`planName_${currentPlan}` as any)}</h2>
               <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${PLAN_BADGE_COLORS[currentPlan]}`}>
                 {currentPlan}

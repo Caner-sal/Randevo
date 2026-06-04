@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { useMarketContext } from "@/lib/geo/use-market-context";
 
 function RandevoLogo() {
   return (
