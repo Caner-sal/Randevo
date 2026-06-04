@@ -1,4 +1,4 @@
-﻿import { db } from "@/lib/db";
+import { db } from "@/lib/db";
 import { logger } from "@/lib/logger";
 import { isOrganizationPubliclyAvailable } from "@/lib/organization-lifecycle";
 import { getRequestId } from "@/lib/request-id";
@@ -63,6 +63,8 @@ export async function POST(
         data: { paymentStatus: "PENDING_PAYMENT", stripeCheckoutSessionId: mockSessionId },
       });
 
+      const mockTs = Date.now();
+      const mockEventId = `mock_event_${appointmentId}_${mockTs}`;
       await db.payment.create({
         data: {
           organizationId: org.id,
@@ -70,8 +72,8 @@ export async function POST(
           provider: "STRIPE",
           purpose: "APPOINTMENT_DEPOSIT",
           externalReference: mockSessionId,
-          providerEventId: `mock_event_${appointmentId}_${Date.now()}`,
-          stripeEventId: `mock_event_${appointmentId}_${Date.now()}`,
+          providerEventId: mockEventId,
+          stripeEventId: mockEventId,
           sessionId: mockSessionId,
           amountCents: appointment.service.depositAmountCents,
           currency: appointment.service.currency.toUpperCase(),

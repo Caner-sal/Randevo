@@ -1,4 +1,5 @@
-﻿import { db } from "@/lib/db";
+import { db } from "@/lib/db";
+import { logger } from "@/lib/logger";
 import { isOrganizationPubliclyAvailable, isOrganizationSuspended } from "@/lib/organization-lifecycle";
 import { generateAvailableSlots } from "@/services/booking.service";
 import { NextResponse } from "next/server";
@@ -86,7 +87,7 @@ export async function GET(
       },
     });
   } catch (err) {
-    console.error(err);
+    logger.error("booking slots failed", { err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

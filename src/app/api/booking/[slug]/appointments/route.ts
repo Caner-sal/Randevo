@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { logger } from "@/lib/logger";
 import { canCreateAppointment } from "@/lib/billing";
 import { isOrganizationPubliclyAvailable, isOrganizationSuspended } from "@/lib/organization-lifecycle";
 import { createAuditLog } from "@/services/audit.service";
@@ -85,7 +86,9 @@ export async function POST(
       entityType: "Appointment",
       entityId: appointment.id,
       metadata: {
-        customerEmail: parsed.customerEmail,
+        customerEmailHash: parsed.customerEmail
+          ? parsed.customerEmail.replace(/^(.{2}).*(@.*)$/, "$1***$2")
+          : undefined,
         customerCountryCode: parsed.customerCountryCode,
         serviceId: parsed.serviceId,
         staffId: parsed.staffId,
@@ -115,7 +118,7 @@ export async function POST(
     if (err instanceof Error && err.message === "This time slot is no longer available") {
       return NextResponse.json({ error: err.message }, { status: 409 });
     }
-    console.error(err);
+    logger.error("booking appointment failed", { err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

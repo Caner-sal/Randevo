@@ -1,4 +1,4 @@
-﻿import { db } from "@/lib/db";
+import { db } from "@/lib/db";
 import {
   getStaffAvailabilityForDay,
   getExistingAppointmentsForStaff,
@@ -12,6 +12,29 @@ export interface TimeSlot {
   label: string;
 }
 
+/**
+ * Returns the current wall-clock time in the given IANA timezone as a Date
+ * whose UTC fields correspond to the local values in that timezone.
+ * This lets us compare slot times (which are constructed with local hours)
+ * against "now" in the business's timezone rather than server-UTC.
+ */
+function nowInTimezone(tz: string): Date {
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+  const parts = formatter.formatToParts(new Date());
+  const get = (type: Intl.DateTimeFormatPartTypes) =>
+    Number(parts.find((p) => p.type === type)?.value ?? "0");
+  return new Date(get("year"), get("month") - 1, get("day"), get("hour"), get("minute"), get("second"));
+}
+
 export async function generateAvailableSlots(params: {
   organizationId: string;
   serviceId: string;
@@ -22,7 +45,7 @@ export async function generateAvailableSlots(params: {
 
   const org = await db.organization.findUnique({
     where: { id: organizationId },
-    select: { bookingEnabled: true },
+    select: { bookingEnabled: true, timezone: true },
   });
   if (!org?.bookingEnabled) return [];
 
@@ -58,7 +81,10 @@ export async function generateAvailableSlots(params: {
 
   const existing = await getExistingAppointmentsForStaff(staffId, date);
 
-  const now = new Date();
+  // Use the organization's timezone for "now" so that slot filtering
+  // works correctly even when the server runs in UTC (e.g. Vercel).
+  const tz = org.timezone || "Europe/Istanbul";
+  const now = nowInTimezone(tz);
   const slots: TimeSlot[] = [];
 
   for (let slotStart = startMinutes; slotStart + duration <= endMinutes; slotStart += 30) {

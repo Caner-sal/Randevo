@@ -1,4 +1,5 @@
-﻿import { db } from "@/lib/db";
+import { db } from "@/lib/db";
+import { logger } from "@/lib/logger";
 import { requireAuth, TenantError } from "@/lib/tenant";
 import { createAuditLog } from "@/services/audit.service";
 import { trackProductEvent } from "@/services/product-event.service";
@@ -24,7 +25,7 @@ export async function GET(req: Request) {
     if (err instanceof TenantError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("services list failed", { err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }
@@ -63,7 +64,7 @@ export async function POST(req: Request) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: err.issues }, { status: 400 });
     }
-    console.error(err);
+    logger.error("service create failed", { err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

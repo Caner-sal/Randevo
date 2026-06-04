@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import type Mail from "nodemailer/lib/mailer";
 
 interface EmailPayload {
   to: string;
@@ -15,6 +16,24 @@ interface EmailResult {
 
 const isFakeMode = !process.env.RESEND_API_KEY && (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD);
 
+// Cache the nodemailer transporter so we reuse TCP connections across calls
+// (important for the reminder cron job which processes many emails in a batch).
+let _cachedTransporter: Mail | null = null;
+function getSmtpTransporter(): Mail {
+  if (!_cachedTransporter) {
+    _cachedTransporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "smtp.gmail.com",
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: true,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    });
+  }
+  return _cachedTransporter;
+}
+
 export async function sendEmail(payload: EmailPayload): Promise<EmailResult> {
   if (isFakeMode) {
     console.log(`[FAKE EMAIL] To: ${payload.to} | Subject: ${payload.subject}`);
@@ -24,15 +43,7 @@ export async function sendEmail(payload: EmailPayload): Promise<EmailResult> {
   try {
     // If SMTP credentials are provided, use nodemailer (Gmail etc.)
     if (process.env.SMTP_USER && process.env.SMTP_PASSWORD) {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST || "smtp.gmail.com",
-        port: Number(process.env.SMTP_PORT) || 465,
-        secure: true,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD,
-        },
-      });
+      const transporter = getSmtpTransporter();
 
       const info = await transporter.sendMail({
         from: process.env.EMAIL_FROM || process.env.SMTP_USER,

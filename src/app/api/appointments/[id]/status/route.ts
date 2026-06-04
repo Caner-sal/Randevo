@@ -1,4 +1,5 @@
-﻿import { db } from "@/lib/db";
+import { db } from "@/lib/db";
+import { logger } from "@/lib/logger";
 import { requireAuth, TenantError } from "@/lib/tenant";
 import { createAuditLog } from "@/services/audit.service";
 import { appointmentStatusSchema } from "@/lib/validators";
@@ -45,7 +46,7 @@ export async function PATCH(
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: err.issues }, { status: 400 });
     }
-    console.error(err);
+    logger.error("appointment status update failed", { err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

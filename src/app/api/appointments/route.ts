@@ -1,4 +1,5 @@
-﻿import { db } from "@/lib/db";
+import { db } from "@/lib/db";
+import { logger } from "@/lib/logger";
 import { requireAuth, TenantError } from "@/lib/tenant";
 import { NextResponse } from "next/server";
 
@@ -48,7 +49,7 @@ export async function GET(req: Request) {
     if (err instanceof TenantError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("appointments list failed", { err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

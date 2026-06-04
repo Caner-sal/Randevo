@@ -1,4 +1,5 @@
 import { processPendingReminders } from "@/services/reminder.service";
+import { logger } from "@/lib/logger";
 import { NextResponse } from "next/server";
 
 // GET /api/cron/reminders
@@ -13,6 +14,9 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
   // In production, verify the cron secret to prevent unauthorized access
   const cronSecret = process.env.CRON_SECRET;
+  if (process.env.NODE_ENV === "production" && !cronSecret) {
+    return NextResponse.json({ error: "CRON_SECRET not configured" }, { status: 500 });
+  }
   if (cronSecret) {
     const authHeader = req.headers.get("authorization");
     if (authHeader !== `Bearer ${cronSecret}`) {
@@ -23,9 +27,11 @@ export async function GET(req: Request) {
   try {
     const result = await processPendingReminders();
 
-    console.log(
-      `[CRON REMINDERS] Processed: ${result.processed}, Sent: ${result.sent}, Failed: ${result.failed}`
-    );
+    logger.info("cron reminders processed", {
+      processed: result.processed,
+      sent: result.sent,
+      failed: result.failed,
+    });
 
     return NextResponse.json({
       ok: true,
@@ -33,7 +39,7 @@ export async function GET(req: Request) {
       timestamp: new Date().toISOString(),
     });
   } catch (err) {
-    console.error("[CRON REMINDERS] Error:", err);
+    logger.error("cron reminders error", { err });
     return NextResponse.json(
       { error: "Hatırlatma işleme hatası" },
       { status: 500 }
