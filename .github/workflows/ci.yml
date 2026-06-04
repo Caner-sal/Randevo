@@ -64,6 +64,9 @@ jobs:
       - name: Prisma db push
         run: npm run prisma:dbpush
 
+      - name: Seed database
+        run: npm run db:seed
+
       - name: Lint
         run: npm run lint
 
@@ -113,6 +116,9 @@ jobs:
 
       - name: Prisma db push
         run: npm run prisma:dbpush
+
+      - name: Seed database
+        run: npm run db:seed
 
       - name: Build app
         run: npm run build
