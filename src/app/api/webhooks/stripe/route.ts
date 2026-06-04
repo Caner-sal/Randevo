@@ -6,8 +6,6 @@ import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 
-export const config = { api: { bodyParser: false } };
-
 export async function POST(req: Request) {
   const requestId = getRequestId(req.headers);
   const route = "/api/webhooks/stripe";

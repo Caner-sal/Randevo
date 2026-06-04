@@ -1,4 +1,4 @@
-﻿import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { createAuditLog } from "@/services/audit.service";
 import {
@@ -7,7 +7,12 @@ import {
   markInviteStatus,
 } from "@/services/staff-invite.service";
 import { consumeRateLimit, getClientIp, rateLimitHeaders } from "@/lib/rate-limit";
-import { StaffInviteStatus } from "@prisma/client";
+const StaffInviteStatus = {
+  PENDING: "PENDING",
+  ACCEPTED: "ACCEPTED",
+  EXPIRED: "EXPIRED",
+  REVOKED: "REVOKED",
+} as const;
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -107,7 +112,8 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "This account is already linked to another staff profile" }, { status: 409 });
       }
 
-      const result = await db.$transaction(async (tx) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result = await db.$transaction(async (tx: any) => {
         const user = await tx.user.update({
           where: { id: existingUser.id },
           data: { appRole: "STAFF_MEMBER" },
@@ -136,7 +142,8 @@ export async function POST(req: Request) {
 
     const passwordHash = await bcrypt.hash(password, 12);
 
-    const result = await db.$transaction(async (tx) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await db.$transaction(async (tx: any) => {
       const user = await tx.user.create({
         data: {
           name,

@@ -65,8 +65,8 @@ export async function POST(req: Request) {
             s.status === "delivered" || s.status === "read"
               ? "SENT"
               : s.status === "failed"
-              ? "FAILED"
-              : undefined;
+                ? "FAILED"
+                : undefined;
           if (deliveryStatus) {
             try {
               await db.reminder.updateMany({

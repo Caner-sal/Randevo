@@ -51,7 +51,8 @@ export default async function AdminOrganizationsPage() {
             </tr>
           </thead>
           <tbody className="divide-y">
-            {organizations.map((org) => (
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {organizations.map((org: any) => (
               <tr key={org.id} className="hover:bg-muted/40">
                 <td className="px-4 py-3">
                   <div className="font-medium text-foreground">{org.name}</div>

@@ -47,7 +47,9 @@ export default async function AdminOverviewPage() {
 
   const planSummary = { FREE: 0, STARTER: 0, PRO: 0 };
   for (const row of planCounts) {
-    planSummary[row.plan] = row._count.plan;
+    if (row.plan && row.plan in planSummary) {
+      planSummary[row.plan as keyof typeof planSummary] = row._count.plan;
+    }
   }
 
   const stats = [
@@ -92,7 +94,8 @@ export default async function AdminOverviewPage() {
           <p className="text-sm text-muted-foreground">Henüz audit kaydı yok.</p>
         ) : (
           <div className="space-y-2">
-            {recentLogs.map((log) => (
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {recentLogs.map((log: any) => (
               <div key={log.id} className="border rounded p-3 text-sm">
                 <p className="font-mono text-xs text-foreground/90">{log.action}</p>
                 <p className="text-muted-foreground">

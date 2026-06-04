@@ -95,7 +95,8 @@ export async function GET(req: Request) {
       db.subscription.groupBy({ by: ["plan"], _count: { plan: true } }),
     ]);
 
-    const orgIds = organizations.map((org) => org.id);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const orgIds = organizations.map((org: any) => org.id);
     const monthlyRows = orgIds.length
       ? await db.appointment.groupBy({
           by: ["organizationId"],
@@ -107,9 +108,11 @@ export async function GET(req: Request) {
         })
       : [];
 
-    const monthlyByOrg = new Map(monthlyRows.map((row) => [row.organizationId, row._count._all]));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const monthlyByOrg = new Map(monthlyRows.map((row: any) => [row.organizationId, row._count._all]));
 
-    const items = organizations.map((org): UsageItem & { monthlyAppointments: number; isPubliclyAvailable: boolean } => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const items = organizations.map((org: any): UsageItem & { monthlyAppointments: number; isPubliclyAvailable: boolean } => ({
       ...org,
       monthlyAppointments: monthlyByOrg.get(org.id) ?? 0,
       isPubliclyAvailable: org.bookingEnabled && !org.suspended,
@@ -119,7 +122,9 @@ export async function GET(req: Request) {
 
     const planDistribution = { FREE: 0, STARTER: 0, PRO: 0 };
     for (const row of planRows) {
-      planDistribution[row.plan] = row._count.plan;
+      if (row.plan && row.plan in planDistribution) {
+        planDistribution[row.plan as keyof typeof planDistribution] = row._count.plan;
+      }
     }
 
     const nextCursor = organizations.length === limit ? organizations[organizations.length - 1]?.id ?? null : null;

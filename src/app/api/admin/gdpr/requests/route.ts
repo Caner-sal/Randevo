@@ -85,7 +85,8 @@ export async function GET(req: Request) {
     ]);
 
     const unified: UnifiedRequest[] = [
-      ...deletions.map((item) => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...deletions.map((item: any) => ({
         id: item.id,
         type: "deletion" as const,
         organizationId: item.organizationId,
@@ -98,7 +99,8 @@ export async function GET(req: Request) {
         createdAt: item.createdAt,
         updatedAt: item.createdAt,
       })),
-      ...exports.map((item) => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...exports.map((item: any) => ({
         id: item.id,
         type: "export" as const,
         organizationId: item.organizationId,

@@ -34,8 +34,14 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const routeLocale = await requestLocale;
   const headerStore = await headers();
   const cookieStore = await cookies();
+  
+  const headerLocale = headerStore.get("x-app-locale");
+  const cookieLocale = cookieStore.get(localeCookieName)?.value;
+  
+  console.log("[i18n] routeLocale:", routeLocale, "headerLocale:", headerLocale, "cookieLocale:", cookieLocale);
+
   const locale = resolveLocale(
-    routeLocale ?? headerStore.get("x-app-locale") ?? cookieStore.get(localeCookieName)?.value
+    headerLocale ?? cookieLocale ?? routeLocale
   );
 
   return {
