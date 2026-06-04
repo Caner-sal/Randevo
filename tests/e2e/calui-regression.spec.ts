@@ -82,11 +82,11 @@ test.describe("CALUI booking and i18n regressions", () => {
 
     await page.goto(`/tr/booking/${slug}`);
     const trHeading = (await page.locator("h2").first().textContent())?.trim();
-    await expect(page.getByText(serviceName!, { exact: false })).toBeVisible();
+    await expect(page.getByText(serviceName!, { exact: false }).first()).toBeVisible();
 
     await page.goto(`/en/booking/${slug}`);
     const enHeading = (await page.locator("h2").first().textContent())?.trim();
-    await expect(page.getByText(serviceName!, { exact: false })).toBeVisible();
+    await expect(page.getByText(serviceName!, { exact: false }).first()).toBeVisible();
 
     expect(enHeading).toBeTruthy();
     expect(trHeading).toBeTruthy();

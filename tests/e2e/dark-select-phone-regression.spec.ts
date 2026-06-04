@@ -41,9 +41,7 @@ test.describe("DPD regression: dark select and phone dial code", () => {
     await page.waitForLoadState("networkidle");
 
     // Advance to step 3 (country select is on step 2, 0-indexed step 2 = UI step 3)
-    const nextBtn = page.locator("button[type='submit']");
-    const nextVisible = await nextBtn.isVisible({ timeout: 5000 }).catch(() => false);
-    if (!nextVisible) {
+    if (page.url().includes("/login")) {
       test.skip(true, "Onboarding page requires authentication in this environment");
       return;
     }
