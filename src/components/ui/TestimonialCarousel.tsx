@@ -50,7 +50,7 @@ export default function TestimonialCarousel() {
                     <svg key={s} width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                   ))}
                 </div>
-                <p className="text-[#f0eff8] text-base leading-relaxed mb-6">"{t.text}"</p>
+                <p className="text-[#f0eff8] text-base leading-relaxed mb-6">&quot;{t.text}&quot;</p>
               </div>
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#7768d4] to-[#f9a8d4] flex items-center justify-center font-bold text-white shadow-lg">

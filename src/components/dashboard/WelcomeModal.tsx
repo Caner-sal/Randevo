@@ -62,7 +62,7 @@ export function WelcomeModal() {
         </div>
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold mb-2 text-center text-foreground" style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)" }}>
-            Randevo'ya Hoş Geldiniz!
+            Randevo&apos;ya Hoş Geldiniz!
           </DialogTitle>
           <DialogDescription className="text-base text-muted-foreground">
             İşletmeniz başarıyla kuruldu. Artık randevularınızı almaya ve işinizi dijitalde büyütmeye hazırsınız.
