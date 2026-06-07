@@ -5,6 +5,7 @@ import { registerSchema } from "@/lib/validators";
 import { trackProductEvent } from "@/services/product-event.service";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { logger } from "@/lib/logger";
 
 export async function POST(req: Request) {
   try {
@@ -43,7 +44,7 @@ export async function POST(req: Request) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: err.issues, message: "Geçersiz form verisi" }, { status: 400 });
     }
-    console.error(err);
+    logger.error("auth/register error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası", message: "Sunucu hatası" }, { status: 500 });
   }
 }

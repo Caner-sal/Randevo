@@ -1,6 +1,7 @@
 ﻿import { requireAuth, TenantError } from "@/lib/tenant";
 import { getAnalytics } from "@/services/analytics.service";
 import { NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
 
 export async function GET() {
   try {
@@ -13,7 +14,7 @@ export async function GET() {
     if (err instanceof TenantError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("analytics error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

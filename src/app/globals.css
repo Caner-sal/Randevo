@@ -61,6 +61,37 @@
 
     --radius: 0.75rem;
   }
+
+  .light {
+    color-scheme: light;
+    --background:             240 20% 98%;
+    --foreground:             240 10% 10%;
+
+    --card:                   0 0% 100%;
+    --card-foreground:        240 10% 10%;
+
+    --popover:                0 0% 100%;
+    --popover-foreground:     240 10% 10%;
+
+    --primary:                249 44% 61%;
+    --primary-foreground:     0 0% 100%;
+
+    --secondary:              240 10% 92%;
+    --secondary-foreground:   240 10% 10%;
+
+    --muted:                  240 10% 92%;
+    --muted-foreground:       240 10% 45%;
+
+    --accent:                 249 30% 90%;
+    --accent-foreground:      249 44% 61%;
+
+    --destructive:            350 94% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border:                 240 10% 86%;
+    --input:                  240 10% 86%;
+    --ring:                   249 44% 61%;
+  }
 }
 
 @layer base {

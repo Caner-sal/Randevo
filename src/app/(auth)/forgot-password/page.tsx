@@ -91,12 +91,12 @@ export default function ForgotPasswordPage() {
           boxShadow: "0 8px 48px rgba(0,0,0,0.5)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 28 }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 28, textDecoration: "none" }}>
           <RandevoLogo />
           <span style={{ fontSize: 20, fontWeight: 700, color: "#f0eff8", letterSpacing: -0.5 }}>
             Randevo
           </span>
-        </div>
+        </Link>
 
         <h1 style={{ fontSize: 22, fontWeight: 700, color: "#f0eff8", marginBottom: 8 }}>
           Şifremi Unuttum

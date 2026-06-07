@@ -2,6 +2,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/lib/auth";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
+import { WelcomeModal } from "@/components/dashboard/WelcomeModal";
 
 export default async function DashboardLayout({
   children,
@@ -17,6 +18,7 @@ export default async function DashboardLayout({
         <div className="md:pl-60 flex flex-col min-h-screen">
           <Header />
           <main className="flex-1 overflow-auto p-6">{children}</main>
+          <WelcomeModal />
         </div>
       </div>
     </SessionProvider>

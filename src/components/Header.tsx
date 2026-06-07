@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { locales } from "@/i18n/locales";
 import { getLocaleFromPath, withLocale } from "@/i18n/pathing";
 
@@ -141,6 +142,7 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-4">
+        <ThemeToggle />
         <LanguageSwitcher />
         {org && bookingHref && (
           <a

@@ -3,6 +3,7 @@ import { requireAuth, TenantError } from "@/lib/tenant";
 import { buildReplyText } from "@/services/whatsapp-auto-reply.service";
 import { getBookingUrl } from "@/services/booking-link.service";
 import { NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
 
 const DEFAULT_TEMPLATE =
   "Merhaba 👋\nRandevu almak için linkimizi kullanabilirsiniz:\n{{bookingUrl}}\n\nBu linkten hizmet seçebilir, uygun saatleri görebilir ve randevunuzu oluşturabilirsiniz.\nİnsan desteği için bu mesaja yazmaya devam edebilirsiniz.";
@@ -25,7 +26,7 @@ export async function POST() {
     if (err instanceof TenantError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("whatsapp/auto-reply/preview error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

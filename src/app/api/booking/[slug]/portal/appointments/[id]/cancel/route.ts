@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { createAuditLog } from "@/services/audit.service";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { logger } from "@/lib/logger";
 
 export async function POST(
   req: Request,
@@ -85,7 +86,7 @@ export async function POST(
       data: { message: "Randevunuz başarıyla iptal edildi.", appointment: updated },
     });
   } catch (err) {
-    console.error("[PORTAL APPOINTMENT CANCEL]", err);
+    logger.error("[PORTAL APPOINTMENT CANCEL]", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

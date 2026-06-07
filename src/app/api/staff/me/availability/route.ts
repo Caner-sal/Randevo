@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { requireStaffAuth, StaffAuthError } from "@/lib/staff-auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { logger } from "@/lib/logger";
 
 export async function GET() {
   try {
@@ -17,7 +18,7 @@ export async function GET() {
     if (err instanceof StaffAuthError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("staff/me/availability error", { err: err });
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -50,7 +51,7 @@ export async function PATCH(req: Request) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: err.issues }, { status: 400 });
     }
-    console.error(err);
+    logger.error("staff/me/availability error", { err: err });
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

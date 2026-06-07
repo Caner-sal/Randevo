@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { COUNTRY_OPTIONS } from "@/data/country-options";
@@ -124,7 +125,7 @@ export default function OnboardingPage() {
       return;
     }
 
-    router.push("/dashboard");
+    router.push("/dashboard?welcome=true");
   }
 
   return (
@@ -132,10 +133,10 @@ export default function OnboardingPage() {
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 800px 500px at 50% 30%, rgba(119,104,212,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
 
       <div style={{ width: "100%", maxWidth: 560, position: "relative", zIndex: 1 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 40 }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 40, textDecoration: "none", color: "inherit" }}>
           <RandevoLogo />
           <span style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: 20, fontWeight: 700, letterSpacing: "-0.4px" }}>Randevo</span>
-        </div>
+        </Link>
 
         <div style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
           {steps.map((s, i) => (

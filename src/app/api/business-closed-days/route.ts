@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getOrganizationForUser } from "@/lib/tenant";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { logger } from "@/lib/logger";
 
 const closedDaySchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Tarih YYYY-MM-DD formatında olmalıdır."),
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ data: day }, { status: 201 });
   } catch (err) {
     if (err instanceof z.ZodError) return NextResponse.json({ error: err.issues }, { status: 400 });
-    console.error(err);
+    logger.error("business-closed-days error", { err: err });
     return NextResponse.json({ error: "Kapalı gün eklenemedi." }, { status: 500 });
   }
 }

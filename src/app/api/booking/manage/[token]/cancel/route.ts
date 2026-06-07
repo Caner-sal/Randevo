@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { verifyBookingToken } from "@/lib/booking-token";
 import { createAuditLog } from "@/services/audit.service";
 import { NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
 
 /**
  * POST /api/booking/manage/[token]/cancel
@@ -84,7 +85,7 @@ export async function POST(
       data: { message: "Randevunuz başarıyla iptal edildi.", appointment: updated },
     });
   } catch (err) {
-    console.error("[BOOKING MANAGE CANCEL]", err);
+    logger.error("[BOOKING MANAGE CANCEL]", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

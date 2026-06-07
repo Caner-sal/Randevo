@@ -1,5 +1,6 @@
 ﻿import { NextResponse } from "next/server";
 import { globalRateLimiter } from "@/lib/rate-limit";
+import { logger } from "@/lib/logger";
 
 export async function POST(req: Request) {
   try {
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
       { status: 410 }
     );
   } catch (error) {
-    console.error("Verification error:", error);
+    logger.error("Verification error:", { err: error });
     return NextResponse.json({ error: "Sunucu hatası oluştu." }, { status: 500 });
   }
 }

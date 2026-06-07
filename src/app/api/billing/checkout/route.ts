@@ -7,6 +7,7 @@ import { TURKEY_PLANS } from "@/config/pricing.tr";
 import { MemberRole } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { logger } from "@/lib/logger";
 
 const checkoutSchema = z.object({
   plan: z.enum(["STARTER", "PRO"]),
@@ -148,7 +149,7 @@ export async function POST(req: Request) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: err.issues }, { status: 400 });
     }
-    console.error("[billing/checkout]", err);
+    logger.error("[billing/checkout]", { err: err });
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

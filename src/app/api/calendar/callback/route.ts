@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { getCalendarProvider } from "@/services/calendar/calendar.factory";
 import { NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -56,7 +57,7 @@ export async function GET(req: Request) {
 
     return NextResponse.redirect(new URL("/dashboard/settings?calendarConnected=true", req.url));
   } catch (err) {
-    console.error("Calendar callback error:", err);
+    logger.error("Calendar callback error:", { err: err });
     return NextResponse.redirect(new URL("/dashboard/settings?calendarError=token_exchange_failed", req.url));
   }
 }

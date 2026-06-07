@@ -1,6 +1,7 @@
 ﻿import { db } from "@/lib/db";
 import { requireSuperAdmin, SuperAdminError } from "@/lib/superadmin";
 import { NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
 
 export async function GET(req: Request) {
   try {
@@ -29,7 +30,7 @@ export async function GET(req: Request) {
     if (err instanceof SuperAdminError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("admin/audit-logs error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

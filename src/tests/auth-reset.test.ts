@@ -22,7 +22,11 @@ const mockDb = db as unknown as {
     create: ReturnType<typeof vi.fn>;
     findUnique: ReturnType<typeof vi.fn>;
     update: ReturnType<typeof vi.fn>;
+    updateMany: ReturnType<typeof vi.fn>;
     deleteMany: ReturnType<typeof vi.fn>;
+  };
+  mobileRefreshToken: {
+    updateMany: ReturnType<typeof vi.fn>;
   };
   $transaction: ReturnType<typeof vi.fn>;
 };
@@ -39,6 +43,12 @@ beforeEach(() => {
   vi.clearAllMocks();
   resetRateLimitStore();
   mockDb.passwordResetToken.deleteMany.mockResolvedValue({ count: 0 });
+  if (mockDb.passwordResetToken.updateMany) {
+    mockDb.passwordResetToken.updateMany.mockResolvedValue({ count: 0 });
+  }
+  if (mockDb.mobileRefreshToken?.updateMany) {
+    mockDb.mobileRefreshToken.updateMany.mockResolvedValue({ count: 0 });
+  }
   mockDb.passwordResetToken.create.mockResolvedValue({ id: "tok-1" });
   mockDb.$transaction.mockImplementation(async (ops: unknown[]) => {
     return Promise.all(ops.map((op) => (op instanceof Promise ? op : Promise.resolve(op))));

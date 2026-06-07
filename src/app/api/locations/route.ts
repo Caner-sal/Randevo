@@ -2,6 +2,7 @@
 import { requireAuth, TenantError } from "@/lib/tenant";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { logger } from "@/lib/logger";
 
 const locationSchema = z.object({
   name: z.string().min(1).max(100),
@@ -26,7 +27,7 @@ export async function GET() {
     if (err instanceof TenantError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("locations error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }
@@ -56,7 +57,7 @@ export async function POST(req: Request) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: err.issues }, { status: 400 });
     }
-    console.error(err);
+    logger.error("locations error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

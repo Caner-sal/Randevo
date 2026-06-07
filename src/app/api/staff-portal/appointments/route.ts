@@ -1,6 +1,7 @@
 ﻿import { db } from "@/lib/db";
 import { requireStaffAuth, StaffAuthError } from "@/lib/staff-auth";
 import { NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
 
 export async function GET(req: Request) {
   try {
@@ -36,7 +37,7 @@ export async function GET(req: Request) {
     if (err instanceof StaffAuthError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("staff-portal/appointments error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { logger } from "@/lib/logger";
 
 export async function GET(
   req: Request,
@@ -38,7 +39,7 @@ export async function GET(
 
     return NextResponse.json({ data: appointments });
   } catch (error) {
-    console.error("[PORTAL APPOINTMENTS GET]", error);
+    logger.error("[PORTAL APPOINTMENTS GET]", { err: error });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { logger } from "@/lib/logger";
 
 const invoiceProfileSchema = z.object({
   invoiceType: z.enum(["INDIVIDUAL", "COMPANY"]).default("INDIVIDUAL"),
@@ -48,7 +49,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ data: profile }, { status: 201 });
   } catch (err) {
     if (err instanceof z.ZodError) return NextResponse.json({ error: err.issues }, { status: 400 });
-    console.error(err);
+    logger.error("invoice-profile error", { err: err });
     return NextResponse.json({ error: "Fatura profili oluşturulamadı." }, { status: 500 });
   }
 }
@@ -69,7 +70,7 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ data: profile });
   } catch (err) {
     if (err instanceof z.ZodError) return NextResponse.json({ error: err.issues }, { status: 400 });
-    console.error(err);
+    logger.error("invoice-profile error", { err: err });
     return NextResponse.json({ error: "Fatura profili güncellenemedi." }, { status: 500 });
   }
 }

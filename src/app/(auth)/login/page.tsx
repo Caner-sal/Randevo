@@ -69,8 +69,9 @@ export default function LoginPage() {
 
       {/* ── LEFT BRANDING PANEL ── */}
       <div style={{
-        width: 440, flexShrink: 0, background: "#111120",
-        borderRight: "1px solid rgba(119,104,212,0.1)",
+        width: 440, flexShrink: 0, background: "rgba(11, 11, 22, 0.45)",
+        backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
+        borderRight: "1px solid rgba(119,104,212,0.15)",
         display: "flex", flexDirection: "column", padding: "40px 44px",
         position: "relative", overflow: "hidden",
       }} className="hidden md:flex">
@@ -78,10 +79,10 @@ export default function LoginPage() {
         <div style={{ position: "absolute", bottom: -100, left: -100, width: 500, height: 500, background: "radial-gradient(ellipse at center, rgba(119,104,212,0.14) 0%, transparent 65%)", pointerEvents: "none" }} />
 
         {/* Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 56, position: "relative", zIndex: 1 }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 56, position: "relative", zIndex: 1, textDecoration: "none", color: "inherit" }}>
           <RandevoLogo />
           <span style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: 20, fontWeight: 700, letterSpacing: "-0.4px" }}>Randevo</span>
-        </div>
+        </Link>
 
         {/* Headline */}
         <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -128,12 +129,17 @@ export default function LoginPage() {
       <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 24px", position: "relative" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 600px 400px at 60% 30%, rgba(119,104,212,0.07) 0%, transparent 70%)", pointerEvents: "none" }} />
 
-        <div style={{ width: "100%", maxWidth: 400, position: "relative", zIndex: 1 }}>
+        <div style={{ 
+          width: "100%", maxWidth: 420, position: "relative", zIndex: 1,
+          background: "rgba(17, 17, 32, 0.5)", backdropFilter: "blur(32px)", WebkitBackdropFilter: "blur(32px)",
+          border: "1px solid rgba(119,104,212,0.2)", borderRadius: 24, padding: "44px 36px",
+          boxShadow: "0 0 60px rgba(119,104,212,0.1)"
+        }}>
           {/* Mobile logo */}
-          <div className="flex md:hidden items-center justify-center gap-2 mb-8">
+          <Link href="/" className="flex md:hidden items-center justify-center gap-2 mb-8 text-white no-underline">
             <RandevoLogo />
             <span style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: 20, fontWeight: 700 }}>Randevo</span>
-          </div>
+          </Link>
 
           <h3 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: 22, fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 6 }}>{t("loginTitle")}</h3>
           <p style={{ fontSize: 13, color: "#8a8aaa", marginBottom: 28 }}>{t("loginSubtitle")}</p>

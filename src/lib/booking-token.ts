@@ -6,9 +6,19 @@ import { SignJWT, jwtVerify } from "jose";
  * via a unique link without needing to log in.
  */
 
-const SECRET = new TextEncoder().encode(
-  process.env.AUTH_SECRET ?? "fallback-booking-token-secret-change-me"
-);
+function getBookingSecret(): Uint8Array {
+  const secret = process.env.AUTH_SECRET;
+  if (!secret) {
+    throw new Error(
+      "[booking-token] AUTH_SECRET is required. " +
+        "Set it in your .env file (generate with: openssl rand -base64 32). " +
+        "Refusing to use a fallback secret."
+    );
+  }
+  return new TextEncoder().encode(secret);
+}
+
+const SECRET = getBookingSecret();
 
 const ISSUER = "randevo-booking";
 const AUDIENCE = "booking-manage";

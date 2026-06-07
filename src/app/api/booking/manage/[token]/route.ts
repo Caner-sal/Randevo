@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { verifyBookingToken } from "@/lib/booking-token";
 import { NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
 
 /**
  * GET /api/booking/manage/[token]
@@ -41,7 +42,7 @@ export async function GET(
 
     return NextResponse.json({ data: appointment });
   } catch (err) {
-    console.error("[BOOKING MANAGE GET]", err);
+    logger.error("[BOOKING MANAGE GET]", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

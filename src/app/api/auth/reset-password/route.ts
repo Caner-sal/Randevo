@@ -70,6 +70,16 @@ export async function POST(req: Request) {
       where: { id: resetToken.id },
       data: { usedAt: new Date() },
     }),
+    // Invalidate all remaining unused password reset tokens for this user
+    db.passwordResetToken.updateMany({
+      where: { userId: resetToken.userId, usedAt: null, id: { not: resetToken.id } },
+      data: { usedAt: new Date() },
+    }),
+    // Revoke all mobile refresh tokens to force re-authentication
+    db.mobileRefreshToken.updateMany({
+      where: { userId: resetToken.userId, revokedAt: null },
+      data: { revokedAt: new Date() },
+    }),
   ]);
 
   return NextResponse.json({ message: "Şifreniz başarıyla sıfırlandı" }, { status: 200 });

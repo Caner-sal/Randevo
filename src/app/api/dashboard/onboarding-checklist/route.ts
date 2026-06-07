@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { getOnboardingChecklistSnapshot } from "@/services/onboarding-checklist.service";
 import { requireAuth, TenantError } from "@/lib/tenant";
 import { NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
 
 const OWNER_ROLES = new Set(["OWNER", "ADMIN"]);
 
@@ -31,7 +32,7 @@ export async function GET() {
     if (err instanceof TenantError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("dashboard/onboarding-checklist error", { err: err });
     return NextResponse.json({ error: "Sunucu hatasi" }, { status: 500 });
   }
 }

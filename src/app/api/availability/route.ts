@@ -3,6 +3,7 @@ import { requireAuth, TenantError } from "@/lib/tenant";
 import { availabilitySchema } from "@/lib/validators";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { logger } from "@/lib/logger";
 
 export async function GET(req: Request) {
   try {
@@ -23,7 +24,7 @@ export async function GET(req: Request) {
     if (err instanceof TenantError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("availability error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }
@@ -80,7 +81,7 @@ export async function POST(req: Request) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: err.issues }, { status: 400 });
     }
-    console.error(err);
+    logger.error("availability error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

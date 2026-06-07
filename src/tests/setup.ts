@@ -55,7 +55,11 @@ vi.mock("@/lib/db", () => ({
       create: vi.fn(),
       findUnique: vi.fn(),
       update: vi.fn(),
+      updateMany: vi.fn(),
       deleteMany: vi.fn(),
+    },
+    mobileRefreshToken: {
+      updateMany: vi.fn(),
     },
     $transaction: vi.fn(),
   },

@@ -87,7 +87,11 @@ export function verifyMobileAccessToken(token: string): MobileAccessTokenClaims 
   if (parts.length !== 3) return null;
   const [encodedHeader, encodedPayload, signature] = parts;
   const expected = hmacSha256(`${encodedHeader}.${encodedPayload}`);
-  if (signature !== expected) return null;
+
+  // Constant-time comparison to prevent timing side-channel attacks
+  const sigBuf = Buffer.from(signature ?? "", "base64url");
+  const expBuf = Buffer.from(expected, "base64url");
+  if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) return null;
 
   try {
     const header = JSON.parse(base64UrlDecode(encodedHeader)) as { alg?: string };

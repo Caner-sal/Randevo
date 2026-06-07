@@ -2,6 +2,8 @@ import { requireAuth } from "@/lib/tenant";
 import { getAnalytics } from "@/services/analytics.service";
 import { db } from "@/lib/db";
 import OnboardingChecklistCard from "@/components/dashboard/OnboardingChecklistCard";
+import { RevenueChart } from "@/components/dashboard/RevenueChart";
+import { AppointmentsChart } from "@/components/dashboard/AppointmentsChart";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
@@ -138,6 +140,18 @@ export default async function DashboardPage() {
           <p className="text-lg font-semibold text-foreground" style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)" }}>
             {analytics?.busiestStaffName ?? t("noData")}
           </p>
+        </div>
+      </div>
+
+      {/* Charts */}
+      <div className="grid md:grid-cols-2 gap-5">
+        <div className="bg-card border border-border rounded-2xl p-5">
+          <h3 className="text-sm font-semibold mb-4 text-foreground/80" style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)" }}>Tahmini Kazanç Analizi</h3>
+          <RevenueChart />
+        </div>
+        <div className="bg-card border border-border rounded-2xl p-5">
+          <h3 className="text-sm font-semibold mb-4 text-foreground/80" style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)" }}>Randevu Analizi</h3>
+          <AppointmentsChart />
         </div>
       </div>
 

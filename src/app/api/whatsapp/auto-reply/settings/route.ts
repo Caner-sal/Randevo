@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { requireAuth, TenantError } from "@/lib/tenant";
 import { whatsAppAutoReplySettingsSchema } from "@/lib/validators";
 import { NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
 
 const DEFAULT_TEMPLATE =
   "Merhaba 👋\nRandevu almak için linkimizi kullanabilirsiniz:\n{{bookingUrl}}\n\nBu linkten hizmet seçebilir, uygun saatleri görebilir ve randevunuzu oluşturabilirsiniz.\nİnsan desteği için bu mesaja yazmaya devam edebilirsiniz.";
@@ -34,7 +35,7 @@ export async function GET() {
     if (err instanceof TenantError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("whatsapp/auto-reply/settings error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }
@@ -88,7 +89,7 @@ export async function PATCH(req: Request) {
     if (err instanceof TenantError) {
       return NextResponse.json({ error: err.message }, { status: 403 });
     }
-    console.error(err);
+    logger.error("whatsapp/auto-reply/settings error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

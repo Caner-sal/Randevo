@@ -1,4 +1,6 @@
 import { db } from "@/lib/db";
+import { logger } from "@/lib/logger";
+import { consumeRateLimit, getClientIp, rateLimitHeaders } from "@/lib/rate-limit";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -11,6 +13,20 @@ const exportRequestSchema = z.object({
 
 export async function POST(req: Request) {
   try {
+    // Rate limit: 3 export requests per 15 minutes per IP
+    const ip = getClientIp(req.headers as Headers);
+    const rateLimit = consumeRateLimit({
+      key: `gdpr:export:${ip}`,
+      limit: 3,
+      windowMs: 15 * 60 * 1000,
+    });
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: "Çok fazla istek. Lütfen daha sonra tekrar deneyin." },
+        { status: 429, headers: rateLimitHeaders(rateLimit) }
+      );
+    }
+
     const body = await req.json();
     const parsed = exportRequestSchema.parse(body);
 
@@ -51,7 +67,7 @@ export async function POST(req: Request) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: err.issues }, { status: 400 });
     }
-    console.error(err);
+    logger.error("GDPR export request failed", { err });
     return NextResponse.json({ error: "İstek oluşturulamadı." }, { status: 500 });
   }
 }

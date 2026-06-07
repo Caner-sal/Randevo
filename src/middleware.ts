@@ -6,6 +6,7 @@ import {
   resolveRequestLocale,
 } from "@/i18n/request-locale";
 import { NextRequest, NextResponse } from "next/server";
+import { verifyCsrfOrigin } from "@/lib/csrf";
 
 const protectedRoutes = ["/dashboard", "/onboarding"];
 const adminRoutes = ["/admin"];
@@ -64,6 +65,14 @@ export default async function middleware(req: NextRequest) {
     internalPath === "/favicon.ico" ||
     publicFilePattern.test(internalPath)
   ) {
+    if (internalPath.startsWith("/api")) {
+      // CSRF protection for API routes (skip webhooks and cron)
+      if (!internalPath.startsWith("/api/webhooks") && !internalPath.startsWith("/api/cron")) {
+        const csrfResult = verifyCsrfOrigin(req);
+        if (csrfResult) return csrfResult;
+      }
+    }
+
     const requestHeaders = new Headers(req.headers);
     requestHeaders.set("x-request-id", requestId);
     return withRequestId(NextResponse.next({ request: { headers: requestHeaders } }), requestId);

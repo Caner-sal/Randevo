@@ -128,7 +128,7 @@ describe("registerSchema — registration input validation", () => {
   const validRegister = {
     name: "Ahmet Yılmaz",
     email: "owner@example.com",
-    password: "securepass123",
+    password: "SecurePass123!",
   };
 
   it("accepts valid registration input", () => {

@@ -1,6 +1,19 @@
 import nodemailer from "nodemailer";
 import type Mail from "nodemailer/lib/mailer";
 
+/**
+ * Escape HTML entities in user-supplied strings to prevent
+ * HTML injection in email templates.
+ */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 interface EmailPayload {
   to: string;
   subject: string;
@@ -129,13 +142,13 @@ export function buildReminderEmail(data: {
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2>Randevu Hatırlatma</h2>
-        <p>Merhaba ${data.customerName},</p>
+        <p>Merhaba ${escapeHtml(data.customerName)},</p>
         <p>Yaklaşan randevunuz için hatırlatma:</p>
         <table style="border-collapse: collapse; width: 100%;">
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>İşletme</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.businessName}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Hizmet</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.serviceName}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Çalışan</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.staffName}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Tarih & Saat</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${dateStr}</td></tr>
+          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>İşletme</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.businessName)}</td></tr>
+          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Hizmet</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.serviceName)}</td></tr>
+          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Çalışan</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.staffName)}</td></tr>
+          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Tarih & Saat</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(dateStr)}</td></tr>
         </table>
         <p style="margin-top: 20px;">Görüşmek üzere.</p>
         <p style="color: #888; font-size: 12px;">Randevo Randevu Sistemi</p>
@@ -176,13 +189,13 @@ export function buildBookingConfirmationEmail(data: {
         <!-- Header -->
         <div style="background: linear-gradient(135deg, #7768d4, #9b8ce8); padding: 32px 30px; border-radius: 12px 12px 0 0; text-align: center;">
           <h1 style="color: #ffffff; font-size: 22px; margin: 0 0 6px 0; font-weight: 700;">Randevunuz Onaylandı ✓</h1>
-          <p style="color: rgba(255,255,255,0.85); font-size: 14px; margin: 0;">${data.businessName}</p>
+          <p style="color: rgba(255,255,255,0.85); font-size: 14px; margin: 0;">${escapeHtml(data.businessName)}</p>
         </div>
 
         <!-- Body -->
         <div style="background: #ffffff; border: 1px solid #eaeaea; border-top: none; padding: 30px; border-radius: 0 0 12px 12px;">
           <p style="color: #333; font-size: 15px; line-height: 1.6; margin: 0 0 24px 0;">
-            Merhaba <strong>${data.customerName}</strong>,<br/>
+            Merhaba <strong>${escapeHtml(data.customerName)}</strong>,<br/>
             Randevunuz başarıyla oluşturuldu. İşte detaylar:
           </p>
 
@@ -190,15 +203,15 @@ export function buildBookingConfirmationEmail(data: {
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
             <tr>
               <td style="padding: 12px 14px; background: #f8f7fc; border-bottom: 1px solid #eee; font-size: 13px; color: #666; width: 120px;">Hizmet</td>
-              <td style="padding: 12px 14px; background: #f8f7fc; border-bottom: 1px solid #eee; font-size: 14px; color: #111; font-weight: 600;">${data.serviceName}</td>
+              <td style="padding: 12px 14px; background: #f8f7fc; border-bottom: 1px solid #eee; font-size: 14px; color: #111; font-weight: 600;">${escapeHtml(data.serviceName)}</td>
             </tr>
             <tr>
               <td style="padding: 12px 14px; border-bottom: 1px solid #eee; font-size: 13px; color: #666;">Çalışan</td>
-              <td style="padding: 12px 14px; border-bottom: 1px solid #eee; font-size: 14px; color: #111; font-weight: 600;">${data.staffName}</td>
+              <td style="padding: 12px 14px; border-bottom: 1px solid #eee; font-size: 14px; color: #111; font-weight: 600;">${escapeHtml(data.staffName)}</td>
             </tr>
             <tr>
               <td style="padding: 12px 14px; background: #f8f7fc; border-bottom: 1px solid #eee; font-size: 13px; color: #666;">Tarih & Saat</td>
-              <td style="padding: 12px 14px; background: #f8f7fc; border-bottom: 1px solid #eee; font-size: 14px; color: #111; font-weight: 600;">${dateStr}</td>
+              <td style="padding: 12px 14px; background: #f8f7fc; border-bottom: 1px solid #eee; font-size: 14px; color: #111; font-weight: 600;">${escapeHtml(dateStr)}</td>
             </tr>
             <tr>
               <td style="padding: 12px 14px; border-bottom: 1px solid #eee; font-size: 13px; color: #666;">Ücret</td>
@@ -236,9 +249,9 @@ export function buildCustomerPortalMagicLinkEmail(data: {
     html: `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 500px; margin: 0 auto; padding: 30px; border: 1px solid #eaeaea; border-radius: 12px; background-color: #ffffff;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #111120; font-size: 24px; margin: 0;">${data.businessName}</h1>
+          <h1 style="color: #111120; font-size: 24px; margin: 0;">${escapeHtml(data.businessName)}</h1>
         </div>
-        <h2 style="color: #333333; font-size: 20px; text-align: center; margin-bottom: 20px;">Hoş Geldiniz, ${data.customerName}!</h2>
+        <h2 style="color: #333333; font-size: 20px; text-align: center; margin-bottom: 20px;">Hoş Geldiniz, ${escapeHtml(data.customerName)}!</h2>
         <p style="color: #555555; font-size: 15px; line-height: 1.6; text-align: center; margin-bottom: 30px;">
           Geçmiş ve yaklaşan randevularınızı yönetmek için aşağıdaki butona tıklayarak giriş yapabilirsiniz. Bu bağlantı tek kullanımlıktır ve 30 dakika geçerlidir.
         </p>

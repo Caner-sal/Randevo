@@ -3,6 +3,7 @@ import { requireStaffAuth, StaffAuthError } from "@/lib/staff-auth";
 import { createAuditLog } from "@/services/audit.service";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { logger } from "@/lib/logger";
 
 const staffStatusSchema = z.object({
   status: z.enum(["COMPLETED", "NO_SHOW"]),
@@ -52,7 +53,7 @@ export async function PATCH(
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: err.issues }, { status: 400 });
     }
-    console.error(err);
+    logger.error("staff/me/appointments/:id/status error", { err: err });
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { logger } from "@/lib/logger";
 import { requireAuth, TenantError } from "@/lib/tenant";
 import { createAuditLog } from "@/services/audit.service";
-import { appointmentStatusSchema } from "@/lib/validators";
+import { appointmentStatusSchema, isValidStatusTransition } from "@/lib/validators";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -21,6 +21,16 @@ export async function PATCH(
     });
     if (!existing) {
       return NextResponse.json({ error: "Randevu bulunamadı" }, { status: 404 });
+    }
+
+    // Enforce appointment status state machine
+    if (!isValidStatusTransition(existing.status, parsed.status)) {
+      return NextResponse.json(
+        {
+          error: `Geçersiz durum geçişi: ${existing.status} → ${parsed.status} izin verilmiyor`,
+        },
+        { status: 422 }
+      );
     }
 
     const updated = await db.appointment.update({

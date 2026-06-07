@@ -1,6 +1,7 @@
 ﻿import { db } from "@/lib/db";
 import { isOrganizationPubliclyAvailable, isOrganizationSuspended } from "@/lib/organization-lifecycle";
 import { NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
 
 export async function GET(
   _req: Request,
@@ -41,7 +42,7 @@ export async function GET(
 
     return NextResponse.json({ data: profile });
   } catch (err) {
-    console.error(err);
+    logger.error("booking/:slug/profile error", { err: err });
     return NextResponse.json({ error: "Sunucu hatası" }, { status: 500 });
   }
 }

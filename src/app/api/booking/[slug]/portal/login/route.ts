@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { globalRateLimiter } from "@/lib/rate-limit";
 import { generateCustomerPortalToken, getCustomerPortalMagicLinkUrl } from "@/lib/booking-token";
 import { buildCustomerPortalMagicLinkEmail, sendEmail } from "@/lib/email";
+import { logger } from "@/lib/logger";
 
 export async function POST(
   req: Request,
@@ -53,7 +54,7 @@ export async function POST(
 
     return NextResponse.json({ success: true, message: "Giriş bağlantısı e-posta adresinize gönderildi." });
   } catch (error) {
-    console.error("Portal login error:", error);
+    logger.error("Portal login error:", { err: error });
     return NextResponse.json({ error: "Sunucu hatası oluştu." }, { status: 500 });
   }
 }

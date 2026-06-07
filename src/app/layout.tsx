@@ -1,9 +1,11 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessagesForLocale } from "@/i18n/request";
 import { localeCookieName, localeMetadata, resolveLocale } from "@/i18n/locales";
 import { getBaseUrl, localeAlternates } from "@/lib/seo/i18n";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import "./globals.css";
 
 
@@ -35,7 +37,10 @@ export default async function RootLayout({
     <html lang={locale} dir={localeMetadata[locale].direction} suppressHydrationWarning>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+            <ScrollProgress />
+            {children}
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -3,6 +3,14 @@ import { Link } from "@/i18n/navigation";
 import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
 import { getTranslations } from "next-intl/server";
 import { getMarketConfig } from "@/config/locale-market";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
+import InfiniteMarquee from "@/components/ui/InfiniteMarquee";
+import SpotlightCard from "@/components/ui/SpotlightCard";
+import TiltImage from "@/components/ui/TiltImage";
+import ROICalculator from "@/components/ui/ROICalculator";
+import TestimonialCarousel from "@/components/ui/TestimonialCarousel";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const RandevoLogo = () => (
   <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
@@ -148,6 +156,7 @@ export default async function HomePage() {
             <span style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: 20, fontWeight: 700, letterSpacing: "-0.4px" }}>Randevo</span>
           </Link>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <ThemeToggle />
             <LanguageSwitcher />
             <Link href="/login" style={{ padding: "7px 14px", borderRadius: 9, border: "1px solid rgba(119,104,212,0.18)", color: "#8a8aaa", fontSize: 14, fontWeight: 600, fontFamily: "var(--font-heading, Outfit, sans-serif)", transition: "all 0.18s" }}>
               {t("navSignIn")}
@@ -172,6 +181,7 @@ export default async function HomePage() {
         }} />
 
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 28px", position: "relative", zIndex: 1 }}>
+          <ScrollReveal delay={0.1}>
           {/* badge — TR only */}
           {isTurkey && (
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(119,104,212,0.1)", border: "1px solid rgba(119,104,212,0.28)", borderRadius: 100, padding: "5px 16px", marginBottom: 30 }}>
@@ -203,6 +213,8 @@ export default async function HomePage() {
             </Link>
           </div>
 
+          <TiltImage />
+
           {/* stats */}
           <div style={{ display: "flex", justifyContent: "center", gap: 60, flexWrap: "wrap", marginTop: 72, paddingTop: 44, borderTop: "1px solid rgba(119,104,212,0.1)" }}>
             {[
@@ -212,61 +224,76 @@ export default async function HomePage() {
               ["%94", t("statCompletion")],
             ].map(([num, label]) => (
               <div key={label} style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em" }}>{num}</div>
+                <div style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em" }}>
+                  <AnimatedCounter value={num} />
+                </div>
                 <div style={{ fontSize: 13, color: "#8a8aaa", marginTop: 4 }}>{label}</div>
               </div>
             ))}
           </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* ── INDUSTRIES ── */}
-      <section style={{ padding: "48px 0", textAlign: "center" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 28px" }}>
+      <section style={{ padding: "48px 0", textAlign: "center", overflow: "hidden" }}>
+        <ScrollReveal delay={0.1}>
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <p style={{ fontSize: 11, color: "#3a3a58", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, fontFamily: "var(--font-heading, Outfit, sans-serif)", marginBottom: 18 }}>{t("industriesLabel")}</p>
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10 }}>
+          <InfiniteMarquee>
             {[t("i1"), t("i2"), t("i3"), t("i4"), t("i5"), t("i6"), t("i7"), t("i8")].map((tag) => (
               <span key={tag} style={{ background: "#111120", border: "1px solid rgba(119,104,212,0.1)", borderRadius: 100, padding: "7px 18px", fontSize: 14, color: "#8a8aaa", fontWeight: 500 }}>{tag}</span>
             ))}
-          </div>
+          </InfiniteMarquee>
         </div>
+        </ScrollReveal>
       </section>
 
-      {/* ── FEATURES ── */}
+
+
       <section style={{ padding: "72px 0" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 28px" }}>
-          <p style={{ fontSize: 11, color: "#a59cf0", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, fontFamily: "var(--font-heading, Outfit, sans-serif)", marginBottom: 10 }}>{t("featuresLabel")}</p>
-          <h2 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: "clamp(26px,4vw,42px)", fontWeight: 700, letterSpacing: "-0.025em", marginBottom: 14 }}>{t("featuresTitle")}</h2>
-          <p style={{ fontSize: 16, color: "#8a8aaa", maxWidth: 520, lineHeight: 1.7, marginBottom: 52 }}>{t("featuresDesc")}</p>
+          <ScrollReveal delay={0.1}>
+            <p style={{ fontSize: 11, color: "#a59cf0", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, fontFamily: "var(--font-heading, Outfit, sans-serif)", marginBottom: 10 }}>{t("featuresLabel")}</p>
+            <h2 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: "clamp(26px,4vw,42px)", fontWeight: 700, letterSpacing: "-0.025em", marginBottom: 14 }}>{t("featuresTitle")}</h2>
+            <p style={{ fontSize: 16, color: "#8a8aaa", maxWidth: 520, lineHeight: 1.7, marginBottom: 52 }}>{t("featuresDesc")}</p>
+          </ScrollReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(268px, 1fr))", gap: 18 }}>
-            {featureCards.map((card) => (
-              <div key={card.title} style={{ background: "#111120", border: "1px solid rgba(119,104,212,0.1)", borderRadius: 20, padding: "26px", transition: "all 0.22s" }}>
-                <div style={{ width: 42, height: 42, background: "rgba(119,104,212,0.12)", borderRadius: 11, display: "grid", placeItems: "center", marginBottom: 16, color: "#a59cf0" }}>
-                  {card.icon}
-                </div>
-                <h3 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: 15, fontWeight: 600, marginBottom: 7 }}>{card.title}</h3>
-                <p style={{ fontSize: 13, color: "#8a8aaa", lineHeight: 1.65 }}>{card.desc}</p>
-              </div>
+            {featureCards.map((card, i) => (
+              <ScrollReveal key={card.title} delay={0.15 + i * 0.05} direction="up">
+                <SpotlightCard className="h-full p-[26px]">
+                  <div style={{ width: 42, height: 42, background: "rgba(119,104,212,0.12)", borderRadius: 11, display: "grid", placeItems: "center", marginBottom: 16, color: "#a59cf0" }}>
+                    {card.icon}
+                  </div>
+                  <h3 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: 15, fontWeight: 600, marginBottom: 7 }}>{card.title}</h3>
+                  <p style={{ fontSize: 13, color: "#8a8aaa", lineHeight: 1.65 }}>{card.desc}</p>
+                </SpotlightCard>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── PRICING ── */}
+      <ScrollReveal delay={0.2} direction="up">
+        <ROICalculator />
+      </ScrollReveal>
+
       <section style={{ padding: "72px 0", textAlign: "center" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 28px" }}>
-          <p style={{ fontSize: 11, color: "#a59cf0", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, fontFamily: "var(--font-heading, Outfit, sans-serif)", marginBottom: 10 }}>{t("pricingLabel")}</p>
-          <h2 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: "clamp(26px,4vw,42px)", fontWeight: 700, letterSpacing: "-0.025em", marginBottom: 10 }}>{t("pricingTitle")}</h2>
-          <p style={{ fontSize: 15, color: "#8a8aaa", marginBottom: 52 }}>{t("pricingDesc")}</p>
+          <ScrollReveal delay={0.1}>
+            <p style={{ fontSize: 11, color: "#a59cf0", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, fontFamily: "var(--font-heading, Outfit, sans-serif)", marginBottom: 10 }}>{t("pricingLabel")}</p>
+            <h2 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: "clamp(26px,4vw,42px)", fontWeight: 700, letterSpacing: "-0.025em", marginBottom: 10 }}>{t("pricingTitle")}</h2>
+            <p style={{ fontSize: 15, color: "#8a8aaa", marginBottom: 52 }}>{t("pricingDesc")}</p>
+          </ScrollReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18, maxWidth: 880, margin: "0 auto" }}>
-            {plans.map((p) => (
-              <div key={p.id} style={{
+            {plans.map((p, i) => (
+              <ScrollReveal key={p.id} delay={0.15 + i * 0.1} direction="up">
+                <SpotlightCard style={{
                 background: p.featured ? "linear-gradient(160deg, rgba(119,104,212,0.16), rgba(119,104,212,0.06))" : "#111120",
                 border: p.featured ? "1px solid rgba(119,104,212,0.38)" : "1px solid rgba(119,104,212,0.1)",
                 borderRadius: 20, padding: "30px 26px", textAlign: "left", position: "relative",
               }}>
                 {p.featured && (
-                  <div style={{ position: "absolute", top: -11, left: "50%", transform: "translateX(-50%)", background: "#7768d4", color: "#fff", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", padding: "3px 14px", borderRadius: 100, fontFamily: "var(--font-heading, Outfit, sans-serif)", whiteSpace: "nowrap" }}>
+                  <div style={{ position: "absolute", top: 16, right: 16, background: "rgba(119,104,212,0.15)", color: "#d49cf5", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", padding: "4px 10px", borderRadius: 8, fontFamily: "var(--font-heading, Outfit, sans-serif)", whiteSpace: "nowrap", border: "1px solid rgba(119,104,212,0.3)" }}>
                     {t("mostPopular")}
                   </div>
                 )}
@@ -293,15 +320,20 @@ export default async function HomePage() {
                 }}>
                   {p.cta}
                 </Link>
-              </div>
-            ))}
+              </SpotlightCard>
+            </ScrollReveal>
+          ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
+      <ScrollReveal delay={0.2} direction="left">
+        <TestimonialCarousel />
+      </ScrollReveal>
+
       <section style={{ padding: "72px 0" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 28px" }}>
+        <ScrollReveal delay={0.2}>
+          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 28px" }}>
           <div style={{ background: "linear-gradient(140deg, rgba(119,104,212,0.2) 0%, rgba(180,120,250,0.1) 100%)", border: "1px solid rgba(119,104,212,0.3)", borderRadius: 28, padding: "76px 48px", textAlign: "center" }}>
             <h2 style={{ fontFamily: "var(--font-heading, Outfit, sans-serif)", fontSize: "clamp(26px,4vw,44px)", fontWeight: 800, letterSpacing: "-0.025em", marginBottom: 12 }}>{t("ctaTitle")}</h2>
             <p style={{ fontSize: 16, color: "#8a8aaa", marginBottom: 36 }}>{t("ctaDesc")}</p>
@@ -313,8 +345,9 @@ export default async function HomePage() {
                 {t("ctaExplore")}
               </Link>
             </div>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* ── FOOTER ── */}

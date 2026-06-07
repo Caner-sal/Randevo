@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { processInboundWebhook } from "@/services/whatsapp-webhook.service";
 import crypto from "crypto";
+import { logger } from "@/lib/logger";
 
 // Meta WhatsApp Cloud API webhook verification
 export async function GET(req: Request) {
@@ -74,7 +75,7 @@ export async function POST(req: Request) {
                 data: { status: deliveryStatus as "SENT" | "FAILED" },
               });
             } catch (err) {
-              console.error("WhatsApp status update error:", err);
+              logger.error("WhatsApp status update error:", { err: err });
             }
           }
         }
@@ -87,7 +88,7 @@ export async function POST(req: Request) {
   try {
     await processInboundWebhook(body);
   } catch (err) {
-    console.error("WhatsApp inbound webhook error:", err);
+    logger.error("WhatsApp inbound webhook error:", { err: err });
   }
 
   // Always return 200 to Meta — never return 500

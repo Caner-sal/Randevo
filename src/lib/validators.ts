@@ -15,7 +15,16 @@ export type WhatsAppAutoReplySettingsInput = z.infer<typeof whatsAppAutoReplySet
 export const registerSchema = z.object({
   name: z.string().min(2, "Ad en az 2 karakter olmalıdır"),
   email: z.string().email("Geçerli bir e-posta adresi girin"),
-  password: z.string().min(8, "Şifre en az 8 karakter olmalıdır"),
+  password: z
+    .string()
+    .min(8, "Şifre en az 8 karakter olmalıdır")
+    .regex(/[A-Z]/, "Şifre en az bir büyük harf içermelidir")
+    .regex(/[a-z]/, "Şifre en az bir küçük harf içermelidir")
+    .regex(/[0-9]/, "Şifre en az bir rakam içermelidir")
+    .regex(
+      /[^A-Za-z0-9]/,
+      "Şifre en az bir özel karakter içermelidir (!@#$%^&* vb.)"
+    ),
 });
 
 export const loginSchema = z.object({
@@ -115,3 +124,26 @@ export type ServiceInput = z.infer<typeof serviceSchema>;
 export type StaffInput = z.infer<typeof staffSchema>;
 export type AvailabilityInput = z.infer<typeof availabilitySchema>;
 export type BookingInput = z.infer<typeof bookingSchema>;
+
+// ─── Appointment Status State Machine ─────────────────────────────────────────
+// Defines valid status transitions to prevent illogical state changes
+// (e.g. COMPLETED → PENDING, CANCELLED → CONFIRMED)
+
+type AppointmentStatusType = "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED" | "NO_SHOW";
+
+const VALID_TRANSITIONS: Record<AppointmentStatusType, AppointmentStatusType[]> = {
+  PENDING: ["CONFIRMED", "CANCELLED"],
+  CONFIRMED: ["COMPLETED", "CANCELLED", "NO_SHOW"],
+  COMPLETED: [], // final state
+  CANCELLED: [], // final state
+  NO_SHOW: [],   // final state
+};
+
+export function isValidStatusTransition(
+  from: string,
+  to: string,
+): boolean {
+  const allowed = VALID_TRANSITIONS[from as AppointmentStatusType];
+  if (!allowed) return false;
+  return allowed.includes(to as AppointmentStatusType);
+}
