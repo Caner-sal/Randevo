@@ -3,10 +3,11 @@ import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, TouchableOpacity,
 import { apiFetch } from "../api/client";
 import type { Appointment } from "../api/client";
 import { useI18n } from "../i18n";
+import { ArrowLeft, ChevronLeft, ChevronRight, Calendar as CalendarIcon, User, Scissors } from "lucide-react-native";
 
 interface Props {
   token: string;
-  onBack: () => void;
+  onBack?: () => void;
   onSelectAppointment: (id: string) => void;
 }
 
@@ -43,6 +44,7 @@ export default function CalendarScreen({ token, onBack, onSelectAppointment }: P
   const [mode, setMode] = useState<ViewMode>("week");
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
   const range = useMemo(() => {
@@ -51,64 +53,123 @@ export default function CalendarScreen({ token, onBack, onSelectAppointment }: P
     return { start, end };
   }, [currentDate, mode]);
 
+  const loadData = React.useCallback(async (isRefresh = false) => {
+    if (isRefresh) setRefreshing(true);
+    else setLoading(true);
+
+    try {
+      const res = await apiFetch<{ data: Appointment[] }>(
+        `/api/mobile/appointments?dateFrom=${range.start.toISOString()}&dateTo=${range.end.toISOString()}&limit=200`,
+        {},
+        token
+      );
+      setAppointments(res.data ?? []);
+    } catch {
+      Alert.alert(t("common_error"), t("appointments_load_error"));
+    } finally {
+      if (isRefresh) setRefreshing(false);
+      else setLoading(false);
+    }
+  }, [range.start, range.end, t, token]);
+
   useEffect(() => {
-    setLoading(true);
-    apiFetch<{ data: Appointment[] }>(
-      `/api/mobile/appointments?dateFrom=${range.start.toISOString()}&dateTo=${range.end.toISOString()}&limit=200`,
-      {},
-      token
-    )
-      .then((res) => setAppointments(res.data ?? []))
-      .catch(() => Alert.alert(t("common_error"), t("appointments_load_error")))
-      .finally(() => setLoading(false));
-  }, [range.end, range.start, t, token]);
+    loadData();
+  }, [loadData]);
+
+  const onRefresh = React.useCallback(() => {
+    loadData(true);
+  }, [loadData]);
+
+  const changeDate = (direction: "prev" | "next") => {
+    const days = mode === "day" ? 1 : 7;
+    const ms = direction === "prev" ? -days * 24 * 60 * 60 * 1000 : days * 24 * 60 * 60 * 1000;
+    setCurrentDate(new Date(currentDate.getTime() + ms));
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerRow}>
-        <TouchableOpacity onPress={onBack}>
-          <Text style={styles.back}>{t("common_back")}</Text>
-        </TouchableOpacity>
+      <View style={styles.header}>
+        {onBack ? (
+          <TouchableOpacity onPress={onBack} style={styles.backButton}>
+            <ArrowLeft color="#1e293b" size={24} />
+          </TouchableOpacity>
+        ) : <View style={{ width: 40 }} />}
         <Text style={styles.title}>{t("calendar_title")}</Text>
+        <View style={{ width: 40 }} />
       </View>
 
-      <View style={styles.controlsRow}>
-        <TouchableOpacity style={styles.controlButton} onPress={() => setCurrentDate(new Date(currentDate.getTime() - 24 * 60 * 60 * 1000))}>
-          <Text style={styles.controlText}>{"<"}</Text>
-        </TouchableOpacity>
-        <Text style={styles.rangeText}>
-          {range.start.toLocaleDateString(locale)} - {range.end.toLocaleDateString(locale)}
-        </Text>
-        <TouchableOpacity style={styles.controlButton} onPress={() => setCurrentDate(new Date(currentDate.getTime() + 24 * 60 * 60 * 1000))}>
-          <Text style={styles.controlText}>{">"}</Text>
-        </TouchableOpacity>
-      </View>
+      <View style={styles.controlsCard}>
+        <View style={styles.modeRow}>
+          <TouchableOpacity style={[styles.modeButton, mode === "day" && styles.modeButtonActive]} onPress={() => setMode("day")}>
+            <Text style={[styles.modeText, mode === "day" && styles.modeTextActive]}>{t("calendar_day")}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.modeButton, mode === "week" && styles.modeButtonActive]} onPress={() => setMode("week")}>
+            <Text style={[styles.modeText, mode === "week" && styles.modeTextActive]}>{t("calendar_week")}</Text>
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.modeRow}>
-        <TouchableOpacity style={[styles.modeButton, mode === "day" && styles.modeButtonActive]} onPress={() => setMode("day")}>
-          <Text style={[styles.modeText, mode === "day" && styles.modeTextActive]}>{t("calendar_day")}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.modeButton, mode === "week" && styles.modeButtonActive]} onPress={() => setMode("week")}>
-          <Text style={[styles.modeText, mode === "week" && styles.modeTextActive]}>{t("calendar_week")}</Text>
-        </TouchableOpacity>
+        <View style={styles.dateControlRow}>
+          <TouchableOpacity style={styles.iconButton} onPress={() => changeDate("prev")}>
+            <ChevronLeft color="#4f46e5" size={24} />
+          </TouchableOpacity>
+          <View style={styles.dateDisplay}>
+            <CalendarIcon color="#64748b" size={16} />
+            <Text style={styles.rangeText}>
+              {mode === "day" 
+                ? range.start.toLocaleDateString(locale, { day: "numeric", month: "long" })
+                : `${range.start.toLocaleDateString(locale, { day: "numeric", month: "short" })} - ${range.end.toLocaleDateString(locale, { day: "numeric", month: "short" })}`
+              }
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.iconButton} onPress={() => changeDate("next")}>
+            <ChevronRight color="#4f46e5" size={24} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 26 }} size="large" color="#2563eb" />
+        <ActivityIndicator style={{ marginTop: 40 }} size="large" color="#4f46e5" />
       ) : appointments.length === 0 ? (
-        <Text style={styles.empty}>{t("appointments_empty")}</Text>
+        <FlatList
+          data={[]}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          contentContainerStyle={styles.emptyContainer}
+          ListEmptyComponent={() => (
+            <>
+              <CalendarIcon color="#cbd5e1" size={64} style={{ marginBottom: 16 }} />
+              <Text style={styles.emptyText}>{t("appointments_empty")}</Text>
+            </>
+          )}
+          renderItem={null}
+        />
       ) : (
         <FlatList
           data={appointments}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ padding: 24, paddingTop: 8 }}
+          showsVerticalScrollIndicator={false}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.card} onPress={() => onSelectAppointment(item.id)}>
-              <Text style={styles.customer}>{item.customer.fullName}</Text>
-              <Text style={styles.service}>{item.service.name}</Text>
-              <Text style={styles.time}>
-                {new Date(item.startTime).toLocaleString(locale, { dateStyle: "short", timeStyle: "short" })}
-              </Text>
+            <TouchableOpacity style={styles.card} onPress={() => onSelectAppointment(item.id)} activeOpacity={0.7}>
+              <View style={styles.cardLeft}>
+                <View style={styles.timeBox}>
+                  <Text style={styles.timeTextLarge}>
+                    {new Date(item.startTime).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" })}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.cardRight}>
+                <View style={styles.detailRow}>
+                  <User color="#475569" size={14} />
+                  <Text style={styles.customer}>{item.customer.fullName}</Text>
+                </View>
+                <View style={styles.detailRow}>
+                  <Scissors color="#64748b" size={14} />
+                  <Text style={styles.service}>{item.service.name}</Text>
+                </View>
+              </View>
             </TouchableOpacity>
           )}
         />
@@ -118,31 +179,28 @@ export default function CalendarScreen({ token, onBack, onSelectAppointment }: P
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f8fafc", padding: 20 },
-  headerRow: { flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 14 },
-  back: { color: "#2563eb", fontSize: 15 },
-  title: { fontSize: 20, fontWeight: "700", color: "#111827" },
-  controlsRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 12 },
-  controlButton: { backgroundColor: "#fff", borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8 },
-  controlText: { color: "#2563eb", fontWeight: "700", fontSize: 16 },
-  rangeText: { color: "#111827", fontWeight: "600", fontSize: 13 },
-  modeRow: { flexDirection: "row", gap: 8, marginBottom: 14 },
-  modeButton: { borderRadius: 999, borderWidth: 1, borderColor: "#d1d5db", paddingVertical: 6, paddingHorizontal: 14, backgroundColor: "#fff" },
-  modeButtonActive: { borderColor: "#2563eb", backgroundColor: "#eff6ff" },
-  modeText: { color: "#6b7280", fontSize: 12, fontWeight: "600" },
-  modeTextActive: { color: "#2563eb" },
-  empty: { color: "#9ca3af", textAlign: "center", marginTop: 40 },
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 14,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-  customer: { fontSize: 15, fontWeight: "700", color: "#111827" },
-  service: { fontSize: 13, color: "#6b7280", marginTop: 2 },
-  time: { fontSize: 12, color: "#9ca3af", marginTop: 2 },
+  container: { flex: 1, backgroundColor: "#f8fafc" },
+  header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingTop: 60, paddingBottom: 20, paddingHorizontal: 24, backgroundColor: "#fff", borderBottomWidth: 1, borderBottomColor: "#f1f5f9" },
+  backButton: { width: 40, height: 40, justifyContent: "center", alignItems: "flex-start" },
+  title: { fontSize: 20, fontFamily: "Inter_700Bold", color: "#1e293b" },
+  controlsCard: { backgroundColor: "#fff", margin: 24, padding: 16, borderRadius: 20, shadowColor: "#000", shadowOpacity: 0.04, shadowRadius: 10, shadowOffset: { width: 0, height: 4 }, elevation: 3, marginBottom: 16 },
+  modeRow: { flexDirection: "row", backgroundColor: "#f1f5f9", borderRadius: 12, padding: 4, marginBottom: 16 },
+  modeButton: { flex: 1, paddingVertical: 10, borderRadius: 10, alignItems: "center" },
+  modeButtonActive: { backgroundColor: "#fff", shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 4, shadowOffset: { width: 0, height: 2 }, elevation: 2 },
+  modeText: { color: "#64748b", fontFamily: "Inter_600SemiBold", fontSize: 14 },
+  modeTextActive: { color: "#4f46e5" },
+  dateControlRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  iconButton: { width: 44, height: 44, backgroundColor: "#eef2ff", borderRadius: 12, justifyContent: "center", alignItems: "center" },
+  dateDisplay: { flexDirection: "row", alignItems: "center", gap: 8 },
+  rangeText: { color: "#1e293b", fontFamily: "Inter_700Bold", fontSize: 15 },
+  emptyContainer: { flex: 1, justifyContent: "center", alignItems: "center", paddingHorizontal: 40 },
+  emptyText: { color: "#94a3b8", textAlign: "center", fontFamily: "Inter_500Medium", fontSize: 16 },
+  card: { backgroundColor: "#fff", borderRadius: 20, padding: 16, marginBottom: 12, flexDirection: "row", shadowColor: "#000", shadowOpacity: 0.03, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 2 },
+  cardLeft: { paddingRight: 16, borderRightWidth: 1, borderRightColor: "#f1f5f9", justifyContent: "center" },
+  timeBox: { backgroundColor: "#f8fafc", padding: 8, borderRadius: 10, alignItems: "center", justifyContent: "center" },
+  timeTextLarge: { fontSize: 15, fontFamily: "Inter_700Bold", color: "#4f46e5" },
+  cardRight: { flex: 1, paddingLeft: 16, justifyContent: "center", gap: 6 },
+  detailRow: { flexDirection: "row", alignItems: "center", gap: 6 },
+  customer: { fontSize: 15, fontFamily: "Inter_600SemiBold", color: "#1e293b" },
+  service: { fontSize: 13, fontFamily: "Inter_400Regular", color: "#64748b" },
 });

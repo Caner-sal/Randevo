@@ -66,8 +66,12 @@ export default async function middleware(req: NextRequest) {
     publicFilePattern.test(internalPath)
   ) {
     if (internalPath.startsWith("/api")) {
-      // CSRF protection for API routes (skip webhooks and cron)
-      if (!internalPath.startsWith("/api/webhooks") && !internalPath.startsWith("/api/cron")) {
+      // CSRF protection for API routes (skip webhooks, cron, and mobile APIs)
+      if (
+        !internalPath.startsWith("/api/webhooks") &&
+        !internalPath.startsWith("/api/cron") &&
+        !internalPath.startsWith("/api/mobile")
+      ) {
         const csrfResult = verifyCsrfOrigin(req);
         if (csrfResult) return csrfResult;
       }

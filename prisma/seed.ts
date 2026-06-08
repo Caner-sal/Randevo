@@ -325,6 +325,91 @@ async function main() {
     },
   });
 
+  // Create dummy customers
+  const customer1 = await prisma.customer.upsert({
+    where: { id: "customer-demo-1" },
+    update: {
+      organizationId: org.id,
+      fullName: "Ahmet Demir",
+      email: "ahmet@example.com",
+      phone: "+90 555 222 2222",
+    },
+    create: {
+      id: "customer-demo-1",
+      organizationId: org.id,
+      fullName: "Ahmet Demir",
+      email: "ahmet@example.com",
+      phone: "+90 555 222 2222",
+    },
+  });
+
+  const customer2 = await prisma.customer.upsert({
+    where: { id: "customer-demo-2" },
+    update: {
+      organizationId: org.id,
+      fullName: "Mehmet Kaya",
+      email: "mehmet@example.com",
+      phone: "+90 555 333 3333",
+    },
+    create: {
+      id: "customer-demo-2",
+      organizationId: org.id,
+      fullName: "Mehmet Kaya",
+      email: "mehmet@example.com",
+      phone: "+90 555 333 3333",
+    },
+  });
+
+  // Create appointments for today and tomorrow
+  const now = new Date();
+  
+  const todayAt14 = new Date(now);
+  todayAt14.setHours(14, 0, 0, 0);
+
+  const tomorrowAt10 = new Date(now);
+  tomorrowAt10.setDate(now.getDate() + 1);
+  tomorrowAt10.setHours(10, 0, 0, 0);
+
+  await prisma.appointment.upsert({
+    where: { id: "apt-demo-1" },
+    update: {
+      status: "CONFIRMED",
+      startTime: todayAt14,
+      endTime: new Date(todayAt14.getTime() + haircut.durationMinutes * 60000),
+    },
+    create: {
+      id: "apt-demo-1",
+      organizationId: org.id,
+      locationId: DEMO_WORKSPACE.ids.location,
+      staffId: staffAli.id,
+      customerId: customer1.id,
+      serviceId: haircut.id,
+      status: "CONFIRMED",
+      startTime: todayAt14,
+      endTime: new Date(todayAt14.getTime() + haircut.durationMinutes * 60000),
+    },
+  });
+
+  await prisma.appointment.upsert({
+    where: { id: "apt-demo-2" },
+    update: {
+      status: "PENDING",
+      startTime: tomorrowAt10,
+      endTime: new Date(tomorrowAt10.getTime() + combo.durationMinutes * 60000),
+    },
+    create: {
+      id: "apt-demo-2",
+      organizationId: org.id,
+      locationId: DEMO_WORKSPACE.ids.location,
+      staffId: staffAli.id,
+      customerId: customer2.id,
+      serviceId: combo.id,
+      status: "PENDING",
+      startTime: tomorrowAt10,
+      endTime: new Date(tomorrowAt10.getTime() + combo.durationMinutes * 60000),
+    },
+  });
+
   const paymentCountAfter = await prisma.payment.count({
     where: { organizationId: org.id },
   });

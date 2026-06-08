@@ -1,31 +1,155 @@
-﻿import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { useFonts, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from "@expo-google-fonts/inter";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Home, CalendarDays, Calendar as CalendarIcon, User } from "lucide-react-native";
+
 import LoginScreen from "./src/screens/LoginScreen";
 import DashboardScreen from "./src/screens/DashboardScreen";
 import AppointmentsScreen from "./src/screens/AppointmentsScreen";
 import AppointmentDetailScreen from "./src/screens/AppointmentDetailScreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
-import { I18nProvider } from "./src/i18n";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import { I18nProvider, useI18n } from "./src/i18n";
 import { clearSession, loadSession, saveSession, toSession } from "./src/auth/session";
 import type { MobileSession } from "./src/auth/session";
 import type { MobileAuthPayload } from "./src/api/client";
 import { mobileLogout, mobileRefresh } from "./src/api/client";
 
+type MainTabParamList = {
+  DashboardTab: undefined;
+  AppointmentsTab: undefined;
+  CalendarTab: undefined;
+  ProfileTab: undefined;
+};
+
 type RootStackParamList = {
   Login: undefined;
-  Dashboard: undefined;
-  Appointments: undefined;
+  MainTabs: undefined;
+  TodayAppointments: undefined;
   AppointmentDetail: { id: string };
-  Calendar: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<MainTabParamList>();
+
+function SplashScreen() {
+  return (
+    <View style={splashStyles.container}>
+      <ActivityIndicator size="large" color="#4f46e5" />
+    </View>
+  );
+}
+
+const splashStyles = StyleSheet.create({
+  container: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#f8fafc" },
+});
+
+// Main Tabs Component
+function MainTabs({ session, refreshKey, onLogout }: { session: MobileSession, refreshKey: number, onLogout: () => void }) {
+  const { t } = useI18n();
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#4f46e5",
+        tabBarInactiveTintColor: "#94a3b8",
+        tabBarStyle: {
+          backgroundColor: "#ffffff",
+          borderTopWidth: 1,
+          borderTopColor: "#f1f5f9",
+          paddingBottom: 8,
+          paddingTop: 8,
+          height: 64,
+          elevation: 10,
+          shadowColor: "#000",
+          shadowOpacity: 0.05,
+          shadowRadius: 10,
+        },
+        tabBarLabelStyle: {
+          fontFamily: "Inter_600SemiBold",
+          fontSize: 12,
+        }
+      }}
+    >
+      <Tab.Screen 
+        name="DashboardTab" 
+        options={{ 
+          title: t("tab_home"),
+          tabBarIcon: ({ color, size }) => <Home color={color} size={size} />
+        }}
+      >
+        {({ navigation }) => (
+          <DashboardScreen
+            session={session}
+            onOpenAppointments={() => navigation.navigate("AppointmentsTab")}
+            onOpenTodayAppointments={() => navigation.getParent()?.navigate("TodayAppointments")}
+          />
+        )}
+      </Tab.Screen>
+      <Tab.Screen 
+        name="AppointmentsTab" 
+        options={{ 
+          title: t("tab_appointments"),
+          tabBarIcon: ({ color, size }) => <CalendarDays color={color} size={size} />
+        }}
+      >
+        {({ navigation }) => (
+          <AppointmentsScreen
+            token={session.accessToken}
+            refreshKey={refreshKey}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onSelectAppointment={(id) => (navigation.getParent() as any)?.navigate("AppointmentDetail", { id })}
+          />
+        )}
+      </Tab.Screen>
+      <Tab.Screen 
+        name="CalendarTab" 
+        options={{ 
+          title: t("tab_calendar"),
+          tabBarIcon: ({ color, size }) => <CalendarIcon color={color} size={size} />
+        }}
+      >
+        {({ navigation }) => (
+          <CalendarScreen
+            token={session.accessToken}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onSelectAppointment={(id) => (navigation.getParent() as any)?.navigate("AppointmentDetail", { id })}
+          />
+        )}
+      </Tab.Screen>
+      <Tab.Screen 
+        name="ProfileTab" 
+        options={{ 
+          title: t("tab_profile"),
+          tabBarIcon: ({ color, size }) => <User color={color} size={size} />
+        }}
+      >
+        {() => (
+          <ProfileScreen
+            session={session}
+            onLogout={onLogout}
+          />
+        )}
+      </Tab.Screen>
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
   const [booting, setBooting] = useState(true);
   const [session, setSession] = useState<MobileSession | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+  
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -78,6 +202,10 @@ export default function App() {
     }
   }
 
+  const handleStatusChanged = useCallback(() => {
+    setRefreshKey((k) => k + 1);
+  }, []);
+
   const canUpdateStatus = useMemo(() => session?.roles.appRole !== "STAFF_MEMBER", [session?.roles.appRole]);
 
   return (
@@ -85,28 +213,29 @@ export default function App() {
       <StatusBar style="auto" />
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {booting ? (
-            <Stack.Screen name="Login" component={() => null} />
+          {(booting || !fontsLoaded) ? (
+            <Stack.Screen name="Login" component={SplashScreen} />
           ) : !session ? (
             <Stack.Screen name="Login">
               {() => <LoginScreen onLogin={handleLogin} />}
             </Stack.Screen>
           ) : (
             <>
-              <Stack.Screen name="Dashboard">
-                {({ navigation }) => (
-                  <DashboardScreen
-                    session={session}
-                    onOpenAppointments={() => navigation.navigate("Appointments")}
-                    onOpenCalendar={() => navigation.navigate("Calendar")}
-                    onLogout={handleLogout}
+              <Stack.Screen name="MainTabs">
+                {() => (
+                  <MainTabs 
+                    session={session} 
+                    refreshKey={refreshKey} 
+                    onLogout={handleLogout} 
                   />
                 )}
               </Stack.Screen>
-              <Stack.Screen name="Appointments">
+              <Stack.Screen name="TodayAppointments">
                 {({ navigation }) => (
                   <AppointmentsScreen
                     token={session.accessToken}
+                    todayOnly
+                    refreshKey={refreshKey}
                     onSelectAppointment={(id) => navigation.navigate("AppointmentDetail", { id })}
                     onBack={() => navigation.goBack()}
                   />
@@ -119,15 +248,7 @@ export default function App() {
                     token={session.accessToken}
                     canUpdateStatus={Boolean(canUpdateStatus)}
                     onBack={() => navigation.goBack()}
-                  />
-                )}
-              </Stack.Screen>
-              <Stack.Screen name="Calendar">
-                {({ navigation }) => (
-                  <CalendarScreen
-                    token={session.accessToken}
-                    onBack={() => navigation.goBack()}
-                    onSelectAppointment={(id) => navigation.navigate("AppointmentDetail", { id })}
+                    onStatusChanged={handleStatusChanged}
                   />
                 )}
               </Stack.Screen>
@@ -138,4 +259,3 @@ export default function App() {
     </I18nProvider>
   );
 }
-
