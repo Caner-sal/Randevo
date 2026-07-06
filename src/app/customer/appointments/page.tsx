@@ -98,8 +98,8 @@ export default function CustomerAppointmentsPage() {
     <div className="min-h-screen bg-background">
       <header className="bg-card border-b border-border">
         <div className="max-w-3xl mx-auto px-4 py-6">
-          <Link href="/discover" className="text-primary text-sm hover:underline">
-            ← Keşfete Dön
+          <Link href="/marketplace" className="text-primary text-sm hover:underline">
+            ← Marketplace&apos;e Dön
           </Link>
           <h1 className="text-2xl font-bold text-foreground mt-1">Randevularım</h1>
           <p className="text-muted-foreground text-sm mt-0.5">{session.user?.email}</p>
@@ -139,7 +139,7 @@ export default function CustomerAppointmentsPage() {
             </p>
             {tab === "upcoming" && (
               <Link
-                href="/discover"
+                href="/marketplace"
                 className="inline-block mt-4 bg-primary text-primary-foreground px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
               >
                 İşletme Keşfet

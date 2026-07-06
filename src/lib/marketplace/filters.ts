@@ -2,6 +2,7 @@ export interface MarketplaceFilterState {
   q: string;
   category: string;
   province: string;
+  district?: string;
   countryCode: string;
   locality: string;
 }
@@ -22,6 +23,9 @@ export function buildMarketplaceQueryParams(state: MarketplaceFilterState): URLS
   }
   if (trSelected && state.province) {
     params.set("province", state.province);
+  }
+  if (trSelected && state.district) {
+    params.set("district", state.district);
   }
   if (!trSelected && state.locality) {
     params.set("locality", state.locality);

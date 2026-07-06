@@ -2,7 +2,17 @@
 
 All notable changes to Randevo are documented here.
 
-## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-3
+## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-4
+
+### REDESIGN-4 — Discover/Marketplace Consolidation & Redesign
+
+- Retired `/discover`, `/discover/business/[slug]`, and `/api/discover/search` — `/marketplace` is now the single, fully bilingual public search experience. Added permanent redirects in `next.config.ts` (`/discover` → `/marketplace`, `/discover/business/:slug` → `/marketplace/:slug`) so old links keep working.
+- Extended `/api/marketplace` (additive, non-breaking): added TR district filtering (previously only available on the retired discover API), broadened `q` to search name/description/category, added try/catch with a structured `MARKETPLACE_SEARCH_FAILED` error code (never leaks raw Prisma errors), added `district` to the select. Ported the discover→marketplace error-handling regression test (`checkout-discover-error-regression.test.ts`) and added new district-filter test coverage.
+- Added `src/components/discover/`: `BusinessResultCard` (single shared card, replacing 3 near-duplicate inline implementations across `marketplace/page.tsx`, `marketplace/location/[country]/[city]/page.tsx`, and the old discover `BusinessCard`), `DiscoverSearchPanel` (glass search-panel shell), `LocationPulseMap` (decorative location accent, no Maps API key).
+- Rewrote `src/app/marketplace/page.tsx`: TR gets province+district selects (feature parity restored from the retired discover page), non-TR keeps `AddressAutocomplete`; new empty state ("Bu bölgede henüz uygun işletme yok. / Farklı bir konum veya kategori deneyebilirsin.") per the source plan, loading skeleton, error banner with retry, clear-filters action.
+- Fully i18n'd `marketplace/[slug]/page.tsx` (previously hardcoded English) and `marketplace/location/[country]/[city]/page.tsx` (previously mixed hardcoded English/Turkish) — 22 new `marketplace` namespace keys added across all 10 locales with full parity.
+- Fixed `AddressAutocomplete`'s literal white/gray/blue dropdown onto tokens.
+- Verified live: search panel (TR district select + non-TR autocomplete), results grid, business detail page, empty state, and the `/discover` → `/marketplace` redirect — all working, zero console errors.
 
 ### REDESIGN-3 — Landing Page Redesign
 

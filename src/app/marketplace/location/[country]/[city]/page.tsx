@@ -1,6 +1,7 @@
-﻿/* eslint-disable @next/next/no-img-element */
-import { db } from "@/lib/db";
-import Link from "next/link";
+﻿import { db } from "@/lib/db";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { BusinessResultCard } from "@/components/discover/BusinessResultCard";
 import type { Metadata } from "next";
 
 interface Props {
@@ -10,13 +11,14 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { country, city } = await params;
   return {
-    title: `${city.toUpperCase()} (${country.toUpperCase()}) Businesses - Randevo Marketplace`,
-    description: `Explore businesses in ${city} (${country}) and book online appointments.`,
+    title: `${city.toUpperCase()} (${country.toUpperCase()}) — Randevo Marketplace`,
+    description: `${city} (${country})`,
   };
 }
 
 export default async function MarketplaceCountryCityPage({ params }: Props) {
   const { country, city } = await params;
+  const t = await getTranslations("marketplace");
   const countryCode = country.toUpperCase();
   const locality = decodeURIComponent(city);
 
@@ -57,6 +59,8 @@ export default async function MarketplaceCountryCityPage({ params }: Props) {
       description: true,
       category: true,
       city: true,
+      province: true,
+      district: true,
       coverImageUrl: true,
       logoUrl: true,
       _count: { select: { services: { where: { isActive: true } } } },
@@ -67,53 +71,36 @@ export default async function MarketplaceCountryCityPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-card border-b border-border">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <Link href="/marketplace" className="text-primary text-sm hover:underline">
-            ← Marketplace
+      <header className="border-b border-border bg-card">
+        <div className="mx-auto max-w-6xl px-4 py-6">
+          <Link href="/marketplace" className="text-sm text-primary hover:underline">
+            ← {t("backToMarketplace")}
           </Link>
-          <h1 className="text-3xl font-bold text-foreground mt-2">
+          <h1 className="mt-2 text-3xl font-bold text-foreground">
             {locality} ({countryCode})
           </h1>
-          <p className="text-muted-foreground mt-1">Marketplace sonuçları</p>
+          <p className="mt-1 text-muted-foreground">{t("locationResultsSubtitle")}</p>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="mx-auto max-w-6xl px-4 py-8">
         {orgs.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-muted-foreground text-lg">Henüz listelenmiş işletme yok.</p>
+          <div className="py-16 text-center">
+            <p className="text-lg text-foreground">{t("emptyStateTitle")}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{t("emptyStateHint")}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {orgs.map((biz) => (
-              <Link key={biz.id} href={`/marketplace/${biz.slug}`}>
-                <div className="bg-card rounded-xl border border-border hover:shadow-md transition-shadow p-5 h-full">
-                  {biz.coverImageUrl && (
-                    <img src={biz.coverImageUrl} alt={biz.name} className="w-full h-32 object-cover rounded-lg mb-4" />
-                  )}
-                  <div className="flex items-center gap-3 mb-2">
-                    {biz.logoUrl && (
-                      <img src={biz.logoUrl} alt="" className="w-10 h-10 rounded-full object-cover" />
-                    )}
-                    <h2 className="font-semibold text-foreground">{biz.name}</h2>
-                  </div>
-                  {biz.description && (
-                    <p className="text-muted-foreground text-sm line-clamp-2 mb-3">{biz.description}</p>
-                  )}
-                  <div className="flex flex-wrap gap-2 text-xs">
-                    {biz.category && (
-                      <span className="bg-primary/10 text-primary px-2 py-1 rounded-full">{biz.category}</span>
-                    )}
-                    {biz.city && (
-                      <span className="bg-muted text-muted-foreground px-2 py-1 rounded-full">{biz.city}</span>
-                    )}
-                    <span className="bg-green-500/10 text-green-500 px-2 py-1 rounded-full">
-                      {biz._count.services} hizmet
-                    </span>
-                  </div>
-                </div>
-              </Link>
+              <BusinessResultCard
+                key={biz.id}
+                business={{ ...biz, serviceCount: biz._count.services }}
+                strings={{
+                  serviceCountLabel: t("service"),
+                  noReviewsLabel: t("noReviewsYet"),
+                  ctaLabel: t("bookCta"),
+                }}
+              />
             ))}
           </div>
         )}

@@ -17,6 +17,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      { source: "/discover", destination: "/marketplace", permanent: true },
+      { source: "/discover/business/:slug", destination: "/marketplace/:slug", permanent: true },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);

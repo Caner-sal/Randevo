@@ -154,36 +154,38 @@ describe("addressProviderLog — non-blocking logging (FIXERR-4)", () => {
   });
 });
 
-// ── FIXERR-5: discover/search error handling ──────────────────────────────────
+// ── FIXERR-5 / REDESIGN-4: marketplace search error handling ──────────────────
+// /discover was consolidated into /marketplace (REDESIGN-4) — this suite now
+// guards the same try-catch/structured-error/retry-button behavior on the
+// merged route and page instead of the retired discover-only ones.
 
-describe("discover/search — try-catch and structured errors (FIXERR-5)", () => {
-  const discoverRoute = fs.readFileSync(
-    path.join(root, "src/app/api/discover/search/route.ts"),
+describe("marketplace search — try-catch and structured errors (FIXERR-5/REDESIGN-4)", () => {
+  const marketplaceRoute = fs.readFileSync(
+    path.join(root, "src/app/api/marketplace/route.ts"),
     "utf-8"
   );
-  const discoverPage = fs.readFileSync(
-    path.join(root, "src/app/discover/page.tsx"),
+  const marketplacePage = fs.readFileSync(
+    path.join(root, "src/app/marketplace/page.tsx"),
     "utf-8"
   );
 
   it("API route has try-catch wrapping all DB calls", () => {
-    expect(discoverRoute).toContain("try {");
-    expect(discoverRoute).toContain("} catch (err) {");
+    expect(marketplaceRoute).toContain("try {");
+    expect(marketplaceRoute).toContain("} catch (err) {");
   });
 
   it("API route returns structured error (not raw Prisma message)", () => {
-    expect(discoverRoute).toContain("DISCOVER_SEARCH_FAILED");
-    expect(discoverRoute).toContain("Arama yapılırken bir sorun oluştu");
-    expect(discoverRoute).toContain("status: 500");
+    expect(marketplaceRoute).toContain("MARKETPLACE_SEARCH_FAILED");
+    expect(marketplaceRoute).toContain("status: 500");
   });
 
   it("API route does not expose err.message directly in response", () => {
-    expect(discoverRoute).not.toContain("err.message");
+    expect(marketplaceRoute).not.toContain("err.message");
   });
 
-  it("discover page has retry button in error state", () => {
-    expect(discoverPage).toContain("Tekrar Dene");
-    expect(discoverPage).toContain("handleSearch");
+  it("marketplace page has retry button in error state", () => {
+    expect(marketplacePage).toContain('t("retryLabel")');
+    expect(marketplacePage).toContain("runSearch");
   });
 });
 

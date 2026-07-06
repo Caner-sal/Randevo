@@ -218,7 +218,33 @@ describe("Marketplace API — TR market assertions", () => {
     expect(where).not.toHaveProperty("province");
   });
 
-  it("query parameter q filters by business name across all markets", async () => {
+  it("TR + district applies district filter (REDESIGN-4)", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mockNormalizedAddressFindMany.mockResolvedValueOnce([] as any);
+    mockOrgFindMany.mockResolvedValueOnce([]);
+
+    const trReq = new Request("http://localhost/api/marketplace?country=TR&district=kadikoy");
+    await GET(trReq);
+
+    const trCallArgs = mockOrgFindMany.mock.calls[0]?.[0] as { where?: { AND?: unknown[] } } | undefined;
+    expect(trCallArgs?.where?.AND).toEqual(
+      expect.arrayContaining([{ district: "kadikoy" }]),
+    );
+  });
+
+  it("non-TR + district does not apply district filter (REDESIGN-4)", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mockNormalizedAddressFindMany.mockResolvedValueOnce([] as any);
+    mockOrgFindMany.mockResolvedValueOnce([]);
+
+    const nonTrReq = new Request("http://localhost/api/marketplace?country=FR&district=kadikoy");
+    await GET(nonTrReq);
+
+    const nonTrCallArgs = mockOrgFindMany.mock.calls[0]?.[0] as { where?: { AND?: unknown[] } } | undefined;
+    expect(nonTrCallArgs?.where?.AND ?? []).not.toContainEqual({ district: "kadikoy" });
+  });
+
+  it("query parameter q filters by business name, description, and category across all markets (REDESIGN-4)", async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mockNormalizedAddressFindMany.mockResolvedValueOnce([] as any);
     mockOrgFindMany.mockResolvedValueOnce([]);
@@ -230,7 +256,13 @@ describe("Marketplace API — TR market assertions", () => {
       expect.objectContaining({
         where: expect.objectContaining({
           AND: expect.arrayContaining([
-            expect.objectContaining({ name: { contains: "testbiz" } }),
+            expect.objectContaining({
+              OR: expect.arrayContaining([
+                { name: { contains: "testbiz" } },
+                { description: { contains: "testbiz" } },
+                { category: { contains: "testbiz" } },
+              ]),
+            }),
           ]),
         }),
       }),
