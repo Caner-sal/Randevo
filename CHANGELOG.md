@@ -2,7 +2,12 @@
 
 All notable changes to Randevo are documented here.
 
-## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-1
+## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-2
+
+### REDESIGN-2 — Shared Premium UI Components
+
+- Added `src/components/ui/brand/`: `GlowCard` (glass/blur variants), `GradientButton` (primaryGlow/secondaryGlass/ghost/danger/success/premium variants, hover-lift + active-scale micro-interaction), `MetricCard` (single shared "big number" card — replaces the 3 duplicate metric-card patterns documented in the REDESIGN-0 audit), `FeatureCard`, `SectionHeader`, `PulseDot` (reduced-motion-safe pulsing indicator), `OrbitLines` (decorative SVG motif).
+- All components compose on top of the existing `cn()`/`cva` conventions from `src/components/ui/` and the new REDESIGN-1 tokens — no existing component was replaced or modified.
 
 ### REDESIGN-1 — Brand Tokens & Global Background
 
