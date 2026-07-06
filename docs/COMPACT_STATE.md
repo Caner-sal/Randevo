@@ -1,6 +1,51 @@
 # Randevo Compact State
 
-_Last updated: 2026-05-17_
+_Last updated: 2026-07-06_
+
+## 2026-07-06 REDESIGN-0+1 — Premium UI Redesign Checkpoint
+
+Branch: `feature/global-address-locale`
+Plan: `RANDEVO_PREMIUM_UI_REDESIGN_PLAN.md` (Turkish), execution plan approved via plan-mode at `C:\Users\caner\.claude\plans\mossy-meandering-bear.md`
+
+### Kullanıcı Onaylı Kararlar (tüm redesign fazları için geçerli)
+
+- **Discover/Marketplace:** `/discover` kaldırılacak, `/marketplace` tek marketplace deneyimi olacak (REDESIGN-4'te uygulanacak).
+- **Pacing:** REDESIGN-0→5 tam otomatik; REDESIGN-6 (billing) öncesi ve REDESIGN-9 release tag/push öncesi kullanıcıdan onay beklenecek.
+- **Typography:** next/font ile gerçek heading webfont'u yüklendi (aşağıya bakın).
+
+### Tamamlanan Fazlar
+
+- **REDESIGN-0 (Audit):** `docs/ui-redesign-audit.md` oluşturuldu. 3 paralel Explore agent ile landing/discover/marketplace, dashboard/analytics/billing, staff/admin+security tooling incelendi. Ana bulgular: landing page tamamen inline-hex stil (token sistemiyle duplike), `/discover` vs `/marketplace` iki paralel implementasyon, 3 farklı ad-hoc metric-card deseni, proje geneli dark-theme renk kalıntısı bug'ı (`bg-*-100`/`bg-*-50` class'ları OS `prefers-color-scheme`'e bağlı, app'in kendi sabit koyu temasından bağımsız), staff/admin'de sıfır a11y, iki ölü dosya (`dashboard/header.tsx`/`sidebar.tsx`).
+- **REDESIGN-1 (Brand Tokens):** `src/styles/tokens.css` (additive: secondary-accent cyan, warm-accent amber, success, card-elevated, glow shadow + motion-duration değişkenleri, prefers-reduced-motion scaffold), `src/lib/design/tokens.ts`, `src/components/ui/brand/BrandBackground.tsx` eklendi. `globals.css`'e katmanlı radial-gradient glow (body background) + ölü Outfit/Nunito font referansı düzeltmesi: `next/font/google` ile Inter Tight yüklendi (`layout.tsx`), `--font-heading-sans` üzerinden `--font-heading`'e bağlandı — mevcut 12 dosyadaki `var(--font-heading, ...)` kullanımları hiç değiştirilmeden otomatik olarak yeni fontu alıyor.
+
+### Doğrulama (Playwright ile canlı dev server üzerinde)
+
+- Heading font: `"Inter Tight", "Inter Tight Fallback", ...` doğru resolve oluyor (ekran görüntüsüyle doğrulandı — belirgin şekilde farklı bir görünüm).
+- Body background: katmanlı radial-gradient doğru uygulanıyor (mevcut haliyle landing page kendi opak inline background'ları ile üstünü kapatıyor — bu REDESIGN-3'te düzelecek, beklenen durum).
+- Console error yok.
+- **Windows ortam notu:** Port 3000 önceden başka bir process tarafından kullanılıyordu (muhtemelen önceki oturumdan kalan, aynı process Prisma query-engine dosya kilidine de neden oluyor olabilir) — dev server otomatik olarak 3001'e düştü. Doğrulama bunu tespit edip doğru portu test etti.
+
+### Verification Snapshot (REDESIGN-1)
+
+- `npm run check:node` PASS
+- `npm run check:secrets` PASS
+- `npm run validate:skills` PASS
+- `npm run typecheck` PASS
+- `npm run lint` PASS
+- `npm test` PASS (74 dosya, 549 test)
+- `npm run build` PASS (Inter Tight Google Fonts fetch build-time'da başarılı)
+- `node ./node_modules/prisma/build/index.js validate` PASS
+- `node ./node_modules/prisma/build/index.js generate` — Windows dosya kilidi (EPERM, muhtemelen port 3000'deki stale process) nedeniyle bu fazda tekrar edilemedi; şema değişikliği yapılmadığı için engelleyici değil (mevcut generate edilmiş client zaten build/test'te doğrulandı).
+
+### Devam Edecek Fazlar
+
+- REDESIGN-2: Shared premium UI components (GlowCard, GradientButton, MetricCard, FeatureCard, SectionHeader, PulseDot, OrbitLines) — mevcut `src/components/ui/` primitive'lerinin üzerine kompozisyon olarak.
+- REDESIGN-3: Landing page redesign (bu faz REDESIGN-1'in arka plan/font altyapısını gerçekten görünür kılacak).
+- REDESIGN-4: `/discover` → `/marketplace` konsolidasyonu + redesign.
+- REDESIGN-5: Dashboard command center + ölü dosya temizliği.
+- **Checkpoint:** REDESIGN-6 (billing/analytics) öncesi kullanıcı onayı bekleniyor.
+
+---
 
 ## 2026-05-17 FIXERR-0→3 — Checkout Auth + DATABASE_URL Validation Checkpoint
 
