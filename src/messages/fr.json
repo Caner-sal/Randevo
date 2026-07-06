@@ -285,7 +285,18 @@
     "businessSettings": "Entreprise Parametres",
     "openBookingPage": "Open Reservation Page",
     "recentTransactions": "Transactions récentes",
-    "noTransactions": "Aucune transaction pour le moment."
+    "noTransactions": "Aucune transaction pour le moment.",
+    "commandCenterHeadlineActive": "Votre activité semble animée aujourd'hui.",
+    "commandCenterHeadlineCalm": "C'est une journée calme jusqu'à présent.",
+    "commandCenterAppointmentsToday": "{count} rendez-vous aujourd'hui",
+    "commandCenterPendingCustomers": "{count} clients en attente",
+    "timelineTitle": "Chronologie du jour",
+    "timelineEmpty": "Aucun rendez-vous prévu pour aujourd'hui pour le moment.",
+    "suggestionsTitle": "Suggestions intelligentes",
+    "suggestionPendingConfirm": "{count} rendez-vous sont en attente de confirmation.",
+    "suggestionNoShowReminder": "{count} absences ce mois-ci — vérifiez vos paramètres de rappel.",
+    "suggestionHighCancellation": "Le taux d'annulation est de {rate}% ce mois-ci — cela mérite un coup d'œil.",
+    "suggestionAllGood": "Tout semble se dérouler comme prévu aujourd'hui."
   },
   "appointments": {
     "title": "Rendez-vous",

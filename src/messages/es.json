@@ -285,7 +285,18 @@
     "businessSettings": "Negocio Configuracion",
     "openBookingPage": "Open Reserva Page",
     "recentTransactions": "Transacciones recientes",
-    "noTransactions": "Aún no hay transacciones."
+    "noTransactions": "Aún no hay transacciones.",
+    "commandCenterHeadlineActive": "Tu negocio se ve ocupado hoy.",
+    "commandCenterHeadlineCalm": "Hasta ahora es un día tranquilo.",
+    "commandCenterAppointmentsToday": "{count} citas hoy",
+    "commandCenterPendingCustomers": "{count} clientes pendientes",
+    "timelineTitle": "Línea de tiempo de hoy",
+    "timelineEmpty": "Aún no hay citas programadas para hoy.",
+    "suggestionsTitle": "Sugerencias inteligentes",
+    "suggestionPendingConfirm": "{count} citas están esperando confirmación.",
+    "suggestionNoShowReminder": "{count} ausencias este mes — revisa la configuración de tus recordatorios.",
+    "suggestionHighCancellation": "La tasa de cancelación es del {rate}% este mes — vale la pena revisarlo.",
+    "suggestionAllGood": "Todo parece ir bien hoy."
   },
   "appointments": {
     "title": "Citas",

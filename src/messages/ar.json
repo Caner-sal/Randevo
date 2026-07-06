@@ -432,7 +432,18 @@
     "businessSettings": "إعدادات العمل",
     "openBookingPage": "فتح صفحة الحجز",
     "recentTransactions": "آخر المعاملات",
-    "noTransactions": "لا توجد معاملات بعد."
+    "noTransactions": "لا توجد معاملات بعد.",
+    "commandCenterHeadlineActive": "يبدو أن عملك مزدحم اليوم.",
+    "commandCenterHeadlineCalm": "إنه يوم هادئ حتى الآن.",
+    "commandCenterAppointmentsToday": "{count} موعد اليوم",
+    "commandCenterPendingCustomers": "{count} عميل في الانتظار",
+    "timelineTitle": "الجدول الزمني لليوم",
+    "timelineEmpty": "لا توجد مواعيد مجدولة لليوم بعد.",
+    "suggestionsTitle": "اقتراحات ذكية",
+    "suggestionPendingConfirm": "{count} موعد في انتظار التأكيد.",
+    "suggestionNoShowReminder": "{count} حالة عدم حضور هذا الشهر — تحقق من إعدادات التذكير.",
+    "suggestionHighCancellation": "معدل الإلغاء هذا الشهر {rate}% — يستحق الاطلاع.",
+    "suggestionAllGood": "كل شيء يبدو على المسار الصحيح اليوم."
   },
   "billing": {
     "loading": "جار تحميل معلومات الاشتراك...",

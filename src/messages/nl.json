@@ -285,7 +285,18 @@
     "businessSettings": "bedrijf instellingen",
     "openBookingPage": "Open boeking Page",
     "recentTransactions": "Recente transacties",
-    "noTransactions": "Nog geen transacties."
+    "noTransactions": "Nog geen transacties.",
+    "commandCenterHeadlineActive": "Je bedrijf lijkt vandaag druk.",
+    "commandCenterHeadlineCalm": "Het is tot nu toe een rustige dag.",
+    "commandCenterAppointmentsToday": "{count} afspraken vandaag",
+    "commandCenterPendingCustomers": "{count} wachtende klanten",
+    "timelineTitle": "Tijdlijn van vandaag",
+    "timelineEmpty": "Er zijn nog geen afspraken gepland voor vandaag.",
+    "suggestionsTitle": "Slimme suggesties",
+    "suggestionPendingConfirm": "{count} afspraken wachten op bevestiging.",
+    "suggestionNoShowReminder": "{count} no-shows deze maand — controleer je herinneringsinstellingen.",
+    "suggestionHighCancellation": "Het annuleringspercentage is {rate}% deze maand — de moeite van het bekijken waard.",
+    "suggestionAllGood": "Vandaag lijkt alles op schema te liggen."
   },
   "appointments": {
     "title": "Afspraken",

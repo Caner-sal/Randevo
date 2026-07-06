@@ -285,7 +285,18 @@
     "businessSettings": "Attivita Impostazioni",
     "openBookingPage": "Open Prenotazione Page",
     "recentTransactions": "Transazioni recenti",
-    "noTransactions": "Nessuna transazione ancora."
+    "noTransactions": "Nessuna transazione ancora.",
+    "commandCenterHeadlineActive": "La tua attività sembra impegnata oggi.",
+    "commandCenterHeadlineCalm": "Finora è una giornata tranquilla.",
+    "commandCenterAppointmentsToday": "{count} appuntamenti oggi",
+    "commandCenterPendingCustomers": "{count} clienti in attesa",
+    "timelineTitle": "Cronologia di oggi",
+    "timelineEmpty": "Nessun appuntamento ancora programmato per oggi.",
+    "suggestionsTitle": "Suggerimenti intelligenti",
+    "suggestionPendingConfirm": "{count} appuntamenti sono in attesa di conferma.",
+    "suggestionNoShowReminder": "{count} assenze questo mese — controlla le impostazioni dei promemoria.",
+    "suggestionHighCancellation": "Il tasso di cancellazione è del {rate}% questo mese — vale la pena dare un'occhiata.",
+    "suggestionAllGood": "Oggi va tutto secondo i piani."
   },
   "appointments": {
     "title": "Appuntamenti",

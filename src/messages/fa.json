@@ -285,7 +285,18 @@
     "businessSettings": "کسب‌وکار تنظیمات",
     "openBookingPage": "Open رزرو Page",
     "recentTransactions": "تراکنش‌های اخیر",
-    "noTransactions": "هنوز تراکنشی وجود ندارد."
+    "noTransactions": "هنوز تراکنشی وجود ندارد.",
+    "commandCenterHeadlineActive": "کسب‌وکار شما امروز شلوغ به نظر می‌رسد.",
+    "commandCenterHeadlineCalm": "تا الان روز آرامی بوده است.",
+    "commandCenterAppointmentsToday": "{count} نوبت امروز",
+    "commandCenterPendingCustomers": "{count} مشتری در انتظار",
+    "timelineTitle": "برنامه زمانی امروز",
+    "timelineEmpty": "هنوز نوبتی برای امروز برنامه‌ریزی نشده است.",
+    "suggestionsTitle": "پیشنهادهای هوشمند",
+    "suggestionPendingConfirm": "{count} نوبت در انتظار تأیید هستند.",
+    "suggestionNoShowReminder": "{count} عدم حضور در این ماه — تنظیمات یادآوری خود را بررسی کنید.",
+    "suggestionHighCancellation": "نرخ لغو در این ماه {rate}% است — ارزش بررسی دارد.",
+    "suggestionAllGood": "امروز همه چیز روبه‌راه به نظر می‌رسد."
   },
   "appointments": {
     "title": "نوبت‌ها",

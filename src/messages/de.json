@@ -432,7 +432,18 @@
     "businessSettings": "Unternehmenseinstellungen",
     "openBookingPage": "Buchungsseite öffnen",
     "recentTransactions": "Letzte Transaktionen",
-    "noTransactions": "Noch keine Transaktionen."
+    "noTransactions": "Noch keine Transaktionen.",
+    "commandCenterHeadlineActive": "Ihr Unternehmen wirkt heute geschäftig.",
+    "commandCenterHeadlineCalm": "Bisher ist es ein ruhiger Tag.",
+    "commandCenterAppointmentsToday": "{count} Termine heute",
+    "commandCenterPendingCustomers": "{count} wartende Kunden",
+    "timelineTitle": "Heutiger Zeitplan",
+    "timelineEmpty": "Für heute sind noch keine Termine geplant.",
+    "suggestionsTitle": "Intelligente Vorschläge",
+    "suggestionPendingConfirm": "{count} Termine warten auf Bestätigung.",
+    "suggestionNoShowReminder": "{count} Nichterscheinen in diesem Monat — überprüfen Sie Ihre Erinnerungseinstellungen.",
+    "suggestionHighCancellation": "Die Stornoquote liegt diesen Monat bei {rate}% — ein Blick lohnt sich.",
+    "suggestionAllGood": "Heute läuft alles nach Plan."
   },
   "billing": {
     "loading": "Abonnementinformationen werden geladen...",

@@ -285,7 +285,18 @@
     "businessSettings": "Business Settings",
     "openBookingPage": "Open Booking Page",
     "recentTransactions": "Recent Transactions",
-    "noTransactions": "No transactions yet."
+    "noTransactions": "No transactions yet.",
+    "commandCenterHeadlineActive": "Your business looks busy today.",
+    "commandCenterHeadlineCalm": "It's a quiet day so far.",
+    "commandCenterAppointmentsToday": "{count} appointments today",
+    "commandCenterPendingCustomers": "{count} pending customers",
+    "timelineTitle": "Today's Timeline",
+    "timelineEmpty": "No appointments scheduled for today yet.",
+    "suggestionsTitle": "Smart Suggestions",
+    "suggestionPendingConfirm": "{count} appointments are waiting for confirmation.",
+    "suggestionNoShowReminder": "{count} no-shows this month — check your reminder settings.",
+    "suggestionHighCancellation": "Cancellation rate is {rate}% this month — worth a look.",
+    "suggestionAllGood": "Everything looks on track today."
   },
   "appointments": {
     "title": "Appointments",

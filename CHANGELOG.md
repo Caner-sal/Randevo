@@ -2,7 +2,15 @@
 
 All notable changes to Randevo are documented here.
 
-## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-4
+## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-5
+
+### REDESIGN-5 — Dashboard Command Center Redesign
+
+- Replaced the 3 duplicate ad-hoc metric-card implementations (`StatCard` inline-hex component, unnamed inline `bg-card` divs, and analytics' `BigStat` is next in REDESIGN-6) in `src/app/dashboard/page.tsx` with the shared `MetricCard` from REDESIGN-2.
+- Added `src/components/dashboard/TodayCommandCenter.tsx` (real-data hero banner — today's appointment/pending-customer counts, not marketing mockup data), `AppointmentTimeline.tsx` (today's appointments list, dark-safe status badges), `SmartSuggestions.tsx` (rule-based hints derived from existing analytics data — deliberately not an AI/LLM call, per the source plan's "akıllı öneriler, AI hissi vermeden" instruction).
+- Extended `src/services/analytics.service.ts` additively: `pendingTodayCount` on `getAnalytics`, new `getTodayAppointments()` for the timeline — both backed by real Prisma queries, covered by new tests (`analytics-today-appointments.test.ts`).
+- Deleted confirmed-dead files `src/components/dashboard/header.tsx` and `sidebar.tsx` (unused duplicates of the live `src/components/Header.tsx`/`Sidebar.tsx`, verified unreferenced).
+- Restyled Quick Actions and Recent Transactions panels onto tokens (from inline hex styles), using lucide icons in place of hand-rolled inline SVGs.
 
 ### REDESIGN-4 — Discover/Marketplace Consolidation & Redesign
 

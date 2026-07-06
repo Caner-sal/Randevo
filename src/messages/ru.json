@@ -285,7 +285,18 @@
     "businessSettings": "бизнес настройки",
     "openBookingPage": "Open бронирование Page",
     "recentTransactions": "Последние транзакции",
-    "noTransactions": "Пока нет транзакций."
+    "noTransactions": "Пока нет транзакций.",
+    "commandCenterHeadlineActive": "Сегодня ваш бизнес выглядит оживленным.",
+    "commandCenterHeadlineCalm": "Пока что это спокойный день.",
+    "commandCenterAppointmentsToday": "{count} записей сегодня",
+    "commandCenterPendingCustomers": "{count} клиентов в ожидании",
+    "timelineTitle": "Расписание на сегодня",
+    "timelineEmpty": "На сегодня пока не запланировано ни одной записи.",
+    "suggestionsTitle": "Умные предложения",
+    "suggestionPendingConfirm": "{count} записей ожидают подтверждения.",
+    "suggestionNoShowReminder": "{count} неявок в этом месяце — проверьте настройки напоминаний.",
+    "suggestionHighCancellation": "Процент отмен в этом месяце составляет {rate}% — стоит обратить внимание.",
+    "suggestionAllGood": "Сегодня все идет по плану."
   },
   "appointments": {
     "title": "Записи",

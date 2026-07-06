@@ -285,7 +285,18 @@
     "businessSettings": "İşletme Ayarları",
     "openBookingPage": "Rezervasyon Sayfasını Aç",
     "recentTransactions": "Son İşlemler",
-    "noTransactions": "Henüz işlem yok."
+    "noTransactions": "Henüz işlem yok.",
+    "commandCenterHeadlineActive": "Bugün işletmen hareketli görünüyor.",
+    "commandCenterHeadlineCalm": "Bugün sakin görünüyor.",
+    "commandCenterAppointmentsToday": "Bugün {count} randevu",
+    "commandCenterPendingCustomers": "{count} bekleyen müşteri",
+    "timelineTitle": "Bugünün Akışı",
+    "timelineEmpty": "Bugün için henüz randevu yok.",
+    "suggestionsTitle": "Akıllı Öneriler",
+    "suggestionPendingConfirm": "{count} randevu onay bekliyor.",
+    "suggestionNoShowReminder": "Bu ay {count} gelmeyen müşteri var — hatırlatma ayarlarını kontrol et.",
+    "suggestionHighCancellation": "Bu ay iptal oranı %{rate} — göz atmakta fayda var.",
+    "suggestionAllGood": "Bugün her şey yolunda görünüyor."
   },
   "appointments": {
     "title": "Randevular",

@@ -13,6 +13,7 @@ export async function getAnalytics(organizationId: string) {
 
   const [
     todayCount,
+    pendingTodayCount,
     weekCount,
     monthCount,
     cancelledCount,
@@ -23,6 +24,9 @@ export async function getAnalytics(organizationId: string) {
     busiestStaff,
   ] = await Promise.all([
     db.appointment.count({ where: { organizationId, startTime: { gte: startOfToday, lte: endOfToday } } }),
+    db.appointment.count({
+      where: { organizationId, status: "PENDING", startTime: { gte: startOfToday, lte: endOfToday } },
+    }),
     db.appointment.count({ where: { organizationId, startTime: { gte: startOfWeek } } }),
     db.appointment.count({ where: { organizationId, startTime: { gte: startOfMonth, lte: endOfMonth } } }),
     db.appointment.count({ where: { organizationId, status: "CANCELLED", startTime: { gte: startOfMonth, lte: endOfMonth } } }),
@@ -64,6 +68,7 @@ export async function getAnalytics(organizationId: string) {
 
   return {
     todayAppointments: todayCount,
+    pendingTodayCount,
     weekAppointments: weekCount,
     monthAppointments: monthCount,
     cancelledCount,
@@ -73,4 +78,43 @@ export async function getAnalytics(organizationId: string) {
     topServiceName,
     busiestStaffName,
   };
+}
+
+export interface TodayAppointmentSummary {
+  id: string;
+  startTime: Date;
+  status: string;
+  serviceName: string;
+  staffName: string;
+  customerName: string;
+}
+
+/** Small ordered list of today's appointments, used by the dashboard timeline. */
+export async function getTodayAppointments(organizationId: string): Promise<TodayAppointmentSummary[]> {
+  const now = new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const endOfToday = new Date(startOfToday.getTime() + 24 * 60 * 60 * 1000 - 1);
+
+  const appointments = await db.appointment.findMany({
+    where: { organizationId, startTime: { gte: startOfToday, lte: endOfToday } },
+    select: {
+      id: true,
+      startTime: true,
+      status: true,
+      service: { select: { name: true } },
+      staff: { select: { name: true } },
+      customer: { select: { fullName: true } },
+    },
+    orderBy: { startTime: "asc" },
+    take: 8,
+  });
+
+  return appointments.map((a) => ({
+    id: a.id,
+    startTime: a.startTime,
+    status: a.status,
+    serviceName: a.service.name,
+    staffName: a.staff.name,
+    customerName: a.customer.fullName,
+  }));
 }
