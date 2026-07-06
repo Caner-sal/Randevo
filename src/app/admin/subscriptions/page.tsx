@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AdminStatCard } from "@/components/admin/AdminStatCard";
+import { AdminPagination } from "@/components/admin/AdminPagination";
 
 type SubscriptionItem = {
   id: string;
@@ -97,7 +99,8 @@ export default function AdminSubscriptionsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
         <select
-          className="border rounded px-3 py-2 text-sm"
+          aria-label="Plan filtrele"
+          className="rounded border border-border bg-card px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           value={plan}
           onChange={(e) => setPlan(e.target.value as (typeof PLAN_OPTIONS)[number])}
         >
@@ -107,7 +110,8 @@ export default function AdminSubscriptionsPage() {
         </select>
 
         <select
-          className="border rounded px-3 py-2 text-sm"
+          aria-label="Durum filtrele"
+          className="rounded border border-border bg-card px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           value={status}
           onChange={(e) => setStatus(e.target.value as (typeof STATUS_OPTIONS)[number])}
         >
@@ -116,12 +120,17 @@ export default function AdminSubscriptionsPage() {
           ))}
         </select>
 
-        <button className="px-3 py-2 rounded bg-gray-900 text-white text-sm" onClick={() => void load(null)}>
+        <button
+          type="button"
+          className="rounded bg-primary px-3 py-2 text-sm text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          onClick={() => void load(null)}
+        >
           Filtrele
         </button>
 
         <button
-          className="px-3 py-2 rounded border text-sm"
+          type="button"
+          className="rounded border border-border px-3 py-2 text-sm text-foreground/90 transition-colors hover:bg-muted/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           onClick={() => {
             setPlan("ALL");
             setStatus("ALL");
@@ -136,15 +145,19 @@ export default function AdminSubscriptionsPage() {
 
       {summary ? (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          <StatCard label="Toplam Abonelik" value={summary.totalSubscriptions} />
-          <StatCard label="Aktif Abonelik" value={summary.activeSubscriptions} />
-          <StatCard label="Ödeme Bekleyen" value={summary.paymentPendingAccounts} danger={summary.paymentPendingAccounts > 0} />
-          <StatCard label="Starter" value={summary.planDistribution.STARTER} />
-          <StatCard label="Pro" value={summary.planDistribution.PRO} />
+          <AdminStatCard label="Toplam Abonelik" value={summary.totalSubscriptions} />
+          <AdminStatCard label="Aktif Abonelik" value={summary.activeSubscriptions} />
+          <AdminStatCard label="Ödeme Bekleyen" value={summary.paymentPendingAccounts} danger={summary.paymentPendingAccounts > 0} />
+          <AdminStatCard label="Starter" value={summary.planDistribution.STARTER} />
+          <AdminStatCard label="Pro" value={summary.planDistribution.PRO} />
         </div>
       ) : null}
 
-      {error ? <div className="text-sm text-red-600">{error}</div> : null}
+      {error ? (
+        <div className="text-sm text-destructive" role="alert">
+          {error}
+        </div>
+      ) : null}
 
       {loading ? (
         <div className="text-sm text-muted-foreground">Yükleniyor...</div>
@@ -184,31 +197,14 @@ export default function AdminSubscriptionsPage() {
         </div>
       )}
 
-      <div className="flex items-center gap-2">
-        <button
-          className="px-3 py-2 text-sm rounded border disabled:opacity-50"
-          onClick={() => void load(cursor)}
-          disabled={!cursor}
-        >
-          Yeniden Yükle
-        </button>
-        <button
-          className="px-3 py-2 text-sm rounded border disabled:opacity-50"
-          onClick={() => void load(data?.pagination.nextCursor ?? null)}
-          disabled={!data?.pagination.nextCursor}
-        >
-          Sonraki Sayfa
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({ label, value, danger }: { label: string; value: number; danger?: boolean }) {
-  return (
-    <div className="bg-card rounded border p-4">
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <p className={`text-2xl font-bold mt-1 ${danger ? "text-red-600" : "text-foreground"}`}>{value}</p>
+      <AdminPagination
+        onReload={() => void load(cursor)}
+        onNext={() => void load(data?.pagination.nextCursor ?? null)}
+        canReload={Boolean(cursor)}
+        canGoNext={Boolean(data?.pagination.nextCursor)}
+        reloadLabel="Yeniden Yükle"
+        nextLabel="Sonraki Sayfa"
+      />
     </div>
   );
 }

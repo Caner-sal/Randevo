@@ -141,14 +141,14 @@ export default function SettingsPage() {
       </div>
 
       {bookingUrl && (
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-          <p className="text-xs text-blue-600 font-semibold uppercase tracking-wider mb-1">{t("bookingUrl")}</p>
+        <div className="bg-secondary-accent/10 border border-secondary-accent/20 rounded-xl p-4">
+          <p className="text-xs text-secondary-accent font-semibold uppercase tracking-wider mb-1">{t("bookingUrl")}</p>
           <div className="flex items-center gap-3">
-            <code className="text-sm text-blue-300 break-all flex-1">{bookingUrl}</code>
+            <code className="text-sm text-foreground break-all flex-1">{bookingUrl}</code>
             <button
               type="button"
               onClick={() => navigator.clipboard.writeText(bookingUrl)}
-              className="shrink-0 text-blue-400 hover:text-blue-300 text-xs font-medium px-2 py-1 rounded hover:bg-blue-500/10 transition-colors"
+              className="shrink-0 text-secondary-accent hover:text-secondary-accent/80 text-xs font-medium px-2 py-1 rounded hover:bg-secondary-accent/10 transition-colors"
             >
               {t("copy")}
             </button>
@@ -162,12 +162,12 @@ export default function SettingsPage() {
         </div>
         <div className="p-6 space-y-5">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">
+            <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm rounded-lg px-4 py-3">
               {error}
             </div>
           )}
           {saved && (
-            <div className="bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg px-4 py-3">
+            <div className="bg-success/10 border border-success/20 text-success text-sm rounded-lg px-4 py-3">
               {t("saveSuccess")}
             </div>
           )}

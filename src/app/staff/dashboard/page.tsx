@@ -48,7 +48,7 @@ export default function StaffDashboardPage() {
 
   if (error || !data) {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-sm text-red-700">
+      <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-6 text-sm text-destructive">
         {error ?? "Failed to load staff dashboard"}
       </div>
     );
@@ -67,11 +67,11 @@ export default function StaffDashboardPage() {
         </div>
         <div className="rounded-lg border bg-card p-4">
           <p className="text-sm text-muted-foreground">This week</p>
-          <p className="mt-1 text-3xl font-bold text-blue-700">{data.metrics.weekAppointments}</p>
+          <p className="mt-1 text-3xl font-bold text-secondary-accent">{data.metrics.weekAppointments}</p>
         </div>
         <div className="rounded-lg border bg-card p-4">
           <p className="text-sm text-muted-foreground">Completed</p>
-          <p className="mt-1 text-3xl font-bold text-green-700">{data.metrics.completedAppointments}</p>
+          <p className="mt-1 text-3xl font-bold text-success">{data.metrics.completedAppointments}</p>
         </div>
         <div className="rounded-lg border bg-card p-4">
           <p className="text-sm text-muted-foreground">No-show</p>
@@ -104,7 +104,7 @@ export default function StaffDashboardPage() {
       </div>
 
       <div className="mt-4">
-        <Link href="/staff/appointments" className="text-sm font-medium text-blue-600 hover:text-blue-700">
+        <Link href="/staff/appointments" className="text-sm font-medium text-primary hover:text-primary/80">
           Go to appointments
         </Link>
       </div>

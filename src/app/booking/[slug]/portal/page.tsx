@@ -49,20 +49,20 @@ export default function CustomerPortalLoginPage() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-20">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2 text-center">Müşteri Portalı</h1>
-        <p className="text-sm text-gray-500 mb-8 text-center">
+      <div className="bg-card rounded-2xl shadow-sm border border-border p-8">
+        <h1 className="text-2xl font-bold text-foreground mb-2 text-center">Müşteri Portalı</h1>
+        <p className="text-sm text-muted-foreground mb-8 text-center">
           Geçmiş randevularınızı görmek veya yaklaşan randevularınızı iptal etmek için e-posta adresinizi girin.
         </p>
 
         {error && (
-          <div className="bg-red-50 text-red-700 text-sm rounded-lg p-3 mb-6">
+          <div className="bg-destructive/10 text-destructive text-sm rounded-lg p-3 mb-6" role="alert">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="bg-green-50 text-green-700 text-sm rounded-lg p-3 mb-6">
+          <div className="bg-success/10 text-success text-sm rounded-lg p-3 mb-6">
             {success}
           </div>
         )}
@@ -70,7 +70,7 @@ export default function CustomerPortalLoginPage() {
         {!success && (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground/90 mb-1">
                 E-posta Adresiniz
               </label>
               <input
@@ -79,24 +79,24 @@ export default function CustomerPortalLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="siz@ornek.com"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-input bg-background text-foreground rounded-xl px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading || !email}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition-colors disabled:opacity-60"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-xl font-semibold transition-colors disabled:opacity-60"
             >
               {loading ? "Bağlantı Gönderiliyor..." : "Giriş Bağlantısı Gönder"}
             </button>
           </form>
         )}
-        
+
         <div className="mt-8 text-center">
           <button
             onClick={() => router.push(`/booking/${slug}`)}
-            className="text-blue-600 hover:underline text-sm font-medium"
+            className="text-primary hover:underline text-sm font-medium"
           >
             &larr; Randevu Sayfasına Dön
           </button>

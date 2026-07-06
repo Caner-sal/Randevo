@@ -26,9 +26,9 @@ interface Meta {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  PENDING: "bg-yellow-100 text-yellow-700",
-  SENT: "bg-green-100 text-green-700",
-  FAILED: "bg-red-100 text-red-700",
+  PENDING: "bg-warm-accent/15 text-warm-accent",
+  SENT: "bg-success/15 text-success",
+  FAILED: "bg-destructive/15 text-destructive",
   SKIPPED: "bg-muted text-muted-foreground",
 };
 
@@ -105,7 +105,7 @@ export default function RemindersPage() {
       </div>
 
       {processResult && (
-        <div className="bg-blue-50 border border-blue-200 text-blue-700 text-sm rounded-lg px-4 py-3">
+        <div className="bg-secondary-accent/10 border border-secondary-accent/20 text-secondary-accent text-sm rounded-lg px-4 py-3">
           {processResult}
         </div>
       )}
@@ -153,7 +153,7 @@ export default function RemindersPage() {
                   <td className="px-5 py-3.5 text-muted-foreground">
                     {reminder.sentAt ? new Date(reminder.sentAt).toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" }) : "—"}
                   </td>
-                  <td className="px-5 py-3.5 text-red-500 max-w-[200px]">
+                  <td className="px-5 py-3.5 text-destructive max-w-[200px]">
                     <span className="line-clamp-1 text-xs">{reminder.errorMessage ?? "—"}</span>
                   </td>
                 </tr>

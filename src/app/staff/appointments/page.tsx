@@ -5,10 +5,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 
 const STATUS_COLORS: Record<string, string> = {
-  PENDING: "bg-yellow-100 text-yellow-700",
-  CONFIRMED: "bg-blue-100 text-blue-700",
-  COMPLETED: "bg-green-100 text-green-700",
-  CANCELLED: "bg-red-100 text-red-700",
+  PENDING: "bg-warm-accent/15 text-warm-accent",
+  CONFIRMED: "bg-secondary-accent/15 text-secondary-accent",
+  COMPLETED: "bg-success/15 text-success",
+  CANCELLED: "bg-destructive/15 text-destructive",
   NO_SHOW: "bg-muted text-foreground/90",
 };
 
@@ -54,7 +54,7 @@ export default function StaffAppointmentsPage() {
   }
 
   if (error) {
-    return <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-sm text-red-700">{error}</div>;
+    return <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-6 text-sm text-destructive">{error}</div>;
   }
 
   return (

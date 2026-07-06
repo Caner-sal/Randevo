@@ -70,63 +70,71 @@ export function StaffInviteTokenForm({ token }: { token: string }) {
   }
 
   if (loading) {
-    return <div className="p-8 text-center text-sm text-gray-600">Loading invite...</div>;
+    return <div className="p-8 text-center text-sm text-muted-foreground">Loading invite...</div>;
   }
 
   if (!inviteInfo) {
-    return <div className="p-8 text-center text-sm text-red-600">{error ?? "Invalid invite"}</div>;
+    return (
+      <div className="p-8 text-center text-sm text-destructive" role="alert">
+        {error ?? "Invalid invite"}
+      </div>
+    );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md rounded-lg border bg-white p-8">
-        <h1 className="mb-2 text-2xl font-semibold text-gray-900">Staff invite</h1>
-        <p className="mb-6 text-sm text-gray-600">
-          Invited email: <strong>{inviteInfo.email}</strong>
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="w-full max-w-md rounded-lg border border-border bg-card p-8">
+        <h1 className="mb-2 text-2xl font-semibold text-foreground">Staff invite</h1>
+        <p className="mb-6 text-sm text-muted-foreground">
+          Invited email: <strong className="text-foreground">{inviteInfo.email}</strong>
         </p>
 
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Full name</label>
+            <label className="mb-1 block text-sm font-medium text-foreground/90">Full name</label>
             <input
               type="text"
               required
               value={form.name}
               onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
-              className="w-full rounded border px-3 py-2 text-sm"
+              className="w-full rounded border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Password</label>
+            <label className="mb-1 block text-sm font-medium text-foreground/90">Password</label>
             <input
               type="password"
               required
               minLength={8}
               value={form.password}
               onChange={(e) => setForm((prev) => ({ ...prev, password: e.target.value }))}
-              className="w-full rounded border px-3 py-2 text-sm"
+              className="w-full rounded border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Password (again)</label>
+            <label className="mb-1 block text-sm font-medium text-foreground/90">Password (again)</label>
             <input
               type="password"
               required
               minLength={8}
               value={form.confirmPassword}
               onChange={(e) => setForm((prev) => ({ ...prev, confirmPassword: e.target.value }))}
-              className="w-full rounded border px-3 py-2 text-sm"
+              className="w-full rounded border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             />
           </div>
 
-          {error ? <p className="text-sm text-red-600">{error}</p> : null}
+          {error ? (
+            <p className="text-sm text-destructive" role="alert">
+              {error}
+            </p>
+          ) : null}
 
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+            className="w-full rounded bg-primary py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50"
           >
             {submitting ? "Processing..." : "Accept invite"}
           </button>

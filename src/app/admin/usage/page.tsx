@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AdminStatCard } from "@/components/admin/AdminStatCard";
+import { AdminPagination } from "@/components/admin/AdminPagination";
 
 type UsageItem = {
   id: string;
@@ -90,18 +92,22 @@ export default function AdminUsagePage() {
 
       {summary ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Toplam İşletme" value={summary.totalOrganizations} />
-          <StatCard label="Aktif İşletme" value={summary.activeOrganizations} />
-          <StatCard label="Askıya Alınan" value={summary.suspendedOrganizations} danger={summary.suspendedOrganizations > 0} />
-          <StatCard label="Bu Ay Randevu" value={summary.monthlyAppointments} />
-          <StatCard label="Aktif Abonelik" value={summary.activeSubscriptions} />
-          <StatCard label="Ödeme Bekleyen" value={summary.paymentPendingAccounts} danger={summary.paymentPendingAccounts > 0} />
-          <StatCard label="Starter" value={summary.planDistribution.STARTER} />
-          <StatCard label="Pro" value={summary.planDistribution.PRO} />
+          <AdminStatCard label="Toplam İşletme" value={summary.totalOrganizations} />
+          <AdminStatCard label="Aktif İşletme" value={summary.activeOrganizations} />
+          <AdminStatCard label="Askıya Alınan" value={summary.suspendedOrganizations} danger={summary.suspendedOrganizations > 0} />
+          <AdminStatCard label="Bu Ay Randevu" value={summary.monthlyAppointments} />
+          <AdminStatCard label="Aktif Abonelik" value={summary.activeSubscriptions} />
+          <AdminStatCard label="Ödeme Bekleyen" value={summary.paymentPendingAccounts} danger={summary.paymentPendingAccounts > 0} />
+          <AdminStatCard label="Starter" value={summary.planDistribution.STARTER} />
+          <AdminStatCard label="Pro" value={summary.planDistribution.PRO} />
         </div>
       ) : null}
 
-      {error ? <div className="text-sm text-red-600">{error}</div> : null}
+      {error ? (
+        <div className="text-sm text-destructive" role="alert">
+          {error}
+        </div>
+      ) : null}
 
       {loading ? (
         <div className="text-sm text-muted-foreground">Yükleniyor...</div>
@@ -133,9 +139,9 @@ export default function AdminUsagePage() {
                   <td className="p-3">{row.subscription ? `${row.subscription.plan} (${row.subscription.status})` : "-"}</td>
                   <td className="p-3">
                     {row.isPubliclyAvailable ? (
-                      <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">Açık</span>
+                      <span className="px-2 py-1 bg-success/15 text-success rounded text-xs font-medium">Açık</span>
                     ) : (
-                      <span className="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-medium">Kapalı</span>
+                      <span className="px-2 py-1 bg-destructive/15 text-destructive rounded text-xs font-medium">Kapalı</span>
                     )}
                   </td>
                 </tr>
@@ -150,31 +156,14 @@ export default function AdminUsagePage() {
         </div>
       )}
 
-      <div className="flex items-center gap-2">
-        <button
-          className="px-3 py-2 text-sm rounded border disabled:opacity-50"
-          onClick={() => void load(cursor)}
-          disabled={!cursor}
-        >
-          Yeniden Yükle
-        </button>
-        <button
-          className="px-3 py-2 text-sm rounded border disabled:opacity-50"
-          onClick={() => void load(data?.pagination.nextCursor ?? null)}
-          disabled={!data?.pagination.nextCursor}
-        >
-          Sonraki Sayfa
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({ label, value, danger }: { label: string; value: number; danger?: boolean }) {
-  return (
-    <div className="bg-card rounded border p-4">
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <p className={`text-2xl font-bold mt-1 ${danger ? "text-red-600" : "text-foreground"}`}>{value}</p>
+      <AdminPagination
+        onReload={() => void load(cursor)}
+        onNext={() => void load(data?.pagination.nextCursor ?? null)}
+        canReload={Boolean(cursor)}
+        canGoNext={Boolean(data?.pagination.nextCursor)}
+        reloadLabel="Yeniden Yükle"
+        nextLabel="Sonraki Sayfa"
+      />
     </div>
   );
 }

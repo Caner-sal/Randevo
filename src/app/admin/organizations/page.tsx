@@ -64,15 +64,15 @@ export default async function AdminOrganizationsPage() {
                 <td className="px-4 py-3">{org._count.staff}</td>
                 <td className="px-4 py-3">
                   {org.status !== "ACTIVE" || org.suspended ? (
-                    <span className="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-medium">Askıda</span>
+                    <span className="px-2 py-1 bg-destructive/15 text-destructive rounded text-xs font-medium">Askıda</span>
                   ) : org.bookingEnabled ? (
-                    <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">Aktif</span>
+                    <span className="px-2 py-1 bg-success/15 text-success rounded text-xs font-medium">Aktif</span>
                   ) : (
-                    <span className="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs font-medium">Rezervasyon Kapalı</span>
+                    <span className="px-2 py-1 bg-warm-accent/15 text-warm-accent rounded text-xs font-medium">Rezervasyon Kapalı</span>
                   )}
                 </td>
                 <td className="px-4 py-3">
-                  <Link href={`/admin/organizations/${org.id}`} className="text-blue-600 hover:underline text-xs">
+                  <Link href={`/admin/organizations/${org.id}`} className="text-primary hover:underline text-xs">
                     Görüntüle
                   </Link>
                 </td>

@@ -38,12 +38,12 @@ export default function CustomerPortalDashboard() {
           router.push(`/booking/${slug}/portal?error=MissingToken`);
           return;
         }
-        
+
         const json = await res.json();
         if (!res.ok) {
           throw new Error(json.error || "Randevular yüklenemedi.");
         }
-        
+
         setAppointments(json.data || []);
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "Randevular yüklenemedi.");
@@ -62,16 +62,16 @@ export default function CustomerPortalDashboard() {
         method: "POST",
       });
       const json = await res.json();
-      
+
       if (!res.ok) {
         alert(json.error || "İptal işlemi başarısız.");
         return;
       }
 
       alert("Randevunuz iptal edildi.");
-      
+
       // Update local state
-      setAppointments(prev => prev.map(app => 
+      setAppointments(prev => prev.map(app =>
         app.id === id ? { ...app, status: "CANCELLED" } : app
       ));
     } catch (_err) {
@@ -82,7 +82,7 @@ export default function CustomerPortalDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -90,11 +90,11 @@ export default function CustomerPortalDashboard() {
   if (error) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12 text-center">
-        <div className="bg-red-50 text-red-700 p-4 rounded-xl inline-block mb-4">
+        <div className="bg-destructive/10 text-destructive p-4 rounded-xl inline-block mb-4" role="alert">
           {error}
         </div>
         <div>
-          <button onClick={() => router.push(`/booking/${slug}/portal`)} className="text-blue-600 hover:underline">
+          <button onClick={() => router.push(`/booking/${slug}/portal`)} className="text-primary hover:underline">
             Giriş sayfasına dön
           </button>
         </div>
@@ -107,38 +107,38 @@ export default function CustomerPortalDashboard() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      <div className="flex items-center justify-between mb-8 border-b pb-4">
-        <h1 className="text-2xl font-bold text-gray-900">Müşteri Portalı</h1>
+      <div className="flex items-center justify-between mb-8 border-b border-border pb-4">
+        <h1 className="text-2xl font-bold text-foreground">Müşteri Portalı</h1>
         <button
           onClick={() => router.push(`/booking/${slug}`)}
-          className="text-sm text-gray-600 hover:text-gray-900 font-medium"
+          className="text-sm text-muted-foreground hover:text-foreground font-medium transition-colors"
         >
           Yeni Randevu Al &rarr;
         </button>
       </div>
 
       <section className="mb-12">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Yaklaşan Randevularınız</h2>
+        <h2 className="text-xl font-semibold text-foreground mb-4">Yaklaşan Randevularınız</h2>
         {upcoming.length === 0 ? (
-          <div className="bg-gray-50 border border-gray-200 rounded-xl p-8 text-center text-gray-500">
+          <div className="bg-muted/40 border border-border rounded-xl p-8 text-center text-muted-foreground">
             Yaklaşan bir randevunuz bulunmuyor.
           </div>
         ) : (
           <div className="grid gap-4">
             {upcoming.map(app => (
-              <div key={app.id} className="bg-white border border-blue-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+              <div key={app.id} className="bg-card border border-primary/20 rounded-xl p-5 shadow-sm transition-shadow hover:shadow-md">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-1">{app.service.name}</h3>
-                    <p className="text-sm text-gray-500 mb-2">Çalışan: <span className="font-medium text-gray-700">{app.staff.name}</span></p>
+                    <h3 className="font-bold text-foreground text-lg mb-1">{app.service.name}</h3>
+                    <p className="text-sm text-muted-foreground mb-2">Çalışan: <span className="font-medium text-foreground/90">{app.staff.name}</span></p>
                     <div className="flex items-center gap-3 text-sm">
-                      <span className="flex items-center gap-1 text-blue-700 font-medium bg-blue-50 px-2.5 py-1 rounded-md">
+                      <span className="flex items-center gap-1 text-secondary-accent font-medium bg-secondary-accent/10 px-2.5 py-1 rounded-md">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                         {new Date(app.startTime).toLocaleString("tr-TR", {
                           weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
                         })}
                       </span>
-                      <span className="text-gray-600 font-medium">
+                      <span className="text-muted-foreground font-medium">
                         {formatPrice(app.service.priceCents, app.service.currency)}
                       </span>
                     </div>
@@ -146,7 +146,7 @@ export default function CustomerPortalDashboard() {
                   <div className="shrink-0">
                     <button
                       onClick={() => cancelAppointment(app.id)}
-                      className="w-full sm:w-auto px-4 py-2 border border-red-200 text-red-600 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
+                      className="w-full sm:w-auto px-4 py-2 border border-destructive/20 text-destructive hover:bg-destructive/10 rounded-lg text-sm font-medium transition-colors"
                     >
                       İptal Et
                     </button>
@@ -159,16 +159,16 @@ export default function CustomerPortalDashboard() {
       </section>
 
       <section>
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Geçmiş Randevular</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-4">Geçmiş Randevular</h2>
         {pastOrCancelled.length === 0 ? (
-          <div className="text-gray-400 text-sm italic">Geçmiş randevunuz bulunmuyor.</div>
+          <div className="text-muted-foreground/70 text-sm italic">Geçmiş randevunuz bulunmuyor.</div>
         ) : (
           <div className="space-y-3">
             {pastOrCancelled.map(app => (
-              <div key={app.id} className="bg-gray-50 border border-gray-100 rounded-lg p-4 flex items-center justify-between opacity-80">
+              <div key={app.id} className="bg-muted/40 border border-border rounded-lg p-4 flex items-center justify-between opacity-80">
                 <div>
-                  <h4 className="font-medium text-gray-800">{app.service.name}</h4>
-                  <div className="text-xs text-gray-500 mt-1">
+                  <h4 className="font-medium text-foreground/90">{app.service.name}</h4>
+                  <div className="text-xs text-muted-foreground mt-1">
                     {new Date(app.startTime).toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" })}
                     {" · "}
                     {app.staff.name}
@@ -176,13 +176,13 @@ export default function CustomerPortalDashboard() {
                 </div>
                 <div>
                   {app.status === "CANCELLED" ? (
-                    <span className="px-2.5 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-md">İPTAL EDİLDİ</span>
+                    <span className="px-2.5 py-1 bg-destructive/15 text-destructive text-xs font-semibold rounded-md">İPTAL EDİLDİ</span>
                   ) : app.status === "COMPLETED" ? (
-                    <span className="px-2.5 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-md">TAMAMLANDI</span>
+                    <span className="px-2.5 py-1 bg-success/15 text-success text-xs font-semibold rounded-md">TAMAMLANDI</span>
                   ) : app.status === "NO_SHOW" ? (
-                    <span className="px-2.5 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded-md">GELMEDİ</span>
+                    <span className="px-2.5 py-1 bg-muted text-muted-foreground text-xs font-semibold rounded-md">GELMEDİ</span>
                   ) : (
-                    <span className="px-2.5 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded-md">{app.status}</span>
+                    <span className="px-2.5 py-1 bg-muted text-muted-foreground text-xs font-semibold rounded-md">{app.status}</span>
                   )}
                 </div>
               </div>

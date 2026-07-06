@@ -65,7 +65,7 @@ export default function StaffAppointmentDetailPage() {
 
   if (!appointment) {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-sm text-red-700">
+      <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-6 text-sm text-destructive">
         {error ?? "Appointment not found"}
       </div>
     );
@@ -94,20 +94,20 @@ export default function StaffAppointmentDetailPage() {
           <button
             disabled={saving}
             onClick={() => setStatus("COMPLETED")}
-            className="rounded bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+            className="rounded bg-success px-4 py-2 text-sm font-medium text-success-foreground transition-colors hover:bg-success/90 disabled:opacity-50"
           >
             Mark Completed
           </button>
           <button
             disabled={saving}
             onClick={() => setStatus("NO_SHOW")}
-            className="rounded bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+            className="rounded bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/80 disabled:opacity-50"
           >
             Mark No-show
           </button>
         </div>
-        {message ? <p className="mt-3 text-sm text-green-700">{message}</p> : null}
-        {error ? <p className="mt-3 text-sm text-red-700">{error}</p> : null}
+        {message ? <p className="mt-3 text-sm text-success">{message}</p> : null}
+        {error ? <p className="mt-3 text-sm text-destructive">{error}</p> : null}
       </div>
     </div>
   );

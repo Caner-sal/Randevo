@@ -102,13 +102,13 @@ export default function AdminOrgDetailPage() {
   }
 
   if (loading) return <div className="text-muted-foreground">Yükleniyor...</div>;
-  if (error) return <div className="text-red-600">{error}</div>;
+  if (error) return <div className="text-destructive">{error}</div>;
   if (!org) return <div className="text-muted-foreground">İşletme bulunamadı.</div>;
 
   return (
     <div className="max-w-3xl">
       <div className="mb-4">
-        <Link href="/admin/organizations" className="text-blue-600 hover:underline text-sm">
+        <Link href="/admin/organizations" className="text-primary hover:underline text-sm">
           ← İşletmelere Dön
         </Link>
       </div>
@@ -153,10 +153,10 @@ export default function AdminOrgDetailPage() {
           <button
             onClick={() => toggleField("suspended")}
             disabled={saving}
-            className={`px-4 py-2 rounded text-sm font-medium ${
+            className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
               org.status !== "ACTIVE" || org.suspended
-                ? "bg-green-600 text-white hover:bg-green-700"
-                : "bg-red-600 text-white hover:bg-red-700"
+                ? "bg-success text-success-foreground hover:bg-success/90"
+                : "bg-destructive text-destructive-foreground hover:bg-destructive/90"
             }`}
           >
             {org.status !== "ACTIVE" || org.suspended ? "İşletmeyi Aktifleştir" : "İşletmeyi Askıya Al"}
@@ -164,13 +164,13 @@ export default function AdminOrgDetailPage() {
           <button
             onClick={() => toggleField("bookingEnabled")}
             disabled={saving}
-            className="px-4 py-2 rounded text-sm font-medium bg-gray-600 text-white hover:bg-gray-700"
+            className="px-4 py-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
           >
             {org.bookingEnabled ? "Rezervasyonu Kapat" : "Rezervasyonu Aç"}
           </button>
         </div>
         {(org.status !== "ACTIVE" || org.suspended) && (
-          <p className="mt-2 text-sm text-red-600">
+          <p className="mt-2 text-sm text-destructive">
             Bu işletme askıya alındı. Genel rezervasyon istekleri 403 döner.
           </p>
         )}

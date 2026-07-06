@@ -59,7 +59,7 @@ function AcceptInviteForm() {
   }
 
   if (loading) return <div className="text-muted-foreground">Davet bilgisi yükleniyor...</div>;
-  if (error && !inviteInfo) return <div className="text-red-600">{error}</div>;
+  if (error && !inviteInfo) return <div className="text-destructive">{error}</div>;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -74,7 +74,7 @@ function AcceptInviteForm() {
           required
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
-          className="w-full rounded border px-3 py-2 text-sm"
+          className="w-full rounded border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           placeholder="Ad Soyad"
         />
       </div>
@@ -86,7 +86,7 @@ function AcceptInviteForm() {
           minLength={8}
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
-          className="w-full rounded border px-3 py-2 text-sm"
+          className="w-full rounded border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
       </div>
       <div>
@@ -96,14 +96,14 @@ function AcceptInviteForm() {
           required
           value={form.confirmPassword}
           onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
-          className="w-full rounded border px-3 py-2 text-sm"
+          className="w-full rounded border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
       </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-destructive">{error}</p>}
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+        className="w-full rounded bg-primary py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
       >
         {submitting ? "Hesap oluşturuluyor..." : "Çalışan Hesabını Oluştur"}
       </button>

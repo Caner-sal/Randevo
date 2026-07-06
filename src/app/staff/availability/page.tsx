@@ -108,11 +108,11 @@ export default function StaffAvailabilityPage() {
         <button
           onClick={save}
           disabled={saving}
-          className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+          className="rounded bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
         >
           {saving ? tCommon("saving") : t("saveAvailability")}
         </button>
-        {message && <span className={`text-sm ${message === t("saveFailed") ? "text-red-600" : "text-green-600"}`}>{message}</span>}
+        {message && <span className={`text-sm ${message === t("saveFailed") ? "text-destructive" : "text-success"}`}>{message}</span>}
       </div>
     </div>
   );

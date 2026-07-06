@@ -31,11 +31,11 @@ interface Service {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  PENDING: "bg-yellow-100 text-yellow-700",
-  CONFIRMED: "bg-blue-100 text-blue-700",
-  COMPLETED: "bg-green-100 text-green-700",
-  CANCELLED: "bg-red-100 text-red-700",
-  NO_SHOW: "bg-orange-100 text-orange-700",
+  PENDING: "bg-warm-accent/15 text-warm-accent",
+  CONFIRMED: "bg-secondary-accent/15 text-secondary-accent",
+  COMPLETED: "bg-success/15 text-success",
+  CANCELLED: "bg-destructive/15 text-destructive",
+  NO_SHOW: "bg-warm-accent/15 text-warm-accent",
 };
 
 const STATUSES = ["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED", "NO_SHOW"];
@@ -136,7 +136,7 @@ export default function AppointmentsPage() {
         </div>
         <button
           onClick={copyBookingLink}
-          className="inline-flex items-center gap-2 border border-border hover:border-blue-400 hover:bg-blue-50 text-foreground/90 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+          className="inline-flex items-center gap-2 border border-border hover:border-primary/40 hover:bg-primary/5 text-foreground/90 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="9" y="9" width="13" height="13" rx="2" />

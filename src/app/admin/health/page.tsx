@@ -98,7 +98,7 @@ export default function AdminHealthPage() {
   }
 
   if (error || !health) {
-    return <div className="text-sm text-red-600">{error ?? "Sağlık verisi alınamadı."}</div>;
+    return <div className="text-sm text-destructive">{error ?? "Sağlık verisi alınamadı."}</div>;
   }
 
   const cards = [
@@ -114,13 +114,13 @@ export default function AdminHealthPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-foreground mb-2">Sistem Sağlık Durumu</h1>
-      <p className="text-sm text-muted-foreground mb-6">Durum: <span className={health.status === "ok" ? "text-green-600" : "text-amber-600"}>{health.status.toUpperCase()}</span></p>
+      <p className="text-sm text-muted-foreground mb-6">Durum: <span className={health.status === "ok" ? "text-success" : "text-warm-accent"}>{health.status.toUpperCase()}</span></p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {cards.map((card) => (
           <div key={card.label} className="bg-card rounded-lg border p-4">
             <p className="text-sm text-muted-foreground">{card.label}</p>
-            <p className={`text-xl font-semibold mt-1 ${card.danger ? "text-red-600" : "text-foreground"}`}>{card.value}</p>
+            <p className={`text-xl font-semibold mt-1 ${card.danger ? "text-destructive" : "text-foreground"}`}>{card.value}</p>
           </div>
         ))}
       </div>
@@ -164,7 +164,7 @@ function WindowCard({
         {rows.map((row) => (
           <div key={row.label} className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">{row.label}</span>
-            <span className={row.value > 0 ? "text-red-600 font-medium" : "text-foreground"}>{row.value}</span>
+            <span className={row.value > 0 ? "text-destructive font-medium" : "text-foreground"}>{row.value}</span>
           </div>
         ))}
       </div>
@@ -185,7 +185,7 @@ function FailureCard({ title, items }: { title: string; items: FailureItem[] }) 
               <p className="text-sm font-medium">{item.provider} • {item.eventType}</p>
               <p className="text-xs text-muted-foreground">{item.eventId}</p>
               <p className="text-xs text-muted-foreground">{new Date(item.createdAt).toLocaleString("tr-TR")}</p>
-              {item.errorMessage ? <p className="text-xs text-red-600 mt-1">{item.errorMessage}</p> : null}
+              {item.errorMessage ? <p className="text-xs text-destructive mt-1">{item.errorMessage}</p> : null}
             </div>
           ))}
         </div>

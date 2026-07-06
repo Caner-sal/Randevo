@@ -126,7 +126,7 @@ export default function LocationsPage() {
             />
             {t("setDefault")}
           </label>
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p className="text-sm text-destructive">{error}</p>}
           <div className="flex gap-2">
             <button
               type="submit"
@@ -161,12 +161,12 @@ export default function LocationsPage() {
               <tr key={loc.id} className="hover:bg-muted/40">
                 <td className="px-4 py-3">
                   <div className="font-medium text-foreground">{loc.name}</div>
-                  {loc.isDefault && <span className="text-xs font-medium text-blue-600">{tCommon("default")}</span>}
+                  {loc.isDefault && <span className="text-xs font-medium text-primary">{tCommon("default")}</span>}
                 </td>
                 <td className="px-4 py-3 text-muted-foreground">{loc.address ?? "—"}</td>
                 <td className="px-4 py-3">
                   {loc.isActive ? (
-                    <span className="rounded bg-green-100 px-2 py-1 text-xs text-green-700">{tCommon("active")}</span>
+                    <span className="rounded bg-success/15 px-2 py-1 text-xs text-success">{tCommon("active")}</span>
                   ) : (
                     <span className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">{tCommon("passive")}</span>
                   )}
@@ -174,7 +174,7 @@ export default function LocationsPage() {
                 <td className="px-4 py-3">
                   <div className="flex gap-2">
                     {!loc.isDefault && (
-                      <button onClick={() => setDefault(loc.id)} className="text-xs text-blue-600 hover:underline">
+                      <button onClick={() => setDefault(loc.id)} className="text-xs text-primary hover:underline">
                         {t("makeDefault")}
                       </button>
                     )}

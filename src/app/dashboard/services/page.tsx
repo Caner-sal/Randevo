@@ -179,7 +179,7 @@ export default function ServicesPage() {
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         service.isActive
-                          ? "bg-green-100 text-green-700"
+                          ? "bg-success/15 text-success"
                           : "bg-muted text-muted-foreground"
                       }`}
                     >
@@ -190,7 +190,7 @@ export default function ServicesPage() {
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => openEditDialog(service)}
-                        className="text-blue-600 hover:text-blue-800 text-xs font-medium px-2 py-1 rounded hover:bg-blue-50 transition-colors"
+                        className="text-primary hover:text-primary/80 text-xs font-medium px-2 py-1 rounded hover:bg-primary/10 transition-colors"
                       >
                         {tCommon("edit")}
                       </button>
@@ -202,7 +202,7 @@ export default function ServicesPage() {
                       </button>
                       <button
                         onClick={() => deleteService(service)}
-                        className="text-red-500 hover:text-red-700 text-xs font-medium px-2 py-1 rounded hover:bg-red-50 transition-colors"
+                        className="text-destructive hover:text-destructive/80 text-xs font-medium px-2 py-1 rounded hover:bg-destructive/10 transition-colors"
                       >
                         {tCommon("delete")}
                       </button>
@@ -234,7 +234,7 @@ export default function ServicesPage() {
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-2">
+                <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm rounded-lg px-4 py-2">
                   {error}
                 </div>
               )}

@@ -47,19 +47,19 @@ const DEFAULT_SETTINGS: WaSettings = {
 function StatusBadge({ status, tCommon }: { status: string; tCommon: ReturnType<typeof useTranslations> }) {
   if (status === "SENT")
     return (
-      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-success/15 text-success">
         {tCommon("sent")}
       </span>
     );
   if (status === "SKIPPED")
     return (
-      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-muted text-foreground/90 dark:bg-gray-800 dark:text-muted-foreground/70">
+      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-muted text-foreground/90">
         {tCommon("skipped")}
       </span>
     );
   if (status === "FAILED")
     return (
-      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300">
+      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-destructive/15 text-destructive">
         {tCommon("failed")}
       </span>
     );
@@ -306,7 +306,7 @@ export default function WhatsAppAutoReplyPage() {
           {saveMsg && (
             <span
               className={`text-sm ${
-                saveMsg === t("saveSuccess") ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
+                saveMsg === t("saveSuccess") ? "text-success" : "text-destructive"
               }`}
             >
               {saveMsg}

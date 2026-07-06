@@ -2,7 +2,17 @@
 
 All notable changes to Randevo are documented here.
 
-## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-6
+## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-7
+
+### REDESIGN-7 — Staff/Admin UI Polish
+
+- Fixed `staff-invite-token-form.tsx` (fully light-themed — `bg-gray-50`/`bg-white`/`text-gray-900`) — public-facing, unauthenticated invite-acceptance flow.
+- Converted the dark-theme color-remnant bug (raw `bg-*-100`/`bg-*-50`/`dark:` status pills, decoupled from the app's always-dark theme — see docs/ui-redesign-audit.md §4) across all 8 flagged dashboard pages (`settings`, `services`, `staff`, `locations`, `appointments`, `reminders`, `availability`, `whatsapp`), the full admin panel (`layout`, `organizations` (+detail), `subscriptions`, `usage`, `health`, `product-events`), the staff portal (`dashboard`, `appointments` (+detail), `availability`, `accept-invite`), and — found during the sweep — two customer-facing booking-portal pages and the global 404 page, all previously undetected by the existing `dashboard-theme-class-audit.test.ts` (which only caught literal `bg-white`, not the colored light-palette variants).
+- Fixed unstyled native `<select>`/`<input>` elements in the admin panel that rendered as plain white browser-default form controls (`admin/subscriptions`, `admin/product-events`, `staff/accept-invite`).
+- Added `src/components/admin/AdminStatCard.tsx` and `AdminPagination.tsx`, replacing the identical `StatCard` function and pagination-button pair copy-pasted across `admin/subscriptions` and `admin/usage`.
+- Restyled the admin panel shell (`admin/layout.tsx`) onto tokens with `focus-visible` rings on every nav link; added baseline `aria-label`s to admin filter selects and `role="alert"` to error banners touched in this phase.
+- Strengthened `dashboard-theme-class-audit.test.ts`'s forbidden-pattern list to also catch the colored light-palette variants (`bg-yellow-100`, `text-blue-700`, etc.), turning this phase's fix into a regression gate.
+- Verified live with an authenticated superadmin session: admin subscriptions/usage/organizations/health pages all render correctly, zero console errors.
 
 ### REDESIGN-6 — Analytics & Billing Visual Upgrade
 
