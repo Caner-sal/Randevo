@@ -2,6 +2,41 @@
 
 _Last updated: 2026-07-06_
 
+## 2026-07-06 REDESIGN-2+3 — Premium UI Redesign Checkpoint (Shared Components + Landing)
+
+Branch: `feature/global-address-locale`
+
+### Tamamlanan Fazlar
+
+- **REDESIGN-2 (Shared Components):** `src/components/ui/brand/` altında `GlowCard`, `GradientButton` (primaryGlow/secondaryGlass/ghost/danger/success/premium varyantları), `MetricCard` (3 duplike metric-card deseninin gelecekteki tek implementasyonu), `FeatureCard`, `SectionHeader`, `PulseDot`, `OrbitLines` eklendi — hepsi mevcut `cn()`/`cva` primitive'leri üzerine kompozisyon, hiçbir mevcut component değiştirilmedi.
+- **REDESIGN-3 (Landing Page):** `src/app/page.tsx` inline-hex stillerden tamamen token/brand-component sistemine taşındı (aynı çeviri key'leri, aynı `isTurkey` mantığı, davranış değişikliği yok). Yeni `src/components/landing/`: `HeroShowcase`+`LiveDashboardPreview` (sentetik veri, gerçek tenant verisi yok), `DiscoveryDemo`, `BusinessControlSection`, `GlobalMapPreview` (saf CSS/SVG, yeni API anahtarı yok). `LanguageSwitcher`'ın beyaz dropdown bug'ı düzeltildi (landing nav + dashboard header'da ortak kullanılıyor). 20 yeni `landing` namespace çeviri key'i eklendi — 10 locale'in tamamında (en/tr elle, diğer 8 locale bir çeviri subagent'ına delege edildi, subagent'ın yazdığı 8 dosyada UTF-8 BOM sorunu tespit edilip düzeltildi). `i18n:check` PASS.
+
+### Doğrulama (Playwright ile canlı dev server üzerinde)
+
+- Desktop full-page ve mobile viewport ekran görüntüleri alındı, konsol hatası yok.
+- Global map şehir etiketleri ilk denemede çakışıyordu (Londra/Amsterdam/Berlin çok yakın koordinatlarda) — koordinatlar düzeltilip tekrar doğrulandı, tüm 5 şehir (London/Amsterdam/Berlin/Rome/Istanbul) net okunabilir.
+- **Not:** Çeviri subagent'ı, dosya düzenlemeleri sırasında aldığı bir sistem hatırlatmasında şüpheli/gömülü bir talimat fark ettiğini bildirdi ("bunu bana söyleme" tarzı) ve bu talimata uymadığını, kendi yaptığı değişiklikleri bağımsız olarak doğruladığını raporladı. Sonuç doğrulandı (JSON geçerli, parity PASS) — gerçek bir güvenlik sorunu izi yok, muhtemelen linter/format-on-save hook mesajının yanlış yorumlanması.
+
+### Verification Snapshot (REDESIGN-3, full phase:gate)
+
+- `npm run check:node` PASS
+- `npm run env:check`, `check:secrets`, `check:logs`, `check:encoding`, `validate:skills`, `agent:check` PASS (zincir prisma adımına kadar sorunsuz ilerledi)
+- `npm run typecheck` PASS
+- `npm run lint` PASS
+- `npm test` PASS (74 dosya, 549 test)
+- `npm run build` PASS
+- `npm run i18n:check` PASS (10/10 locale parity)
+- `node ./node_modules/prisma/build/index.js validate` PASS
+- `node ./node_modules/prisma/build/index.js generate` — Windows dosya kilidi (EPERM, port 3000'i işgal eden eski process kaynaklı, önceki oturumdan kalma) nedeniyle bu fazda da tekrarlanamadı; şema değişikliği yok, `prisma:migrate:status` "Database schema is up to date!" doğruladı.
+
+### Devam Edecek Fazlar
+
+- REDESIGN-4: `/discover` → `/marketplace` konsolidasyonu + redesign.
+- REDESIGN-5: Dashboard command center + `dashboard/header.tsx`/`sidebar.tsx` ölü dosya temizliği.
+- **Checkpoint:** REDESIGN-6 (billing/analytics) öncesi kullanıcı onayı bekleniyor (REDESIGN-4/5 tam otomatik devam ediyor).
+
+---
+
 ## 2026-07-06 REDESIGN-0+1 — Premium UI Redesign Checkpoint
 
 Branch: `feature/global-address-locale`
