@@ -145,7 +145,7 @@ export default function LanguageSwitcher() {
           id={listboxId}
           role="listbox"
           aria-label={t("language")}
-          className="absolute right-0 z-50 mt-2 min-w-44 rounded-md border border-gray-200 bg-white p-1 shadow-lg"
+          className="absolute right-0 z-50 mt-2 min-w-44 rounded-md border border-border bg-popover p-1 shadow-lg"
         >
           {locales.map((locale, index) => {
             const m = localeMetadata[locale];
@@ -163,7 +163,9 @@ export default function LanguageSwitcher() {
                 onClick={() => handleSwitch(locale)}
                 onKeyDown={(e) => handleOptionKeyDown(index, locale, e)}
                 className={`flex w-full items-center gap-2 rounded px-2 py-2 text-left text-sm ${
-                  isActive ? "bg-blue-50 text-blue-700" : "text-gray-700 hover:bg-gray-100"
+                  isActive
+                    ? "bg-primary/10 text-primary"
+                    : "text-popover-foreground hover:bg-accent hover:text-accent-foreground"
                 }`}
               >
                 <span aria-hidden>{m.flag}</span>

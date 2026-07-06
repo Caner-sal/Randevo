@@ -2,7 +2,15 @@
 
 All notable changes to Randevo are documented here.
 
-## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-2
+## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-3
+
+### REDESIGN-3 — Landing Page Redesign
+
+- Rewrote `src/app/page.tsx` off inline-hex styles onto Tailwind design tokens and the REDESIGN-2 brand components — same copy, same `isTurkey` market-conditional logic (hero badge, 3rd stat, TR-only feature card), same i18n coverage, purely a rendering-layer change.
+- Added `src/components/landing/`: `HeroShowcase` + `LiveDashboardPreview` (cinematic hero with a synthetic-data "live" mini dashboard mockup), `DiscoveryDemo` (marketplace search mockup), `BusinessControlSection` (metric-card grid), `GlobalMapPreview` (pure CSS/SVG pulsing city-dot map spanning London/Amsterdam/Berlin/Rome/Istanbul — no Maps/Places API key).
+- Fixed `LanguageSwitcher`'s literal white/gray/blue dropdown (`bg-white`, `border-gray-200`, `bg-blue-50`, `text-gray-700`) onto `bg-popover`/`border-border`/`text-popover-foreground` tokens — this component is mounted in the landing nav and dashboard header alike.
+- Added 20 new `landing` namespace translation keys across all 10 locales (en/tr authored directly, de/es/fa/fr/it/nl/ru/ar delegated to a translation subagent) for the new preview/demo sections — `npm run i18n:check` passes with full key parity.
+- Verified in a live browser: desktop full-page and mobile viewport screenshots, zero console errors, no visual breakage.
 
 ### REDESIGN-2 — Shared Premium UI Components
 
