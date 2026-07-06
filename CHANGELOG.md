@@ -2,6 +2,13 @@
 
 All notable changes to Randevo are documented here.
 
+## [Unreleased] - Premium UI Redesign — REDESIGN-0
+
+### UI Audit
+
+- Added `docs/ui-redesign-audit.md`: full audit of landing/discover/marketplace/dashboard/analytics/billing/staff/admin UI ahead of the premium redesign. Documents the inline-hex landing page, duplicate `/discover` vs `/marketplace` implementations, three duplicate metric-card patterns, the project-wide dark-theme color-remnant bug (raw `bg-*-100`/`bg-*-50` classes decoupled from the app's always-dark theme), the staff/admin accessibility gap, and dead files `src/components/dashboard/header.tsx`/`sidebar.tsx`.
+- No behavior changes in this phase.
+
 ## [1.9.1] - 2026-05-17
 
 ### Checkout Auth + Discover Prisma Error Fix — FIXERR-0 → FIXERR-6
