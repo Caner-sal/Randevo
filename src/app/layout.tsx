@@ -1,10 +1,17 @@
 ﻿import type { Metadata } from "next";
+import { Inter_Tight } from "next/font/google";
 import { cookies, headers } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessagesForLocale } from "@/i18n/request";
 import { localeCookieName, localeMetadata, resolveLocale } from "@/i18n/locales";
 import { getBaseUrl, localeAlternates } from "@/lib/seo/i18n";
 import "./globals.css";
+
+const headingFont = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-heading-sans",
+  display: "swap",
+});
 
 
 export const metadata: Metadata = {
@@ -32,7 +39,12 @@ export default async function RootLayout({
   const messages = getMessagesForLocale(locale);
 
   return (
-    <html lang={locale} dir={localeMetadata[locale].direction} suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={localeMetadata[locale].direction}
+      className={headingFont.variable}
+      suppressHydrationWarning
+    >
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}

@@ -2,9 +2,17 @@
 
 All notable changes to Randevo are documented here.
 
-## [Unreleased] - Premium UI Redesign — REDESIGN-0
+## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-1
 
-### UI Audit
+### REDESIGN-1 — Brand Tokens & Global Background
+
+- Added `src/styles/tokens.css`: additive brand tokens (`--secondary-accent` cyan, `--warm-accent` amber, `--success`, `--card-elevated`, glow shadow variables, motion-duration variables) — additive only, existing `--background`/`--card`/`--primary`/`--border` tokens untouched.
+- Added `src/lib/design/tokens.ts`: JS-side constants mirroring the new CSS tokens for inline-style/gradient use in components.
+- Added `src/components/ui/brand/BrandBackground.tsx`: reusable decorative glow layer for public hero sections (landing/marketplace), with a calmer variant for dashboard use.
+- `src/app/globals.css`: every page now gets a subtle layered radial-gradient glow via `body`'s background (instead of flat black); added a global `prefers-reduced-motion` rule.
+- Fixed dead typography reference: `--font-heading` previously fell back to a hardcoded `Outfit`/`Nunito` string that was never actually loaded as a webfont (silently rendered as system Segoe UI). Now loads **Inter Tight** via `next/font/google` (`src/app/layout.tsx`) and resolves through `--font-heading-sans`, with the existing system stack as fallback — no per-page changes needed since all headings already read `var(--font-heading, ...)`.
+
+### REDESIGN-0 — UI Audit
 
 - Added `docs/ui-redesign-audit.md`: full audit of landing/discover/marketplace/dashboard/analytics/billing/staff/admin UI ahead of the premium redesign. Documents the inline-hex landing page, duplicate `/discover` vs `/marketplace` implementations, three duplicate metric-card patterns, the project-wide dark-theme color-remnant bug (raw `bg-*-100`/`bg-*-50` classes decoupled from the app's always-dark theme), the staff/admin accessibility gap, and dead files `src/components/dashboard/header.tsx`/`sidebar.tsx`.
 - No behavior changes in this phase.

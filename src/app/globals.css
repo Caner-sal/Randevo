@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
 
 @theme inline {
   --color-background:             hsl(var(--background));
@@ -27,7 +28,10 @@
 
 @layer base {
   :root {
-    --font-heading: "Segoe UI", "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /* --font-heading-sans is set on <html> by next/font (see layout.tsx) once the
+       webfont loads; the system stack below remains the fallback while it loads
+       and for any environment where it fails to load. */
+    --font-heading: var(--font-heading-sans, "Segoe UI"), "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
     --font-body: "Segoe UI", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     /* Randevo Dark Theme */
     --background:             240 20% 5%;      /* #09090e */
@@ -67,12 +71,20 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body, 'Nunito', sans-serif);
+    /* Subtle global glow so pages read as "premium dark" rather than flat
+       black (RANDEVO_PREMIUM_UI_REDESIGN_PLAN.md §4.2). Kept low-opacity so
+       it stays calm behind dense dashboard UI; individual public pages can
+       layer BrandBackground on top for a stronger hero-section effect. */
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(124, 92, 255, 0.14), transparent 35%),
+      radial-gradient(circle at 85% 15%, rgba(34, 211, 238, 0.10), transparent 30%);
+    background-attachment: fixed;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-family: var(--font-heading);
     letter-spacing: -0.02em;
   }
 }

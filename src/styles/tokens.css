@@ -1,0 +1,67 @@
+/*
+ * Randevo premium redesign — additive brand tokens (REDESIGN-1).
+ *
+ * These are NEW tokens only. The existing --background/--card/--primary/
+ * --border tokens defined in src/app/globals.css remain the single source
+ * of truth for base surfaces and are NOT redefined here — hundreds of
+ * components already depend on their current values. New premium
+ * components (GlowCard, GradientButton, MetricCard, ...) should consume
+ * the tokens below in addition to the existing ones.
+ */
+
+@theme inline {
+  --color-secondary-accent:            hsl(var(--secondary-accent));
+  --color-secondary-accent-foreground: hsl(var(--secondary-accent-foreground));
+  --color-warm-accent:                 hsl(var(--warm-accent));
+  --color-warm-accent-foreground:      hsl(var(--warm-accent-foreground));
+  --color-success:                     hsl(var(--success));
+  --color-success-foreground:          hsl(var(--success-foreground));
+  --color-card-elevated:               hsl(var(--card-elevated));
+}
+
+@layer base {
+  :root {
+    /* Secondary accent — cyan, used for tech/location/network motifs */
+    --secondary-accent:            189 94% 51%; /* #22D3EE */
+    --secondary-accent-foreground: 240 20% 5%;
+
+    /* Warm accent — amber, used for premium highlights */
+    --warm-accent:                 38 92% 50%;  /* #F59E0B */
+    --warm-accent-foreground:      240 20% 5%;
+
+    /* Dedicated success green (distinct from --primary/--destructive) */
+    --success:                     160 84% 39%; /* #10B981 */
+    --success-foreground:          0 0% 100%;
+
+    /* Elevated card surface, one step lighter than --card */
+    --card-elevated:                234 33% 14%; /* #141D33 */
+
+    /* Glow shadows for GradientButton / GlowCard hover states */
+    --shadow-glow-primary:       0 0 30px rgba(124, 92, 255, 0.25);
+    --shadow-glow-primary-hover: 0 0 42px rgba(124, 92, 255, 0.35);
+    --shadow-glow-cyan:          0 0 30px rgba(34, 211, 238, 0.22);
+    --shadow-glow-cyan-hover:    0 0 42px rgba(34, 211, 238, 0.32);
+
+    /* Motion durations, consumed by framer-motion + CSS transitions (REDESIGN-8) */
+    --motion-fast: 150ms;
+    --motion-base: 250ms;
+    --motion-slow: 400ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --motion-fast: 0ms;
+      --motion-base: 0ms;
+      --motion-slow: 0ms;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
