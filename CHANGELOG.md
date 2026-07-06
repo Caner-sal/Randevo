@@ -2,7 +2,14 @@
 
 All notable changes to Randevo are documented here.
 
-## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-5
+## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-6
+
+### REDESIGN-6 — Analytics & Billing Visual Upgrade
+
+- Analytics: replaced the `BigStat` component (raw `text-blue-600`/`text-indigo-600`/etc. — light-tuned swatches with no dark-background contrast tuning) with the shared `MetricCard`, extended with a new optional `helperText` prop for plain descriptive captions alongside its existing directional `trend` indicator. Rebuilt the "Öne Çıkanlar" (Highlights) panel as a `GlowCard` with icon-bubble rows, replacing plain emoji.
+- Billing: added `src/components/billing/PremiumPlanCard.tsx` and `CheckoutSummary.tsx`; both `dashboard/billing/page.tsx` and `dashboard/billing/checkout/page.tsx` now use them — **presentation layer only**, no changes to checkout session creation, Stripe/iyzico calls, or webhook handling. Converted the remaining raw solid colors (`border-blue-400`, `ring-blue-500`, `text-blue-600`, `text-green-600`, `bg-blue-600`/`hover:bg-blue-700`, `text-green-500`) onto tokens/`GradientButton`/`success`.
+- Full `phase:gate` run given payment-surface sensitivity — including `prisma generate`, which now succeeds cleanly after removing a stale leftover process from an earlier session that had been holding a file lock.
+- Verified live with an authenticated session: dashboard, analytics, billing, and checkout pages all render correctly, zero console errors.
 
 ### REDESIGN-5 — Dashboard Command Center Redesign
 

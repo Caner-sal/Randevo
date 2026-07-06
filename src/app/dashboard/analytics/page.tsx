@@ -1,6 +1,9 @@
 import { requireAuth } from "@/lib/tenant";
 import { getAnalytics } from "@/services/analytics.service";
 import { getTranslations } from "next-intl/server";
+import { Calendar, CalendarClock, CalendarRange, CheckCircle2, Star, Trophy, UserX, Wallet, XCircle } from "lucide-react";
+import { MetricCard } from "@/components/ui/brand/MetricCard";
+import { GlowCard } from "@/components/ui/brand/GlowCard";
 
 async function fetchAnalytics() {
   try {
@@ -9,26 +12,6 @@ async function fetchAnalytics() {
   } catch {
     return null;
   }
-}
-
-function BigStat({
-  label,
-  value,
-  sub,
-  color,
-}: {
-  label: string;
-  value: string | number;
-  sub?: string;
-  color: string;
-}) {
-  return (
-    <div className="bg-card rounded-xl border border-border shadow-sm p-6">
-      <p className="text-xs text-muted-foreground/80 uppercase tracking-wider font-semibold mb-2">{label}</p>
-      <p className={`text-4xl font-bold ${color}`}>{value}</p>
-      {sub && <p className="text-xs text-muted-foreground/80 mt-2">{sub}</p>}
-    </div>
-  );
 }
 
 export default async function AnalyticsPage() {
@@ -56,70 +39,43 @@ export default async function AnalyticsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          {t("subtitle")}
-        </p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("subtitle")}</p>
       </div>
 
       {!analytics ? (
-        <div className="bg-card rounded-xl border border-border p-10 text-center text-muted-foreground/80">
-          {t("loadError")}
-        </div>
+        <GlowCard className="p-10 text-center text-muted-foreground/80">{t("loadError")}</GlowCard>
       ) : (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <BigStat
-              label={t("today")}
-              value={analytics.todayAppointments}
-              sub={t("todayDesc")}
-              color="text-blue-600"
-            />
-            <BigStat
-              label={t("thisWeek")}
-              value={analytics.weekAppointments}
-              sub={t("thisWeekDesc")}
-              color="text-indigo-600"
-            />
-            <BigStat
-              label={t("thisMonth")}
-              value={analytics.monthAppointments}
-              sub={t("thisMonthDesc")}
-              color="text-purple-600"
-            />
-            <BigStat
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <MetricCard label={t("today")} value={analytics.todayAppointments} helperText={t("todayDesc")} icon={CalendarClock} accent="primary" />
+            <MetricCard label={t("thisWeek")} value={analytics.weekAppointments} helperText={t("thisWeekDesc")} icon={CalendarRange} accent="cyan" />
+            <MetricCard label={t("thisMonth")} value={analytics.monthAppointments} helperText={t("thisMonthDesc")} icon={Calendar} accent="amber" />
+            <MetricCard
               label={tCommon("completed")}
               value={analytics.completedCount}
-              sub={t("completionRate", { rate: completionRate })}
-              color="text-green-600"
+              trend={{ value: t("completionRate", { rate: completionRate }), direction: "up" }}
+              icon={CheckCircle2}
+              accent="success"
             />
-            <BigStat
+            <MetricCard
               label={tCommon("cancelled")}
               value={analytics.cancelledCount}
-              sub={t("cancelRate", { rate: cancellationRate })}
-              color="text-red-600"
+              trend={{ value: t("cancelRate", { rate: cancellationRate }), direction: "down" }}
+              icon={XCircle}
+              accent="destructive"
             />
-            <BigStat
-              label={tCommon("noShow")}
-              value={analytics.noShowCount}
-              sub={t("noShowDesc")}
-              color="text-orange-600"
-            />
-            <BigStat
-              label={t("estimatedRevenue")}
-              value={revenue}
-              sub={t("revenueDesc")}
-              color="text-emerald-600"
-            />
+            <MetricCard label={tCommon("noShow")} value={analytics.noShowCount} helperText={t("noShowDesc")} icon={UserX} accent="destructive" />
+            <MetricCard label={t("estimatedRevenue")} value={revenue} helperText={t("revenueDesc")} icon={Wallet} accent="amber" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-card rounded-xl border border-border shadow-sm p-6">
-              <h2 className="font-semibold text-foreground mb-4">{t("statusDistribution")}</h2>
+          <div className="grid gap-6 md:grid-cols-2">
+            <GlowCard className="p-6">
+              <h2 className="mb-4 font-semibold text-foreground">{t("statusDistribution")}</h2>
               <div className="space-y-3">
                 {[
-                  { label: tCommon("completed"), value: analytics.completedCount, color: "bg-green-500" },
-                  { label: tCommon("cancelled"), value: analytics.cancelledCount, color: "bg-red-500" },
-                  { label: tCommon("noShow"), value: analytics.noShowCount, color: "bg-orange-500" },
+                  { label: tCommon("completed"), value: analytics.completedCount, color: "bg-success" },
+                  { label: tCommon("cancelled"), value: analytics.cancelledCount, color: "bg-destructive" },
+                  { label: tCommon("noShow"), value: analytics.noShowCount, color: "bg-warm-accent" },
                 ].map(({ label, value, color }) => {
                   const pct =
                     analytics.monthAppointments > 0
@@ -127,51 +83,44 @@ export default async function AnalyticsPage() {
                       : 0;
                   return (
                     <div key={label}>
-                      <div className="flex items-center justify-between mb-1">
+                      <div className="mb-1 flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">{label}</span>
                         <span className="text-sm font-medium text-foreground">
                           {value} (%{pct})
                         </span>
                       </div>
-                      <div className="h-2 bg-muted rounded-full overflow-hidden">
-                        <div
-                          className={`h-full ${color} rounded-full transition-all`}
-                          style={{ width: `${pct}%` }}
-                        />
+                      <div className="h-2 overflow-hidden rounded-full bg-muted">
+                        <div className={`h-full rounded-full transition-all ${color}`} style={{ width: `${pct}%` }} />
                       </div>
                     </div>
                   );
                 })}
               </div>
-            </div>
+            </GlowCard>
 
-            <div className="bg-card rounded-xl border border-border shadow-sm p-6">
-              <h2 className="font-semibold text-foreground mb-4">{t("highlights")}</h2>
+            <GlowCard variant="hero" className="p-6">
+              <h2 className="mb-4 font-semibold text-foreground">{t("highlights")}</h2>
               <div className="space-y-4">
-                <div className="flex items-center gap-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                  <div className="text-2xl">🏆</div>
+                <div className="flex items-center gap-4 rounded-lg border border-white/5 bg-card-elevated/60 p-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warm-accent/15 text-warm-accent">
+                    <Trophy className="h-5 w-5" aria-hidden="true" />
+                  </span>
                   <div>
-                    <p className="text-xs text-muted-foreground/80 font-medium uppercase tracking-wider">
-                      {t("topService")}
-                    </p>
-                    <p className="font-semibold text-foreground mt-0.5">
-                      {analytics.topServiceName ?? tCommon("noData")}
-                    </p>
+                    <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground/80">{t("topService")}</p>
+                    <p className="mt-0.5 font-semibold text-foreground">{analytics.topServiceName ?? tCommon("noData")}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 p-3 bg-indigo-500/10 border border-indigo-500/20 rounded-lg">
-                  <div className="text-2xl">⭐</div>
+                <div className="flex items-center gap-4 rounded-lg border border-white/5 bg-card-elevated/60 p-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary-accent/15 text-secondary-accent">
+                    <Star className="h-5 w-5" aria-hidden="true" />
+                  </span>
                   <div>
-                    <p className="text-xs text-muted-foreground/80 font-medium uppercase tracking-wider">
-                      {t("topStaff")}
-                    </p>
-                    <p className="font-semibold text-foreground mt-0.5">
-                      {analytics.busiestStaffName ?? tCommon("noData")}
-                    </p>
+                    <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground/80">{t("topStaff")}</p>
+                    <p className="mt-0.5 font-semibold text-foreground">{analytics.busiestStaffName ?? tCommon("noData")}</p>
                   </div>
                 </div>
               </div>
-            </div>
+            </GlowCard>
           </div>
         </>
       )}

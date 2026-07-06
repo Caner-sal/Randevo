@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { TURKEY_PLANS, formatPlanPriceTR, getPlanTR, type TurkeyPlanId } from "@/config/pricing.tr";
 import { getCheckoutUrl, type UpgradablePlanId } from "@/config/billing-plans";
+import { PremiumPlanCard } from "@/components/billing/PremiumPlanCard";
+import { GlowCard } from "@/components/ui/brand/GlowCard";
 
 interface PlanLimits {
   maxStaff: number;
@@ -99,7 +101,7 @@ function BillingContent() {
         </div>
       )}
 
-      <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+      <GlowCard variant="hero" className="p-6">
         <div className="mb-4 flex items-center justify-between">
           <div>
             <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">{t("currentPlan")}</p>
@@ -133,7 +135,7 @@ function BillingContent() {
             </div>
           </div>
         )}
-      </div>
+      </GlowCard>
 
       <div>
         <h2 className="mb-4 text-lg font-semibold text-foreground">{t("plans")}</h2>
@@ -142,57 +144,20 @@ function BillingContent() {
             const isCurrent = plan.id === currentPlan;
             const paidPlan = isUpgradablePlan(plan.id) ? plan.id : null;
             return (
-              <div
+              <PremiumPlanCard
                 key={plan.id}
-                className={`flex flex-col rounded-xl border bg-card p-6 shadow-sm ${
-                  plan.highlight ? "border-blue-400" : "border-border"
-                } ${isCurrent ? "ring-2 ring-blue-500" : ""}`}
-              >
-                {plan.highlight && (
-                  <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-blue-600">{t("mostPopular")}</div>
-                )}
-                {isCurrent && (
-                  <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-green-600">{t("currentPlan")}</div>
-                )}
-                <h3 className="text-xl font-bold text-foreground">{plan.label}</h3>
-                <p className="mt-1 text-2xl font-bold text-foreground">{plan.price}</p>
-                <ul className="mt-4 flex-1 space-y-2">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        className="shrink-0 text-green-500"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-5">
-                  {isCurrent ? (
-                    <div className="rounded-lg border border-border py-2 text-center text-sm text-muted-foreground">{t("activePlan")}</div>
-                  ) : plan.id === "FREE" ? (
-                    <div className="py-2 text-center text-sm text-muted-foreground/80">{t("downgradeContact")}</div>
-                  ) : paidPlan ? (
-                    <button
-                      onClick={() => handleUpgrade(paidPlan)}
-                      className={`w-full rounded-lg py-2 text-sm font-semibold transition-colors ${
-                        plan.highlight
-                          ? "bg-blue-600 text-white hover:bg-blue-700"
-                          : "border border-border text-foreground/90 hover:border-border hover:bg-muted/40"
-                      }`}
-                    >
-                      {`${plan.label} ${t("switchTo")}`}
-                    </button>
-                  ) : null}
-                </div>
-              </div>
+                name={plan.label}
+                price={plan.price}
+                features={plan.features}
+                featured={plan.highlight}
+                isCurrent={isCurrent}
+                mostPopularLabel={t("mostPopular")}
+                currentPlanLabel={t("currentPlan")}
+                activePlanLabel={t("activePlan")}
+                ctaLabel={paidPlan ? `${plan.label} ${t("switchTo")}` : undefined}
+                onSelect={paidPlan ? () => handleUpgrade(paidPlan) : undefined}
+                disabledNote={plan.id === "FREE" && !isCurrent ? t("downgradeContact") : undefined}
+              />
             );
           })}
         </div>

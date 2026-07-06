@@ -12,6 +12,8 @@ export interface MetricCardProps {
     value: string;
     direction: "up" | "down" | "flat";
   };
+  /** Plain descriptive caption (no direction glyph) — mutually exclusive with `trend`. */
+  helperText?: string;
   accent?: Accent;
   className?: string;
 }
@@ -48,7 +50,15 @@ const trendGlyph: Record<NonNullable<MetricCardProps["trend"]>["direction"], str
  * Single shared "big number" card, replacing the ad-hoc StatCard/BigStat
  * duplicates across dashboard/analytics/admin (see docs/ui-redesign-audit.md §3).
  */
-export function MetricCard({ label, value, icon: Icon, trend, accent = "primary", className }: MetricCardProps) {
+export function MetricCard({
+  label,
+  value,
+  icon: Icon,
+  trend,
+  helperText,
+  accent = "primary",
+  className,
+}: MetricCardProps) {
   return (
     <div className={cn("relative overflow-hidden rounded-xl border border-border bg-card p-5", className)}>
       <div className={cn("absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r", accentGradient[accent])} />
@@ -72,6 +82,8 @@ export function MetricCard({ label, value, icon: Icon, trend, accent = "primary"
         <p className={cn("mt-2 text-xs font-medium", trendClasses[trend.direction])}>
           {trendGlyph[trend.direction]} {trend.value}
         </p>
+      ) : helperText ? (
+        <p className="mt-2 text-xs text-muted-foreground">{helperText}</p>
       ) : null}
     </div>
   );

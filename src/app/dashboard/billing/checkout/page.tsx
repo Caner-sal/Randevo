@@ -6,6 +6,9 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { formatPlanPriceTR, getPlanTR, type TurkeyPlanId } from "@/config/pricing.tr";
 import { isUpgradablePlan } from "@/config/billing-plans";
+import { CheckoutSummary } from "@/components/billing/CheckoutSummary";
+import { GradientButton } from "@/components/ui/brand/GradientButton";
+import { ShieldCheck } from "lucide-react";
 
 function CheckoutContent() {
   const t = useTranslations("billing");
@@ -127,53 +130,21 @@ function CheckoutContent() {
       </div>
 
       {/* Selected plan summary */}
-      <div className="rounded-xl border border-border bg-card p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">
-              {t("selectedPlan")}
-            </p>
-            <h2 className="mt-1 text-xl font-bold text-foreground">{selectedPlan.nameTR}</h2>
-          </div>
-          <div className="text-right">
-            <p className="text-2xl font-bold text-foreground">{formatPlanPriceTR(selectedPlan)}</p>
-            <p className="text-xs text-muted-foreground">{t("perMonth")}</p>
-          </div>
-        </div>
-
-        <div className="border-t border-border pt-4">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 mb-3">
-            {t("includedFeatures")}
-          </p>
-          <ul className="space-y-2">
-            {selectedPlan.features.map((feature) => (
-              <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="shrink-0 text-green-500">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                {feature}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="border-t border-border pt-4 space-y-2">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">{t("billingCycle")}</span>
-            <span className="font-medium text-foreground">{t("monthly")}</span>
-          </div>
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">{t("total")}</span>
-            <span className="font-bold text-foreground">{formatPlanPriceTR(selectedPlan)}</span>
-          </div>
-        </div>
-      </div>
+      <CheckoutSummary
+        planName={selectedPlan.nameTR}
+        price={formatPlanPriceTR(selectedPlan)}
+        perMonthLabel={t("perMonth")}
+        selectedPlanLabel={t("selectedPlan")}
+        includedFeaturesLabel={t("includedFeatures")}
+        features={selectedPlan.features}
+        billingCycleLabel={t("billingCycle")}
+        monthlyLabel={t("monthly")}
+        totalLabel={t("total")}
+      />
 
       {/* Security note */}
-      <div className="rounded-lg border border-border bg-muted/20 px-4 py-3 flex items-start gap-3">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 mt-0.5 text-muted-foreground">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        </svg>
+      <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/20 px-4 py-3">
+        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
         <p className="text-xs text-muted-foreground">{t("securePaymentNote")}</p>
       </div>
 
@@ -191,13 +162,14 @@ function CheckoutContent() {
         >
           {tCommon("cancel")}
         </button>
-        <button
+        <GradientButton
           onClick={() => void handleProceed()}
           disabled={loading}
-          className="flex-1 rounded-lg bg-blue-600 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors disabled:opacity-60"
+          variant="primaryGlow"
+          className="flex-1"
         >
           {loading ? t("processingPayment") : t("proceedToPayment")}
-        </button>
+        </GradientButton>
       </div>
     </div>
   );
