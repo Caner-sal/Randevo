@@ -2,6 +2,35 @@
 
 _Last updated: 2026-07-06_
 
+## 2026-07-06 REDESIGN-6+7 — Premium UI Redesign Checkpoint (Analytics/Billing + Staff/Admin)
+
+Branch: `feature/global-address-locale`
+
+### Tamamlanan Fazlar
+
+- **REDESIGN-6 (Analytics & Billing):** `BigStat` component (dark-bg üzerinde tasarlanmamış `text-blue-600` vb. ham renkler) `MetricCard`'a taşındı — yeni opsiyonel `helperText` prop'u ile (yönsüz açıklama metni, mevcut `trend` göstergesinin yanında). "Öne Çıkanlar" paneli `GlowCard` + icon-bubble ile yeniden tasarlandı. `src/components/billing/PremiumPlanCard.tsx` + `CheckoutSummary.tsx` eklendi — **sadece sunum katmanı**, checkout/webhook mantığına dokunulmadı. Kalan ham renkler (`border-blue-400`, `ring-blue-500`, `bg-blue-600` vb.) token'lara taşındı. Full `phase:gate` çalıştırıldı — bu fazda önceki oturumdan kalan stale process kaldırılınca `prisma generate` de ilk kez temiz geçti.
+- **REDESIGN-7 (Staff/Admin Polish):** `staff-invite-token-form.tsx` (tamamen light-themed, public) düzeltildi. 8 dashboard sayfası + tüm admin panel + staff portal + (süpürme sırasında bulunan) 2 booking-portal sayfası + global 404 sayfasındaki dark-theme renk kalıntısı bug'ı (`bg-*-100`/`bg-*-50`, OS `prefers-color-scheme`'e bağlı `dark:` varyantları) düzeltildi. Admin panelindeki stilsiz native `<select>`/`<input>` (beyaz browser-default görünüm) düzeltildi. `src/components/admin/AdminStatCard.tsx` + `AdminPagination.tsx` eklendi — subscriptions/usage'da birebir kopyalanmış `StatCard`/pagination deseni tek component'e indirildi. `dashboard-theme-class-audit.test.ts`'in FORBIDDEN listesi bu fazda düzeltilen renkli varyantları da yakalayacak şekilde güçlendirildi (regresyon kapısı).
+
+### Doğrulama
+
+- REDESIGN-6: Canlı authenticated session ile dashboard/analytics/billing/checkout sayfaları doğrulandı, konsol hatası yok.
+- REDESIGN-7: Canlı superadmin session ile admin subscriptions/usage/organizations/health sayfaları doğrulandı, konsol hatası yok.
+- **Ortam notu:** Port 3000'i işgal eden stale `next start` process'i (önceki oturumdan kalma) kaldırıldı — bu hem tekrarlayan `prisma generate` kilidini hem de login/`NEXTAUTH_URL` uyuşmazlığını çözdü. Sonraki doğrulamalarda demo/superadmin girişleri artık düzgün çalışıyor (`demo@randevo.app`/`demo1234`, `admin@randevo.app`/`demo-superadmin-local-only`).
+
+### Verification Snapshot (REDESIGN-6/7)
+
+- `npm run check:node`, `check:secrets`, `typecheck`, `lint` PASS
+- `npm test` PASS (75 dosya, 554 test)
+- `npm run build` PASS
+- `node ./node_modules/prisma/build/index.js validate` + `generate` PASS (artık temiz, stale process kaldırıldıktan sonra)
+
+### Devam Edecek Fazlar
+
+- REDESIGN-8: framer-motion (landing/discover'a scoped), gerçek `prefers-reduced-motion`, `booking-accessibility-theme-audit.test.ts`'i staff/admin'e genişletme, mobile/keyboard nav taraması.
+- **Checkpoint:** REDESIGN-9'un release tag/push adımından önce kullanıcı onayı beklenecek (REDESIGN-8 tam otomatik devam ediyor).
+
+---
+
 ## 2026-07-06 REDESIGN-4+5 — Premium UI Redesign Checkpoint (Marketplace + Dashboard)
 
 Branch: `feature/global-address-locale`
