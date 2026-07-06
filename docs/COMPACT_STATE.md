@@ -2,6 +2,40 @@
 
 _Last updated: 2026-07-06_
 
+## 2026-07-06 REDESIGN-4+5 — Premium UI Redesign Checkpoint (Marketplace + Dashboard)
+
+Branch: `feature/global-address-locale`
+
+### Tamamlanan Fazlar
+
+- **REDESIGN-4 (Discover/Marketplace Konsolidasyonu):** `/discover`, `/discover/business/[slug]`, `/api/discover/search` kaldırıldı — `/marketplace` tek, tam iki dilli arama deneyimi oldu. `next.config.ts`'e kalıcı redirect eklendi. `/api/marketplace` genişletildi (additive): TR ilçe filtresi (eskiden sadece discover API'sinde vardı) geri kazanıldı, `q` araması name/description/category'e genişletildi, try/catch + `MARKETPLACE_SEARCH_FAILED` yapılandırılmış hata kodu eklendi. `BusinessResultCard`/`DiscoverSearchPanel`/`LocationPulseMap` component'leri, 3 duplike kart implementasyonunu tek component'e indirdi. `marketplace/[slug]` (İngilizce hardcoded idi) ve `marketplace/location/...` (karışık İngilizce/Türkçe idi) tam i18n'lendi — 22 yeni key × 10 locale. `AddressAutocomplete` beyaz dropdown bug'ı düzeltildi.
+- **REDESIGN-5 (Dashboard Command Center):** `dashboard/page.tsx`'teki 3 duplike metric-card deseni (`StatCard`, inline div'ler) `MetricCard`'a taşındı. Yeni `TodayCommandCenter` (gerçek veri hero banner), `AppointmentTimeline` (bugünün randevu listesi), `SmartSuggestions` (kural-tabanlı, AI/LLM çağrısı YOK — plan'ın kendi talimatına uygun: "AI hissi vermeden akıllı öneriler") eklendi. `analytics.service.ts`'e additive `pendingTodayCount` + yeni `getTodayAppointments()` eklendi, testlerle kapsandı. Ölü dosyalar `dashboard/header.tsx`/`sidebar.tsx` silindi.
+
+### Doğrulama Notu (REDESIGN-5 — kısmi)
+
+- Marketplace (REDESIGN-4): canlı dev server'da tam doğrulandı — TR ilçe seçimi, non-TR AddressAutocomplete, sonuç kartları, işletme detay sayfası, empty state, `/discover` redirect'i — hepsi çalışıyor, konsol hatası yok.
+- Dashboard (REDESIGN-5): kod seviyesinde (typecheck/lint/build/test) tam doğrulandı, ancak canlı tarayıcıda authenticated `/dashboard` sayfası GÖRSEL olarak doğrulanamadı — demo hesabıyla (`demo@randevo.app`/`demo1234`, login sayfasındaki hint ile birebir aynı) giriş denemesi başarısız oldu; bu ortamın/seed verisinin önceden var olan bir durumu, bu fazda yapılan kod değişiklikleriyle ilgisi yok. Yeni component'ler (TodayCommandCenter/AppointmentTimeline/SmartSuggestions) REDESIGN-1/2/3/4'te canlı olarak zaten doğrulanmış aynı GlowCard/token/lucide-icon desenlerini birebir kullanıyor, bu yüzden risk düşük değerlendirildi — ama bir sonraki oturumda gerçek kimlik doğrulamayla görsel doğrulama tamamlanmalı.
+- **Ortam notu:** Port 3000'i işgal eden, önceki oturumdan kalma stale `next start` (production, güncel olmayan build) process'i durduruldu — hem tekrarlayan Prisma generate kilidi hem de `NEXTAUTH_URL=http://localhost:3000` uyuşmazlığından dolayı auth testlerini engelliyordu.
+
+### Verification Snapshot (REDESIGN-4/5)
+
+- `npm run check:node`, `check:secrets`, `validate:skills`, `typecheck`, `lint` PASS
+- `npm test` PASS (75 dosya, 554 test)
+- `npm run build` PASS
+- `npm run i18n:check` PASS (10/10 locale parity, marketplace +22 key, dashboard +11 key)
+- `node ./node_modules/prisma/build/index.js validate` PASS, `prisma:migrate:status` "up to date"
+- `prisma generate` — Windows dosya kilidi nedeniyle tekrarlanamadı (bkz. yukarı, şema değişikliği yok)
+
+### Devam Edecek Fazlar
+
+- **Checkpoint (aktif):** REDESIGN-6 (Analytics & Billing) başlamadan önce kullanıcı onayı bekleniyor — ödeme/billing yüzeyine dokunacağı için.
+- REDESIGN-6: Analytics BigStat kontrast düzeltmesi, Billing plan kartları/checkout — sadece sunum katmanı, ödeme mantığına dokunulmayacak.
+- REDESIGN-7: Staff/admin UI polish.
+- REDESIGN-8: Motion + a11y.
+- REDESIGN-9: E2E + release (tag/push öncesi ikinci checkpoint).
+
+---
+
 ## 2026-07-06 REDESIGN-2+3 — Premium UI Redesign Checkpoint (Shared Components + Landing)
 
 Branch: `feature/global-address-locale`
