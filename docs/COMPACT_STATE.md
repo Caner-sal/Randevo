@@ -2,6 +2,35 @@
 
 _Last updated: 2026-07-08_
 
+## 2026-07-08 REDESIGN-9 — Premium UI Redesign Checkpoint (E2E Regression, Docs & Release Prep)
+
+Branch: `feature/global-address-locale`
+
+### Tamamlanan Faz
+
+- **REDESIGN-9 (E2E/Docs/Release Prep):** `tests/e2e/redesign-motion-a11y-smoke.spec.ts` eklendi — REDESIGN-8'in sadece geçici (silinmiş) bir script ile doğruladığı davranışları (reduced-motion anında görünürlük, normal-motion fade-in + sıfır konsol hatası, mobilde (375px) yatay taşma yok, klavye Tab odağı, marketplace kartlarının `FadeIn` içinde gerçek veriyle render olması) kalıcı Playwright testine dönüştürdü.
+- Tam `test:e2e` çalıştırıldığında 3 test başarısız çıktı — kök nedenleri tek tek doğrulandı:
+  - `marketplace-localization.spec.ts`: **gerçek REDESIGN-4 regresyonu**. Test hâlâ il seçimi için 3. bir native `<select>` bekliyordu, ama REDESIGN-4 il/ilçe seçimini Radix UI `Select`'e taşımıştı (`button[role="combobox"]`, native `<select>` yok). Test, Radix trigger'ı açıp `getByRole("option")` ile doğrulayacak şekilde güncellendi.
+  - `critical-guards.spec.ts` + `dark-select-phone-regression.spec.ts`: **redesign ile ilgisiz, önceden var olan** 2 test hatası. `git log -- src/middleware.ts` ile doğrulandı — `/onboarding`'i korumalı rota yapan middleware hiçbir REDESIGN commit'i tarafından değiştirilmemiş. Testler, unauthenticated `/onboarding`'in erişilebilir kalacağını varsayıyordu (artık `/login`'e yönleniyor, diğer korumalı rotalar gibi) ve skip-check'i `button[type='submit']` ile yapıyordu (login sayfasının kendi submit butonuyla da eşleşip yanlışlıkla devam ediyor, 60s timeout'a düşüyordu). İkisi de gerçek davranışı yansıtacak/URL tabanlı skip-check kullanacak şekilde düzeltildi — production kodu hiç değiştirilmedi, sadece test dosyaları.
+- Repo-geneli ışık-modu renk kalıntısı taraması: `dashboard-theme-class-audit.test.ts`'in tarama kapsamı `dashboard`/`admin`/`staff`'tan tüm `src/app` + `src/components` ağacına genişletildi (ayrı bir script yerine mevcut vitest testi genişletilerek — her `npm test`/`phase:gate`/CI'da otomatik çalışır, unutulup wire edilmeyi beklemez). 1 gerçek kalıntı bulundu ve düzeltildi (`booking/[slug]/layout.tsx`'teki `text-gray-400` → `text-muted-foreground`), 1 false positive için regex inceltildi (`LanguageSwitcher`'ın `bg-white/10`/`border-white/20` glass-pill trigger'ı kasıtlı bir saydam efekt, ışık-modu bug'ı değil — opacity modifier'lar `bg-white` kuralından hariç tutuldu).
+- `README.md` güncellendi: bayat teknoloji-yığını tablosu ("Tailwind CSS v4 + Inline Styles", ölü "Outfit + Nunito" fontları) düzeltildi, yeni "Premium UI Redesign (v1.8.0-premium-ui-redesign)" bölümü eklendi (token mimarisi, paylaşılan component kütüphanesi, dark-theme düzeltmesi, motion/a11y yaklaşımı, marketplace konsolidasyonu özetleniyor).
+
+### Doğrulama
+
+- Full `phase:gate` PASS: check:node, env:check, check:secrets, check:logs, check:encoding, validate:skills, agent:check, typecheck, lint, test (75 dosya, 555 test), build, prisma validate/generate/migrate-status.
+- Full `test:e2e` PASS: 30 geçti, 2 skip (ortam-bağımlı, bu fazla ilgisiz — `calui-regression.spec.ts` public booking servisi bu ortamda bookable değil, `dark-select-phone-regression.spec.ts` onboarding testi authentication gerektiriyor).
+
+### Verification Snapshot (REDESIGN-9)
+
+- `npm run phase:gate` PASS (tüm zincir, sonuna kadar)
+- `npm run test:e2e` PASS (30 passed, 2 skipped)
+
+### Devam Edecek Faz
+
+- **Checkpoint (aktif):** REDESIGN-9'un son adımı — `git tag v1.8.0-premium-ui-redesign` + `git push origin v1.8.0-premium-ui-redesign` — kullanıcının açık onayını bekliyor. Onay sonrası: commit + push (bu faz değişiklikleri) + tag + tag push.
+
+---
+
 ## 2026-07-08 REDESIGN-8 — Premium UI Redesign Checkpoint (Motion, Responsive & Accessibility)
 
 Branch: `feature/global-address-locale`

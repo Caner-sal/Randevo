@@ -2,7 +2,16 @@
 
 All notable changes to Randevo are documented here.
 
-## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-8
+## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-9
+
+### REDESIGN-9 — E2E Regression, Docs & Release Prep
+
+- Added `tests/e2e/redesign-motion-a11y-smoke.spec.ts`: permanent Playwright coverage for what REDESIGN-8 had only verified with an ad-hoc, deleted script — reduced-motion instant-appearance, normal-motion fade-in with zero console errors, no mobile (375px) horizontal overflow on landing/marketplace, keyboard `Tab` reaching a visibly-focused element, and marketplace result cards rendering inside the `FadeIn` wrapper with real seeded data.
+- Fixed a real REDESIGN-4 regression in `tests/e2e/marketplace-localization.spec.ts`: the test still assumed a 3rd native `<select>` for the province filter, but REDESIGN-4 moved province/district selection to Radix UI `Select` (`button[role="combobox"]`, no native `<select>`). Updated the test to open the Radix trigger and assert against `getByRole("option")`.
+- Fixed 2 pre-existing, redesign-unrelated e2e test bugs surfaced by a full `test:e2e` run (root-caused via `git log` — the underlying `/onboarding` auth-gating in `src/middleware.ts` was untouched by any REDESIGN commit): `critical-guards.spec.ts` asserted unauthenticated `/onboarding` stays reachable, when the middleware has long redirected it to `/login` like any other protected route — updated the assertion to match actual behavior. `dark-select-phone-regression.spec.ts`'s skip-check looked for `button[type='submit']`, which also matches the login page's own submit button, causing a false pass-through into a 60s timeout — changed the skip-check to test the URL instead.
+- Repo-wide sweep for remaining light-mode color remnants: broadened `dashboard-theme-class-audit.test.ts` from scanning only `dashboard`/`admin`/`staff` to the entire `src/app` + `src/components` tree, so this permanently runs on every `npm test`/`phase:gate`/CI without a separate script to maintain. Found and fixed one real remnant (`src/app/booking/[slug]/layout.tsx`'s `text-gray-400` footer text → `text-muted-foreground`) and one false positive that needed a regex refinement (`LanguageSwitcher`'s `bg-white/10`/`border-white/20` is an intentional translucent "glass pill" trigger over the hero's colored background, not the light-mode bug — excluded opacity modifiers from the `bg-white` rule).
+- Updated `README.md`'s stale tech-stack table (was still listing "Tailwind CSS v4 + Inline Styles" and the dead "Outfit + Nunito" fonts from before REDESIGN-1/3) and added a "Premium UI Redesign (v1.8.0-premium-ui-redesign)" section summarizing the token architecture, shared component library, the dark-theme color-remnant fix, motion/accessibility approach, and the marketplace consolidation.
+- Full `phase:gate` green (typecheck/lint/555 unit tests/build/prisma validate+generate+migrate-status, plus the local-only check:logs/env:check/check:encoding steps) and `test:e2e` green (30 passed, 2 legitimately skipped for environment-dependent reasons unrelated to this phase).
 
 ### REDESIGN-8 — Motion, Responsive & Accessibility
 

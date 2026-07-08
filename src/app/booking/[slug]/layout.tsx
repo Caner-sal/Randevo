@@ -15,7 +15,7 @@ export default async function BookingLayout({ children }: { children: React.Reac
           </Link>
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
-            <span className="text-xs text-gray-400">{t("poweredBy")}</span>
+            <span className="text-xs text-muted-foreground">{t("poweredBy")}</span>
           </div>
         </div>
       </header>

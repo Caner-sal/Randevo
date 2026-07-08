@@ -2,14 +2,20 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
+// REDESIGN-9: scans the whole app/component tree (not just dashboard/admin/
+// staff) so any new page or component regresses this repo-wide, permanently,
+// on every `npm test` / `phase:gate` / CI run — no separate script to forget
+// to wire up.
 const TARGET_DIRS = [
-  path.join(process.cwd(), "src", "app", "dashboard"),
-  path.join(process.cwd(), "src", "app", "admin"),
-  path.join(process.cwd(), "src", "app", "staff"),
+  path.join(process.cwd(), "src", "app"),
+  path.join(process.cwd(), "src", "components"),
 ];
 
 const FORBIDDEN = [
-  /bg-white/,
+  // `(?!\/)` excludes opacity modifiers like `bg-white/10` — an intentional,
+  // theme-agnostic translucent overlay pattern (e.g. LanguageSwitcher's glass
+  // pill trigger over the hero's colored background), not the light-mode bug.
+  /bg-white(?!\/)/,
   /text-gray-\d{2,3}/,
   /border-gray-\d{2,3}/,
   // Raw light-palette status colors (bg-yellow-100, bg-blue-100, ...) that only
@@ -34,7 +40,7 @@ function collectTsxFiles(dir: string, acc: string[] = []): string[] {
   return acc;
 }
 
-describe("dashboard/admin/staff theme class audit", () => {
+describe("repo-wide theme class audit", () => {
   it("avoids hard-coded light-mode gray/white utility classes", () => {
     const violations: string[] = [];
 

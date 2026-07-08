@@ -10,15 +10,17 @@ test.describe("Critical guard and entry smoke flows", () => {
 
     await page.goto("/tr/admin");
     await expect(page).toHaveURL(/\/tr\/login$/);
+
+    // /onboarding is also a protected route (src/middleware.ts protectedRoutes) —
+    // unauthenticated visitors are redirected to login, same as the routes above.
+    await page.goto("/tr/onboarding");
+    await expect(page).toHaveURL(/\/tr\/login$/);
   });
 
-  test("registration and onboarding entry pages are reachable", async ({ page }) => {
+  test("registration entry page is reachable", async ({ page }) => {
     await page.goto("/tr/register");
     await expect(page).toHaveURL(/\/tr\/register$/);
     await expect(page.locator("input[type='email']").first()).toBeVisible();
-
-    await page.goto("/tr/onboarding");
-    await expect(page).toHaveURL(/\/tr\/onboarding$/);
   });
 
   test("public booking route is reachable", async ({ page }) => {

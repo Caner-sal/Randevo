@@ -14,19 +14,25 @@ test.describe("Marketplace localization regression", () => {
 
     await page.goto("/tr/marketplace");
 
+    // After REDESIGN-4, category (index 0) and country (index 1) remain native
+    // <select> elements, but province/district moved to Radix UI Select
+    // (button[role="combobox"] triggers, no native <select>) — see
+    // src/components/forms/ProvinceSelect.tsx / DistrictSelect.tsx.
     const countrySelect = page.locator("select").nth(1);
     await countrySelect.selectOption("TR");
 
-    const provinceSelect = page.locator("select").nth(2);
-    await expect(provinceSelect).toBeVisible();
-    await expect(provinceSelect.locator("option", { hasText: "Adana" })).toHaveCount(1);
+    const provinceTrigger = page.locator("button[role='combobox']").first();
+    await expect(provinceTrigger).toBeVisible();
+    await provinceTrigger.click();
+    await expect(page.getByRole("option", { name: "Adana" })).toHaveCount(1);
+    await page.keyboard.press("Escape");
     await page.screenshot({
       path: path.join(artifactDir, "v1.6.2-tr-province-dropdown.png"),
       fullPage: true,
     });
 
     await countrySelect.selectOption("IT");
-    await expect(page.getByRole("option", { name: "Adana" })).toHaveCount(0);
+    await expect(page.locator("button[role='combobox']")).toHaveCount(0);
 
     const localityInput = page.getByPlaceholder(/locality/i);
     await expect(localityInput).toBeVisible();

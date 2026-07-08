@@ -76,8 +76,8 @@ Hedef kitle: berberler, güzellik salonları, özel ders veren öğretmenler, ko
 | Veritabanı | SQLite (geliştirme) / PostgreSQL (üretim) |
 | ORM | Prisma 6 |
 | Kimlik Doğrulama | NextAuth v5 (Auth.js) |
-| Stil | Tailwind CSS v4 + Inline Styles |
-| Fontlar | Outfit (başlık) + Nunito (gövde) |
+| Stil | Tailwind CSS v4 + additive brand tokens (`src/styles/tokens.css`) + `framer-motion` |
+| Fontlar | Inter Tight (`next/font/google`, başlık + gövde) |
 | Doğrulama | Zod |
 | Faturalama | Stripe (test modu) |
 | E-posta | Resend / fake log modu |
@@ -337,4 +337,34 @@ node .\node_modules\prisma\build\index.js generate
 - Past and known unavailable days are disabled/marked in the booking calendar.
 - Dashboard/admin/staff UI surfaces were aligned to shared theme tokens for dark/light consistency.
 - UI localization and business-entered content boundaries are now explicitly documented and tested.
+
+---
+
+## Premium UI Redesign (v1.8.0-premium-ui-redesign)
+
+Randevo'nun tüm görsel katmanı, jenerik bir "AI SaaS template" hissinden markalı, premium bir ürün deneyimine taşındı. Detaylı audit için `docs/ui-redesign-audit.md`; faz faz ilerleme geçmişi için `docs/COMPACT_STATE.md`.
+
+### Design Token Mimarisi
+
+- Mevcut `--background`/`--card`/`--primary`/`--border` token'ları (`src/app/globals.css`) hiç değiştirilmedi — yüzlerce mevcut kullanım korundu.
+- Yeni marka token'ları additive olarak `src/styles/tokens.css`'e eklendi: `--secondary-accent` (camgöbeği), `--warm-accent` (amber), `--success`, `--card-elevated`, glow shadow ve motion-duration değişkenleri. JS tarafı eşleniği: `src/lib/design/tokens.ts`.
+- Başlık/gövde fontu artık `next/font/google` ile yüklenen gerçek bir webfont (Inter Tight) — eskiden hiç yüklenmeyen, sessizce Segoe UI'ye düşen ölü `Outfit`/`Nunito` CSS değişken referanslarının yerini aldı.
+
+### Paylaşılan Premium Component Kütüphanesi (`src/components/ui/brand/`)
+
+`GlowCard`, `GradientButton`, `MetricCard`, `FeatureCard`, `SectionHeader`, `PulseDot`, `OrbitLines`, `BrandBackground`, `FadeIn` — hepsi mevcut `src/components/ui/` primitive'lerinin (`cn()`/`cva` konvansiyonu) üzerine kompozisyon; hiçbiri mevcut bir component'i değiştirmedi.
+
+### Dark-Theme Renk Kalıntısı Düzeltmesi
+
+Uygulamanın hiçbir zaman `.dark` class'ı toggle etmeyen, tek sabit koyu temalı bir arayüzü var — ama onlarca yerde `dark:` varyantlı ham açık-palet class'ları (`bg-yellow-100`, `text-blue-600` vb.) kullanılıyordu; bunlar sadece OS seviyesinde `prefers-color-scheme: dark` aktifse devreye giriyordu, uygulamanın kendi temasından tamamen bağımsız olarak. Sonuç: açık-mod OS kullanan ziyaretçiler koyu arayüz üzerinde beyaz/parlak durum etiketleri görüyordu. Tamamı opacity-token deseniyle (`bg-success/15 text-success` vb.) düzeltildi ve `src/tests/dashboard-theme-class-audit.test.ts` artık **tüm** `src/app` + `src/components` ağacını tarayarak bu bug sınıfının geri gelmesini engelliyor.
+
+### Motion & Erişilebilirlik
+
+- `framer-motion` ile scroll-reveal fade-in, sadece landing/marketplace gibi pazarlama/keşif yüzeylerinde, ölçülü şekilde kullanıldı (`FadeIn` wrapper).
+- `prefers-reduced-motion: reduce` tercih edilen kullanıcılar için içerik anında (animasyonsuz) görünür — bu, `useReducedMotion()`'ın hydration sonrası resolve olması nedeniyle SSR'ın "hidden" durumunun kısa süre görünmesi riskine karşı, CSS seviyesinde `!important` override ile (`src/styles/tokens.css`) garanti altına alındı.
+- Staff portal ve admin panelinde tam `focus-visible` klavye navigasyonu desteği eklendi.
+
+### Marketplace Konsolidasyonu
+
+Eskiden paralel var olan `/discover` ve `/marketplace` deneyimleri tek bir `/marketplace`'te birleştirildi; eski `/discover` linkleri `next.config.ts`'teki kalıcı redirect'lerle çalışmaya devam ediyor.
 
