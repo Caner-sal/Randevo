@@ -76,7 +76,10 @@ export default function StaffAppointmentsPage() {
               <tr key={apt.id} className="hover:bg-muted/40">
                 <td className="px-4 py-3">
                   <div className="font-medium text-foreground">
-                    <Link className="hover:underline" href={`/staff/appointments/${apt.id}`}>
+                    <Link
+                      className="rounded hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      href={`/staff/appointments/${apt.id}`}
+                    >
                       {apt.customer.fullName}
                     </Link>
                   </div>

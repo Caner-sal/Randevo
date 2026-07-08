@@ -72,7 +72,10 @@ export default async function AdminOrganizationsPage() {
                   )}
                 </td>
                 <td className="px-4 py-3">
-                  <Link href={`/admin/organizations/${org.id}`} className="text-primary hover:underline text-xs">
+                  <Link
+                    href={`/admin/organizations/${org.id}`}
+                    className="rounded text-primary hover:underline text-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
                     Görüntüle
                   </Link>
                 </td>

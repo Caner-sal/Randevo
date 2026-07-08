@@ -13,6 +13,7 @@ import { DiscoverSearchPanel } from "@/components/discover/DiscoverSearchPanel";
 import { BusinessResultCard } from "@/components/discover/BusinessResultCard";
 import { LocationPulseMap } from "@/components/discover/LocationPulseMap";
 import { GradientButton } from "@/components/ui/brand/GradientButton";
+import { FadeIn } from "@/components/ui/brand/FadeIn";
 
 interface Business {
   id: string;
@@ -201,16 +202,17 @@ export default function MarketplacePage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {businesses.map((biz) => (
-                <BusinessResultCard
-                  key={biz.id}
-                  business={{ ...biz, serviceCount: biz._count.services }}
-                  strings={{
-                    serviceCountLabel: t("service"),
-                    noReviewsLabel: t("noReviewsYet"),
-                    ctaLabel: t("bookCta"),
-                  }}
-                />
+              {businesses.map((biz, index) => (
+                <FadeIn key={biz.id} index={index % 6}>
+                  <BusinessResultCard
+                    business={{ ...biz, serviceCount: biz._count.services }}
+                    strings={{
+                      serviceCountLabel: t("service"),
+                      noReviewsLabel: t("noReviewsYet"),
+                      ctaLabel: t("bookCta"),
+                    }}
+                  />
+                </FadeIn>
               ))}
             </div>
           )}

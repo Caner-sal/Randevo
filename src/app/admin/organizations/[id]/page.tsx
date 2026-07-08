@@ -108,7 +108,10 @@ export default function AdminOrgDetailPage() {
   return (
     <div className="max-w-3xl">
       <div className="mb-4">
-        <Link href="/admin/organizations" className="text-primary hover:underline text-sm">
+        <Link
+          href="/admin/organizations"
+          className="rounded text-primary hover:underline text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
           ← İşletmelere Dön
         </Link>
       </div>
@@ -153,7 +156,7 @@ export default function AdminOrgDetailPage() {
           <button
             onClick={() => toggleField("suspended")}
             disabled={saving}
-            className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
               org.status !== "ACTIVE" || org.suspended
                 ? "bg-success text-success-foreground hover:bg-success/90"
                 : "bg-destructive text-destructive-foreground hover:bg-destructive/90"
@@ -164,7 +167,7 @@ export default function AdminOrgDetailPage() {
           <button
             onClick={() => toggleField("bookingEnabled")}
             disabled={saving}
-            className="px-4 py-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+            className="px-4 py-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             {org.bookingEnabled ? "Rezervasyonu Kapat" : "Rezervasyonu Aç"}
           </button>

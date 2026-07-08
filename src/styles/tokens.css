@@ -63,5 +63,18 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+
+    /*
+     * framer-motion animates opacity/transform via inline styles (JS-driven,
+     * not CSS transitions), so the blanket rule above never touches it. Worse,
+     * useReducedMotion() only resolves after hydration, so SSR output briefly
+     * renders the "hidden" (opacity:0) state even for reduced-motion users.
+     * This !important override beats that inline style unconditionally, from
+     * first paint, independent of JS/hydration timing.
+     */
+    .motion-fade-in {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
 }

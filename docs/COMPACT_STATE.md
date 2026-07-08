@@ -1,6 +1,36 @@
 # Randevo Compact State
 
-_Last updated: 2026-07-06_
+_Last updated: 2026-07-08_
+
+## 2026-07-08 REDESIGN-8 — Premium UI Redesign Checkpoint (Motion, Responsive & Accessibility)
+
+Branch: `feature/global-address-locale`
+
+### Tamamlanan Faz
+
+- **REDESIGN-8 (Motion/Responsive/A11y):** `framer-motion` eklendi (React 19 uyumlu). `src/components/ui/brand/FadeIn.tsx` — reduced-motion-aware fade+slide-up wrapper — landing (`HeroShowcase`, feature/pricing kartları, `DiscoveryDemo`/`BusinessControlSection`/`GlobalMapPreview`) ve marketplace sonuç kartlarına uygulandı. Staff portal + admin panelde `focus-visible` ring ve `aria-label` süpürmesi tamamlandı (`staff/appointments`, `staff/appointments/[id]`, `staff/availability` — stilsiz native time input'lar da düzeltildi —, `staff/dashboard`, `admin/organizations` liste+detay). `booking-accessibility-theme-audit.test.ts`'e 10 temsili staff/admin dosyasını kapsayan yeni test eklendi.
+- **Canlı doğrulama sırasında bulunan ve düzeltilen gerçek bug:** `useReducedMotion()` hidration sonrası resolve olduğu için, `prefers-reduced-motion: reduce` kullanıcıları SSR'ın "hidden" (`opacity:0`) durumunu ~300ms görüyordu (düzgün "anında görünür" değil, kısa bir içerik flaş'ı). Playwright ile ölçüldü: `["0","0","0","0","1","1"]` (80ms aralıklarla). Kök neden: framer-motion opacity/transform'u inline JS stiliyle uyguluyor, mevcut REDESIGN-1 `prefers-reduced-motion` CSS kuralı sadece gerçek CSS `transition`/`animation` property'lerini hedefliyordu, bu yüzden hiç etkisi olmuyordu. Düzeltme: `src/styles/tokens.css`'teki mevcut `prefers-reduced-motion` bloğuna `.motion-fade-in { opacity:1 !important; transform:none !important; }` eklendi — `!important` inline stili JS/hydration zamanlamasından bağımsız olarak her zaman yeniyor. `FadeIn.tsx` artık bu class'ı `cn()` ile her zaman ekliyor. Düzeltme sonrası ölçüm: `["1","1","1","1","1","1"]`.
+- **İkinci küçük doğrulama script bug'ı (kod değişikliği gerektirmedi):** Mobil `fullPage` screenshot'ta sayfa ortasında boş bir bölüm görüldü — sebep, Playwright'ın `fullPage` screenshot'ının viewport'u anında tam yüksekliğe genişletmesi, scroll-reveal (`whileInView`) bölümlerinin geçiş animasyonunun tamamlanmasını beklememesiydi. Doğrulama script'i gerçek kullanıcı scroll'unu simüle edecek şekilde güncellenip (adım adım scroll + bekleme) tekrar çalıştırıldı — tüm bölümler doğru render oluyor, gerçek bir uygulama bug'ı değil.
+
+### Doğrulama
+
+- Playwright ile canlı dev server üzerinde: normal motion hero fade-in gerçekten animasyonlu; `prefers-reduced-motion: reduce` artık flaş olmadan anında tam opaklıkla görünüyor; mobil (375px) landing ve marketplace'te yatay taşma yok; klavye `Tab` odağı görünür outline ile bir elemente ulaşıyor.
+- Marketplace canlı doğrulaması sırasında yerel Postgres container'ının (Docker Desktop) kapalı olduğu fark edildi — bu bir kod regresyonu değil, ortam durumuydu; container zaten mevcuttu (`randevo-postgres`), sadece durdurulmuştu. Başlatıldıktan sonra marketplace gerçek veriyle (`Berber Demo` — Beşiktaş, İstanbul) doğru render oldu, kart stagger animasyonu ve token'lı stil çalışıyor.
+- Doğrulama scripti (`_verify-redesign-8.mjs`) ve tüm ekran görüntüleri, doğrulama tamamlandıktan sonra silindi — repoya commit edilmedi.
+
+### Verification Snapshot (REDESIGN-8)
+
+- `npm run typecheck` PASS
+- `npm run lint` PASS (`--max-warnings=0`)
+- `npm run check:secrets` PASS
+- `npm test` PASS (75 dosya, 555 test)
+- `npm run build` PASS (landing bundle 121KB→171KB framer-motion nedeniyle büyüdü — beklenen, sadece landing/marketplace'e scoped)
+
+### Devam Edecek Faz
+
+- **Checkpoint (aktif):** REDESIGN-9'un release tag/push adımından önce kullanıcı onayı bekleniyor (E2E smoke testleri, repo-geneli beyaz-UI-kalıntısı taraması, README/CHANGELOG/COMPACT_STATE güncellemeleri, full `phase:gate` + `test:e2e` sonrası).
+
+---
 
 ## 2026-07-06 REDESIGN-6+7 — Premium UI Redesign Checkpoint (Analytics/Billing + Staff/Admin)
 

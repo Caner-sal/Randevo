@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { GradientButton } from "@/components/ui/brand/GradientButton";
 import { OrbitLines } from "@/components/ui/brand/OrbitLines";
 import { PulseDot } from "@/components/ui/brand/PulseDot";
+import { FadeIn } from "@/components/ui/brand/FadeIn";
 import { LiveDashboardPreview, type LiveDashboardPreviewStrings } from "./LiveDashboardPreview";
 
 export interface HeroShowcaseProps {
@@ -40,7 +41,7 @@ export function HeroShowcase({
       </div>
 
       <div className="relative mx-auto grid max-w-6xl gap-14 px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-10">
-        <div className="text-center lg:text-left">
+        <FadeIn className="text-center lg:text-left" index={0}>
           {isTurkey ? (
             <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5">
               <PulseDot />
@@ -84,11 +85,11 @@ export function HeroShowcase({
               </div>
             ))}
           </div>
-        </div>
+        </FadeIn>
 
-        <div className="flex justify-center lg:justify-end">
+        <FadeIn className="flex justify-center lg:justify-end" index={1}>
           <LiveDashboardPreview strings={preview} />
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

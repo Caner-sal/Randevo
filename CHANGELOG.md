@@ -2,7 +2,15 @@
 
 All notable changes to Randevo are documented here.
 
-## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-7
+## [Unreleased] - Premium UI Redesign — REDESIGN-0 → REDESIGN-8
+
+### REDESIGN-8 — Motion, Responsive & Accessibility
+
+- Added `framer-motion` (React 19-compatible) and `src/components/ui/brand/FadeIn.tsx`, a reduced-motion-aware fade+slide-up wrapper. Applied sparingly to public marketing/discovery surfaces only: `HeroShowcase` (hero text + preview columns), `src/app/page.tsx` (feature cards, `DiscoveryDemo`/`BusinessControlSection`/`GlobalMapPreview` scroll-reveal, pricing cards), `src/app/marketplace/page.tsx` (result cards, staggered).
+- Found and fixed a real reduced-motion bug during live verification: `useReducedMotion()` only resolves after hydration, so users with `prefers-reduced-motion: reduce` briefly saw the SSR'd "hidden" (`opacity: 0`) state for ~300ms before the corrected instant-visible state applied — a content flash, not a graceful no-motion appearance. Fixed with a CSS-level `!important` override (`.motion-fade-in` in `src/styles/tokens.css`'s existing `prefers-reduced-motion` block) that beats framer-motion's inline styles from first paint, independent of JS/hydration timing.
+- Added `focus-visible` keyboard-navigation rings and `aria-label`s across the staff portal and admin panel: `staff/appointments/[id]`, `staff/availability` (also fixed unstyled native time inputs), `staff/appointments`, `staff/dashboard`, `admin/organizations` (list + detail).
+- Extended `booking-accessibility-theme-audit.test.ts` with a new test covering 10 representative staff/admin files: no forbidden light-mode classes, and at least one `focus-visible:ring` present.
+- Live-verified with Playwright: normal-motion fade-in actually animates; `prefers-reduced-motion: reduce` now shows instant full-opacity content with no flash; no horizontal overflow on mobile (375px) for landing or marketplace; keyboard `Tab` reaches a focusable, visibly-outlined element.
 
 ### REDESIGN-7 — Staff/Admin UI Polish
 

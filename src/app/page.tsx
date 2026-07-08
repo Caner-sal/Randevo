@@ -19,6 +19,7 @@ import { DiscoveryDemo } from "@/components/landing/DiscoveryDemo";
 import { BusinessControlSection } from "@/components/landing/BusinessControlSection";
 import { GlobalMapPreview } from "@/components/landing/GlobalMapPreview";
 import { FeatureCard } from "@/components/ui/brand/FeatureCard";
+import { FadeIn } from "@/components/ui/brand/FadeIn";
 import { SectionHeader } from "@/components/ui/brand/SectionHeader";
 import { GlowCard } from "@/components/ui/brand/GlowCard";
 import { GradientButton } from "@/components/ui/brand/GradientButton";
@@ -151,16 +152,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <DiscoveryDemo
-        strings={{
-          title: t("discoveryDemoTitle"),
-          serviceLabel: t("discoveryDemoServiceLabel"),
-          locationLabel: t("discoveryDemoLocationLabel"),
-          radiusLabel: t("discoveryDemoRadiusLabel"),
-          serviceValue: t("discoveryDemoServiceValue"),
-          locationValue: t("discoveryDemoLocationValue"),
-        }}
-      />
+      <FadeIn>
+        <DiscoveryDemo
+          strings={{
+            title: t("discoveryDemoTitle"),
+            serviceLabel: t("discoveryDemoServiceLabel"),
+            locationLabel: t("discoveryDemoLocationLabel"),
+            radiusLabel: t("discoveryDemoRadiusLabel"),
+            serviceValue: t("discoveryDemoServiceValue"),
+            locationValue: t("discoveryDemoLocationValue"),
+          }}
+        />
+      </FadeIn>
 
       {/* ── FEATURES ── */}
       <section className="py-16 sm:py-20">
@@ -173,67 +176,74 @@ export default async function HomePage() {
             className="mb-12 mx-0 text-left"
           />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {featureCards.map((card) => (
-              <FeatureCard key={card.title} icon={card.icon} title={card.title} description={card.desc} />
+            {featureCards.map((card, index) => (
+              <FadeIn key={card.title} index={index}>
+                <FeatureCard icon={card.icon} title={card.title} description={card.desc} />
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      <BusinessControlSection
-        strings={{
-          title: t("businessControlTitle"),
-          description: t("businessControlDesc"),
-          schedulingLabel: t("businessControlSchedulingLabel"),
-          paymentsLabel: t("businessControlPaymentsLabel"),
-          teamLabel: t("businessControlTeamLabel"),
-          remindersLabel: t("businessControlRemindersLabel"),
-        }}
-      />
+      <FadeIn>
+        <BusinessControlSection
+          strings={{
+            title: t("businessControlTitle"),
+            description: t("businessControlDesc"),
+            schedulingLabel: t("businessControlSchedulingLabel"),
+            paymentsLabel: t("businessControlPaymentsLabel"),
+            teamLabel: t("businessControlTeamLabel"),
+            remindersLabel: t("businessControlRemindersLabel"),
+          }}
+        />
+      </FadeIn>
 
-      <GlobalMapPreview strings={{ title: t("globalMapTitle"), description: t("globalMapDesc") }} />
+      <FadeIn>
+        <GlobalMapPreview strings={{ title: t("globalMapTitle"), description: t("globalMapDesc") }} />
+      </FadeIn>
 
       {/* ── PRICING ── */}
       <section className="py-16 text-center sm:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeader eyebrow={t("pricingLabel")} title={t("pricingTitle")} description={t("pricingDesc")} className="mb-12" />
           <div className="mx-auto grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3">
-            {plans.map((plan) => (
-              <GlowCard
-                key={plan.id}
-                variant={plan.featured ? "hero" : "default"}
-                className={`relative p-6 text-left ${plan.featured ? "border-primary/40" : ""}`}
-              >
-                {plan.featured ? (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-primary px-3.5 py-1 text-[10px] font-bold uppercase tracking-wide text-primary-foreground">
-                    {t("mostPopular")}
-                  </span>
-                ) : null}
-                <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">{plan.name}</p>
-                <p className="text-4xl font-extrabold tracking-tight text-foreground">
-                  {plan.price}
-                  <span className="text-base font-medium text-muted-foreground">{t("perMonth")}</span>
-                </p>
-                <p className="mb-6 mt-1 text-sm text-muted-foreground">{plan.per}</p>
-                <ul className="mb-6 flex flex-col gap-2.5">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Check
-                        className={`h-4 w-4 shrink-0 ${plan.featured ? "text-secondary-accent" : "text-primary"}`}
-                        aria-hidden="true"
-                      />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <GradientButton
-                  asChild
-                  className="w-full"
-                  variant={plan.featured ? "primaryGlow" : "secondaryGlass"}
+            {plans.map((plan, index) => (
+              <FadeIn key={plan.id} index={index}>
+                <GlowCard
+                  variant={plan.featured ? "hero" : "default"}
+                  className={`relative p-6 text-left ${plan.featured ? "border-primary/40" : ""}`}
                 >
-                  <Link href="/register">{plan.cta}</Link>
-                </GradientButton>
-              </GlowCard>
+                  {plan.featured ? (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-primary px-3.5 py-1 text-[10px] font-bold uppercase tracking-wide text-primary-foreground">
+                      {t("mostPopular")}
+                    </span>
+                  ) : null}
+                  <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">{plan.name}</p>
+                  <p className="text-4xl font-extrabold tracking-tight text-foreground">
+                    {plan.price}
+                    <span className="text-base font-medium text-muted-foreground">{t("perMonth")}</span>
+                  </p>
+                  <p className="mb-6 mt-1 text-sm text-muted-foreground">{plan.per}</p>
+                  <ul className="mb-6 flex flex-col gap-2.5">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Check
+                          className={`h-4 w-4 shrink-0 ${plan.featured ? "text-secondary-accent" : "text-primary"}`}
+                          aria-hidden="true"
+                        />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <GradientButton
+                    asChild
+                    className="w-full"
+                    variant={plan.featured ? "primaryGlow" : "secondaryGlass"}
+                  >
+                    <Link href="/register">{plan.cta}</Link>
+                  </GradientButton>
+                </GlowCard>
+              </FadeIn>
             ))}
           </div>
         </div>

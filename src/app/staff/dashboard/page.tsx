@@ -104,7 +104,10 @@ export default function StaffDashboardPage() {
       </div>
 
       <div className="mt-4">
-        <Link href="/staff/appointments" className="text-sm font-medium text-primary hover:text-primary/80">
+        <Link
+          href="/staff/appointments"
+          className="rounded text-sm font-medium text-primary hover:text-primary/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
           Go to appointments
         </Link>
       </div>

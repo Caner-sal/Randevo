@@ -94,14 +94,14 @@ export default function StaffAppointmentDetailPage() {
           <button
             disabled={saving}
             onClick={() => setStatus("COMPLETED")}
-            className="rounded bg-success px-4 py-2 text-sm font-medium text-success-foreground transition-colors hover:bg-success/90 disabled:opacity-50"
+            className="rounded bg-success px-4 py-2 text-sm font-medium text-success-foreground transition-colors hover:bg-success/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50"
           >
             Mark Completed
           </button>
           <button
             disabled={saving}
             onClick={() => setStatus("NO_SHOW")}
-            className="rounded bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/80 disabled:opacity-50"
+            className="rounded bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50"
           >
             Mark No-show
           </button>

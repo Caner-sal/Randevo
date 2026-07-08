@@ -79,7 +79,13 @@ export default function StaffAvailabilityPage() {
           const enabled = !!rule;
           return (
             <div key={day} className="flex items-center gap-4 px-4 py-3">
-              <input type="checkbox" checked={enabled} onChange={() => toggleDay(day)} className="h-4 w-4" />
+              <input
+                type="checkbox"
+                checked={enabled}
+                onChange={() => toggleDay(day)}
+                aria-label={DAY_LABELS[day]}
+                className="h-4 w-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              />
               <span className="w-24 text-sm font-medium text-foreground/90">{DAY_LABELS[day]}</span>
               {enabled ? (
                 <div className="flex items-center gap-2 text-sm">
@@ -87,14 +93,16 @@ export default function StaffAvailabilityPage() {
                     type="time"
                     value={rule?.startTime ?? "09:00"}
                     onChange={(e) => updateRule(day, "startTime", e.target.value)}
-                    className="rounded border px-2 py-1"
+                    aria-label={`${DAY_LABELS[day]} start time`}
+                    className="rounded border border-input bg-background text-foreground px-2 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   />
                   <span className="text-muted-foreground">—</span>
                   <input
                     type="time"
                     value={rule?.endTime ?? "17:00"}
                     onChange={(e) => updateRule(day, "endTime", e.target.value)}
-                    className="rounded border px-2 py-1"
+                    aria-label={`${DAY_LABELS[day]} end time`}
+                    className="rounded border border-input bg-background text-foreground px-2 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   />
                 </div>
               ) : (
@@ -108,7 +116,7 @@ export default function StaffAvailabilityPage() {
         <button
           onClick={save}
           disabled={saving}
-          className="rounded bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+          className="rounded bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50"
         >
           {saving ? tCommon("saving") : t("saveAvailability")}
         </button>
